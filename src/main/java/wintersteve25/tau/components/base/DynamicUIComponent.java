@@ -6,6 +6,9 @@ import wintersteve25.tau.utils.UIBuilder;
 
 import java.util.List;
 
+/**
+ * A UI component that can be updated on demand
+ */
 public abstract class DynamicUIComponent implements UIComponent {
     
     // DO NOT MODIFY THESE!

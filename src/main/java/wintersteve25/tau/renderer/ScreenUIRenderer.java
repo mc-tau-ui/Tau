@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.IRenderable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.StringTextComponent;
+import wintersteve25.tau.Tau;
 import wintersteve25.tau.utils.UIBuilder;
 import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Layout;

@@ -9,10 +9,17 @@ public class Layout {
     private final StackedAxialSettings<LayoutSetting> layoutSettings;
     
     public Layout(int width, int height) {
+        this(width, height, 0, 0);
+    }
+
+    public Layout(int width, int height, int xOffset, int yOffset) {
         this.width = width;
         this.height = height;
 
         this.offsets = new StackedAxialSettings<>();
+        this.offsets.push(Axis.HORIZONTAL, xOffset);
+        this.offsets.push(Axis.VERTICAL, yOffset);
+        
         this.layoutSettings = new StackedAxialSettings<>();
         this.layoutSettings.push(Axis.HORIZONTAL, LayoutSetting.START);
         this.layoutSettings.push(Axis.VERTICAL, LayoutSetting.START);
