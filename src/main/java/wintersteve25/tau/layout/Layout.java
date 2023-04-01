@@ -1,13 +1,15 @@
 package wintersteve25.tau.layout;
 
+import wintersteve25.tau.utils.Vector2i;
+
 public class Layout {
-    
+
     private final int width;
     private final int height;
 
     private final StackedAxialSettings<Integer> offsets;
     private final StackedAxialSettings<LayoutSetting> layoutSettings;
-    
+
     public Layout(int width, int height) {
         this(width, height, 0, 0);
     }
@@ -31,6 +33,10 @@ public class Layout {
 
     public int getHeight() {
         return height;
+    }
+    
+    public Vector2i getSize() {
+        return new Vector2i(width, height);
     }
 
     public LayoutSetting getLayoutSetting(Axis axis) {

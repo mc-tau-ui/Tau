@@ -10,7 +10,6 @@ import net.minecraft.util.text.StringTextComponent;
 import wintersteve25.tau.components.base.PrimitiveUIComponent;
 import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.utils.Color;
-import wintersteve25.tau.utils.OverflowBehaviour;
 import wintersteve25.tau.layout.Axis;
 import wintersteve25.tau.layout.Layout;
 import wintersteve25.tau.utils.Vector2i;
@@ -48,13 +47,13 @@ public class Text implements PrimitiveUIComponent {
 
         switch (overflowBehaviour) {
             case OVERFLOW:
-                fontRenderer.drawShadow(matrixStack, text.getString(), xPosition, yPosition, color.getDecimal(), color.hasTransparency());
+                fontRenderer.drawShadow(matrixStack, text.getString(), xPosition, yPosition, color.getAARRGGBB(), color.hasTransparency());
                 break;
             case WRAP:
-                fontRenderer.drawWordWrap(text, xPosition, yPosition, width, color.getDecimal());
+                fontRenderer.drawWordWrap(text, xPosition, yPosition, width, color.getAARRGGBB());
                 break;
             case CLIP:
-                fontRenderer.drawShadow(matrixStack, fontRenderer.substrByWidth(text, width).getString(), xPosition, yPosition, color.getDecimal(), color.hasTransparency());
+                fontRenderer.drawShadow(matrixStack, fontRenderer.substrByWidth(text, width).getString(), xPosition, yPosition, color.getAARRGGBB(), color.hasTransparency());
                 break;
         }
     }
@@ -94,5 +93,11 @@ public class Text implements PrimitiveUIComponent {
         public UIComponent build(Layout layout) {
             return build();
         }
+    }
+
+    public enum OverflowBehaviour {
+        OVERFLOW,
+        WRAP,
+        CLIP,
     }
 }

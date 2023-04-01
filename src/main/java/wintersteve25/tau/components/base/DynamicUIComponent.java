@@ -4,6 +4,7 @@ import net.minecraft.client.gui.IRenderable;
 import wintersteve25.tau.layout.Layout;
 import wintersteve25.tau.utils.UIBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public abstract class DynamicUIComponent implements UIComponent {
     public int end;
 
     protected void rebuild(Layout layout) {
-        List<IRenderable> replacement = UIBuilder.build(layout, this);
+        List<IRenderable> replacement = new ArrayList<>(UIBuilder.build(layout, this));
         renderables.subList(start, end).clear();
         renderables.addAll(start, replacement);
         
@@ -30,5 +31,9 @@ public abstract class DynamicUIComponent implements UIComponent {
                 dynamicUIComponent.end += componentCountDiff;
             }
         }
+    }
+    
+    public void tick() {
+        
     }
 }

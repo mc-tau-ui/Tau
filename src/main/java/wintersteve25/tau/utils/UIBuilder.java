@@ -32,6 +32,17 @@ public class UIBuilder {
         return build(layout, uiComponent, renderables, new ArrayList<>(), Vector2i.zero());
     }
 
+    /**
+     * @param layout The layout of this ui component. Used to position children components
+     * @param uiComponent The ui component to build into a list of renderables
+     * @param renderables The resulting list of renderables
+     * @param dynamicUIComponents A list of DynamicUIComponents present in the UI
+     * @return The size of the component
+     */
+    public static Vector2i build(Layout layout, UIComponent uiComponent, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents) {
+        return build(layout, uiComponent, renderables, dynamicUIComponents, Vector2i.zero());
+    }
+
     private static Vector2i build(Layout layout, UIComponent uiComponent, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, Vector2i size) {
         if (uiComponent instanceof PrimitiveUIComponent) {
             PrimitiveUIComponent primitiveUIComponent = (PrimitiveUIComponent) uiComponent;
@@ -39,7 +50,9 @@ public class UIBuilder {
         }
 
         if (uiComponent instanceof DynamicUIComponent) {
-            ((DynamicUIComponent)uiComponent).start = renderables.size() - 1;
+            DynamicUIComponent dynamicUIComponent = ((DynamicUIComponent)uiComponent);
+            dynamicUIComponent.start = renderables.size();
+            dynamicUIComponents.add(dynamicUIComponent);
         }
         
         UIComponent next = uiComponent.build(layout);
@@ -51,9 +64,10 @@ public class UIBuilder {
         Vector2i resultSize = build(layout, next, renderables, dynamicUIComponents, size);
         
         if (uiComponent instanceof DynamicUIComponent) {
-            ((DynamicUIComponent)uiComponent).end = renderables.size();
-            ((DynamicUIComponent)uiComponent).renderables = renderables;
-            ((DynamicUIComponent)uiComponent).dynamicUIComponents = dynamicUIComponents;
+            DynamicUIComponent dynamicUIComponent = (DynamicUIComponent) uiComponent; 
+            dynamicUIComponent.end = renderables.size();
+            dynamicUIComponent.dynamicUIComponents = dynamicUIComponents;
+            if (dynamicUIComponent.renderables == null) dynamicUIComponent.renderables = renderables;
         }
         
         return resultSize;

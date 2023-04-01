@@ -5,6 +5,7 @@ import net.minecraft.client.gui.IRenderable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.StringTextComponent;
 import wintersteve25.tau.Tau;
+import wintersteve25.tau.components.base.DynamicUIComponent;
 import wintersteve25.tau.utils.UIBuilder;
 import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Layout;
@@ -16,18 +17,36 @@ public class ScreenUIRenderer extends Screen {
     
     private final UIComponent uiComponent;
     private final List<IRenderable> components;
+    private final List<DynamicUIComponent> dynamicUIComponents;
+    
+    private boolean built;
     
     public ScreenUIRenderer(UIComponent uiComponent) {
         super(StringTextComponent.EMPTY);
         this.uiComponent = uiComponent;
         this.components = new ArrayList<>();
+        this.dynamicUIComponents = new ArrayList<>();
     }
 
     @Override
     protected void init() {
         Layout layout = new Layout(width, height);
+        
         components.clear();
-        UIBuilder.build(layout, uiComponent, components);
+        dynamicUIComponents.clear();
+        
+        UIBuilder.build(layout, uiComponent, components, dynamicUIComponents);
+    
+        built = true;
+    }
+
+    @Override
+    public void tick() {
+        if (!built) return;
+        
+        for (DynamicUIComponent dynamicUIComponent : dynamicUIComponents) {
+            dynamicUIComponent.tick();
+        }
     }
 
     @Override

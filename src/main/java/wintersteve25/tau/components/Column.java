@@ -14,30 +14,30 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Row implements PrimitiveUIComponent {
-    
+public class Column implements PrimitiveUIComponent {
+
     private final List<UIComponent> children;
     private final int spacing;
     private final FlexSizeBehaviour sizeBehaviour;
-    
-    public Row(int spacing, FlexSizeBehaviour sizeBehaviour, List<UIComponent> children) {
+
+    public Column(int spacing, FlexSizeBehaviour sizeBehaviour, List<UIComponent> children) {
         this.children = children;
         this.spacing = spacing;
         this.sizeBehaviour = sizeBehaviour;
     }
-    
+
     @Override
     public Vector2i build(Layout layout, List<IRenderable> renderables) {
-        
+
         Vector2i size;
-        
+
         if (sizeBehaviour == FlexSizeBehaviour.MIN) {
             size = Vector2i.zero();
 
             for (UIComponent child : children) {
                 Vector2i childSize = UIBuilder.build(new Layout(0, 0), child, new ArrayList<>());
-                size.x += childSize.x + spacing;
-                size.y = Math.max(size.y, childSize.y);
+                size.y += childSize.y + spacing;
+                size.x = Math.max(size.x, childSize.x);
             }
         } else {
             size = new Vector2i(layout.getWidth(), layout.getHeight());
@@ -47,7 +47,7 @@ public class Row implements PrimitiveUIComponent {
 
         for (UIComponent child : children) {
             Vector2i childSize = UIBuilder.build(childrenLayout, child, renderables);
-            childrenLayout.pushOffset(Axis.HORIZONTAL, childSize.x + spacing);
+            childrenLayout.pushOffset(Axis.VERTICAL, childSize.y + spacing);
         }
 
         return size;
@@ -56,26 +56,26 @@ public class Row implements PrimitiveUIComponent {
 
     public static final class Builder {
         private int spacing;
-        private FlexSizeBehaviour horizontalSizeBehaviour;
+        private FlexSizeBehaviour sizeBehaviour;
 
         public Builder() {
         }
-        
+
         public Builder withSpacing(int spacing) {
             this.spacing = spacing;
             return this;
         }
 
-        public Builder withSizeBehaviour(FlexSizeBehaviour horizontalSizeBehaviour) {
-            this.horizontalSizeBehaviour = horizontalSizeBehaviour;
+        public Builder withSizeBehaviour(FlexSizeBehaviour sizeBehaviour) {
+            this.sizeBehaviour = sizeBehaviour;
             return this;
         }
 
-        public Row build(UIComponent... children) {
-            return new Row(spacing, 
-                    horizontalSizeBehaviour == null 
+        public Column build(UIComponent... children) {
+            return new Column(spacing,
+                    sizeBehaviour == null
                             ? FlexSizeBehaviour.MIN
-                            : horizontalSizeBehaviour, 
+                            : sizeBehaviour,
                     Arrays.stream(children).collect(Collectors.toList())
             );
         }
