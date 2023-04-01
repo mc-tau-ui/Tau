@@ -6,7 +6,7 @@ import wintersteve25.tau.components.base.DynamicUIComponent;
 import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Layout;
 
-public class DynamicWrapper extends DynamicUIComponent {
+public class TestDynamic extends DynamicUIComponent {
     private int t;
     private Layout layout;
     

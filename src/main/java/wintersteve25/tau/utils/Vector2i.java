@@ -17,4 +17,8 @@ public class Vector2i {
     public static Vector2i zero() {
         return new Vector2i(0, 0);
     }
+
+    public boolean outside(Vector2i other) {
+        return x > other.x || y > other.y;
+    }
 }

@@ -14,7 +14,7 @@ public class KeybindEvent {
     @SubscribeEvent
     public static void onKeyDown(InputEvent.KeyInputEvent evet) {
         if (evet.getKey() == GLFW.GLFW_KEY_G) {
-            Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TextPanel()));
+            Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestStatic()));
         }
     }
 }
