@@ -1,5 +1,6 @@
 package wintersteve25.tau.tests;
 
+import net.minecraft.util.text.StringTextComponent;
 import wintersteve25.tau.components.*;
 import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Layout;
@@ -15,10 +16,9 @@ public class TestStatic implements UIComponent {
                         .withColor(Color.WHITE),
                 new Center(new Sized(
                         Size.staticSize(new Vector2i(100, 20)),
-                        new Button.Builder()
-                                .withOnPress(() -> System.out.println("Hello"))
-                                .build(new Center(new Text.Builder("Hello")))
-                ))
-        );
+                        new TextField.Builder()
+                                .withMessage(new StringTextComponent("Hello"))
+                                .withHintText(new StringTextComponent("Hello!")))
+                ));
     }
 }

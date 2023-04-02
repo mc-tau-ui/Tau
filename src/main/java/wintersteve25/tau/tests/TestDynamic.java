@@ -1,7 +1,6 @@
 package wintersteve25.tau.tests;
 
 import wintersteve25.tau.components.Align;
-import wintersteve25.tau.components.Center;
 import wintersteve25.tau.components.Padding;
 import wintersteve25.tau.components.Text;
 import wintersteve25.tau.components.base.DynamicUIComponent;
@@ -13,7 +12,7 @@ import wintersteve25.tau.utils.Pad;
 public class TestDynamic extends DynamicUIComponent {
     private int t;
     private Layout layout;
-    
+
     @Override
     public void tick() {
         t++;

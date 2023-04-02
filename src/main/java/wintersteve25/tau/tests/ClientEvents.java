@@ -18,7 +18,7 @@ public class ClientEvents {
             Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestStatic()));
         }
     }
-    
+
     @SubscribeEvent
     public static void onRenderOverlay(RenderGameOverlayEvent.Post e) {
         if (e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
