@@ -6,6 +6,7 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.util.SoundEvents;
 import wintersteve25.tau.components.base.DynamicUIComponent;
 import wintersteve25.tau.components.base.PrimitiveUIComponent;
 import wintersteve25.tau.components.base.UIComponent;
@@ -49,7 +50,7 @@ public final class Button implements PrimitiveUIComponent, IGuiEventListener {
             AbstractGui.blit(pMatrixStack, x, y, 0, 0, 46 + i * 20, width / 2, height, 256, 256);
             AbstractGui.blit(pMatrixStack, x + width / 2, y, 0, 200 - (float) width / 2, 46 + i * 20, width / 2, height, 256, 256);
         });
-        
+
         UIBuilder.build(layout, child, renderables, dynamicUIComponents, eventListeners);
         
         return layout.getSize();
@@ -59,6 +60,7 @@ public final class Button implements PrimitiveUIComponent, IGuiEventListener {
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
         if (isHovered((int) pMouseX, (int)  pMouseY)) {
             onPress.run();
+            playSound(SoundEvents.UI_BUTTON_CLICK);
             return true;
         }
         
