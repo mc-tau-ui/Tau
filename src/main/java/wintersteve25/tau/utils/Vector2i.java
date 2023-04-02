@@ -14,6 +14,10 @@ public class Vector2i {
         this.y += other.y;
     }
     
+    public Vector2i addNew(Vector2i other) {
+        return new Vector2i(x + other.x, y + other.y);
+    }
+    
     public static Vector2i zero() {
         return new Vector2i(0, 0);
     }

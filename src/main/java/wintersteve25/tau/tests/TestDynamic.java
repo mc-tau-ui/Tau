@@ -1,10 +1,14 @@
 package wintersteve25.tau.tests;
 
+import wintersteve25.tau.components.Align;
 import wintersteve25.tau.components.Center;
+import wintersteve25.tau.components.Padding;
 import wintersteve25.tau.components.Text;
 import wintersteve25.tau.components.base.DynamicUIComponent;
 import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Layout;
+import wintersteve25.tau.layout.LayoutSetting;
+import wintersteve25.tau.utils.Pad;
 
 public class TestDynamic extends DynamicUIComponent {
     private int t;
@@ -20,6 +24,9 @@ public class TestDynamic extends DynamicUIComponent {
     @Override
     public UIComponent build(Layout layout) {
         this.layout = layout;
-        return new Center(new Text.Builder(String.valueOf(t)));
+        return new Align.Builder()
+                .withVertical(LayoutSetting.START)
+                .withHorizontal(LayoutSetting.END)
+                .build(new Padding(new Pad.Builder().withRight(10).withTop(10).build(), new Text.Builder(String.valueOf(t))));
     }
 }

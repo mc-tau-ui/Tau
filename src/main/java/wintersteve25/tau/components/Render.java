@@ -11,7 +11,7 @@ import wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;
 
-public class Render implements PrimitiveUIComponent {
+public final class Render implements PrimitiveUIComponent {
     private final Renderer renderer;
 
     public Render(Renderer renderer) {

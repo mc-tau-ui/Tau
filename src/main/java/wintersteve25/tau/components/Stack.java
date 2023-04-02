@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Stack implements PrimitiveUIComponent {
+public final class Stack implements PrimitiveUIComponent {
     private final List<UIComponent> children;
 
     public Stack(List<UIComponent> children) {
