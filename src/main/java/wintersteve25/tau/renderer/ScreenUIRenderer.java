@@ -1,10 +1,11 @@
 package wintersteve25.tau.renderer;
 
+import com.google.common.base.Stopwatch;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.StringTextComponent;
-import wintersteve25.tau.Tau;
 import wintersteve25.tau.components.base.DynamicUIComponent;
 import wintersteve25.tau.utils.UIBuilder;
 import wintersteve25.tau.components.base.UIComponent;
@@ -12,6 +13,7 @@ import wintersteve25.tau.layout.Layout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ScreenUIRenderer extends Screen {
     
@@ -35,8 +37,8 @@ public class ScreenUIRenderer extends Screen {
         components.clear();
         dynamicUIComponents.clear();
         
-        UIBuilder.build(layout, uiComponent, components, dynamicUIComponents);
-    
+        UIBuilder.build(layout, uiComponent, components, dynamicUIComponents, children);
+        
         built = true;
     }
 

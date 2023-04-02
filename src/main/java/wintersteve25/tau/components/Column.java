@@ -1,6 +1,8 @@
 package wintersteve25.tau.components;
 
+import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
+import wintersteve25.tau.components.base.DynamicUIComponent;
 import wintersteve25.tau.components.base.PrimitiveUIComponent;
 import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Axis;
@@ -14,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Column implements PrimitiveUIComponent {
+public final class Column implements PrimitiveUIComponent {
 
     private final List<UIComponent> children;
     private final int spacing;
@@ -27,7 +29,7 @@ public class Column implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
 
         Vector2i size;
 
@@ -35,7 +37,7 @@ public class Column implements PrimitiveUIComponent {
             size = Vector2i.zero();
 
             for (UIComponent child : children) {
-                Vector2i childSize = UIBuilder.build(new Layout(0, 0), child, new ArrayList<>());
+                Vector2i childSize = UIBuilder.build(new Layout(0, 0), child, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
                 size.y += childSize.y + spacing;
                 size.x = Math.max(size.x, childSize.x);
             }
@@ -46,7 +48,7 @@ public class Column implements PrimitiveUIComponent {
         Layout childrenLayout = new Layout(size.x, size.y, layout.getPosition(Axis.HORIZONTAL, size.x), layout.getPosition(Axis.VERTICAL, size.y));
 
         for (UIComponent child : children) {
-            Vector2i childSize = UIBuilder.build(childrenLayout, child, renderables);
+            Vector2i childSize = UIBuilder.build(childrenLayout, child, renderables, dynamicUIComponents, eventListeners);
             childrenLayout.pushOffset(Axis.VERTICAL, childSize.y + spacing);
         }
 

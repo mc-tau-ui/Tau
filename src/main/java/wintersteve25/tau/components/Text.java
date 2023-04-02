@@ -4,9 +4,11 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import wintersteve25.tau.components.base.DynamicUIComponent;
 import wintersteve25.tau.components.base.PrimitiveUIComponent;
 import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.utils.Color;
@@ -16,7 +18,7 @@ import wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;
 
-public class Text implements PrimitiveUIComponent {
+public final class Text implements PrimitiveUIComponent {
     
     private final ITextComponent text;
     private final Color color;
@@ -29,7 +31,7 @@ public class Text implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         int width = Minecraft.getInstance().font.width(text);
         int height = overflowBehaviour == OverflowBehaviour.WRAP ?
                 Minecraft.getInstance().font.wordWrapHeight(text.getContents(), layout.getMaximumLength(Axis.HORIZONTAL)) :

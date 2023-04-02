@@ -1,6 +1,8 @@
 package wintersteve25.tau.components;
 
+import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
+import wintersteve25.tau.components.base.DynamicUIComponent;
 import wintersteve25.tau.components.base.PrimitiveUIComponent;
 import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Layout;
@@ -11,7 +13,7 @@ import wintersteve25.tau.utils.transformations.Transformation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Transform implements PrimitiveUIComponent {
+public final class Transform implements PrimitiveUIComponent {
     
     private final UIComponent child;
     private final Transformation[] transformations;
@@ -22,10 +24,10 @@ public class Transform implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         
         List<IRenderable> children = new ArrayList<>();
-        Vector2i size = UIBuilder.build(layout, child, children);
+        Vector2i size = UIBuilder.build(layout, child, children, dynamicUIComponents, eventListeners);
         renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> {
             pMatrixStack.pushPose();
             

@@ -1,6 +1,8 @@
 package wintersteve25.tau.components;
 
+import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
+import wintersteve25.tau.components.base.DynamicUIComponent;
 import wintersteve25.tau.utils.UIBuilder;
 import wintersteve25.tau.components.base.PrimitiveUIComponent;
 import wintersteve25.tau.components.base.UIComponent;
@@ -11,7 +13,7 @@ import wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;
 
-public class Align implements PrimitiveUIComponent {
+public final class Align implements PrimitiveUIComponent {
     
     private final UIComponent child;
     private final LayoutSetting horizontal;
@@ -24,7 +26,7 @@ public class Align implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         if (horizontal != null) {
             layout.pushLayoutSetting(Axis.HORIZONTAL, horizontal);
         }
@@ -33,7 +35,7 @@ public class Align implements PrimitiveUIComponent {
             layout.pushLayoutSetting(Axis.VERTICAL, vertical);
         }
 
-        Vector2i size = UIBuilder.build(layout, child, renderables);
+        Vector2i size = UIBuilder.build(layout, child, renderables, dynamicUIComponents, eventListeners);
 
         if (horizontal != null) {        
             layout.popLayoutSetting(Axis.HORIZONTAL);

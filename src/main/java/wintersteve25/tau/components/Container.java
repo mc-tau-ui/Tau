@@ -1,7 +1,9 @@
 package wintersteve25.tau.components;
 
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
+import wintersteve25.tau.components.base.DynamicUIComponent;
 import wintersteve25.tau.components.base.PrimitiveUIComponent;
 import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Axis;
@@ -12,7 +14,7 @@ import wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;
 
-public class Container implements PrimitiveUIComponent {
+public final class Container implements PrimitiveUIComponent {
     
     private final UIComponent child;
     private final Color color;
@@ -23,7 +25,7 @@ public class Container implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         if (child == null && color == null) {
             return layout.getSize();
         }
@@ -45,7 +47,7 @@ public class Container implements PrimitiveUIComponent {
         }
         
         if (child != null) {
-            UIBuilder.build(layout, child, renderables);
+            UIBuilder.build(layout, child, renderables, dynamicUIComponents, eventListeners);
         }
         
         return layout.getSize();
