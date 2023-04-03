@@ -5,28 +5,29 @@ on:
     branches: [ 1.16-release ]
 
 jobs:
-  release:
-    name: Build with Gradle and publish on github
+  build:
+    name: Builds and Release on Github and Saps
     uses: nanite/workflows/.github/workflows/standard-release.yml@v1
     with:
       java-version: 1.8
       curse-publish-task: ""
     secrets:
       saps-token: ${{ secrets.SAPS_TOKEN }}
-    
-    steps:
-      - name: Release on Modrinth & Curseforge
-        uses: Kir-Antipov/mc-publish@v3.2
-        with:
-          modrinth-id: MNBGnhBw
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+  
+  release:
+    name: Release on Modrinth & Curseforge
+    uses: Kir-Antipov/mc-publish@v3.2
+    needs: build
+    with:
+      modrinth-id: MNBGnhBw
+      modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
-          curseforge-id: 845405
-          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+      curseforge-id: 845405
+      curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
-          loaders: forge
-          game-versions: |
-            1.16.3
-            1.16.4
-            1.16.5
-          java: 8
+      loaders: forge
+      game-versions: |
+        1.16.3
+        1.16.4
+        1.16.5
+      java: 8
