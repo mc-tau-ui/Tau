@@ -6,15 +6,15 @@ on:
 
 jobs:
   release:
+    name: Build with Gradle and publish on github
+    uses: nanite/workflows/.github/workflows/standard-release.yml@v1
+    with:
+      java-version: 1.8
+      curse-publish-task: ""
+    secrets:
+      saps-token: ${{ secrets.SAPS_TOKEN }}
+    
     steps:
-      - name: Build with Gradle and publish on github
-        uses: nanite/workflows/.github/workflows/standard-release.yml@v1
-        with:
-          java-version: 1.8
-          curse-publish-task: ""
-        secrets:
-          saps-token: ${{ secrets.SAPS_TOKEN }}
-
       - name: Release on Modrinth & Curseforge
         uses: Kir-Antipov/mc-publish@v3.2
         with:
