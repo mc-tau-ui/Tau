@@ -121,8 +121,7 @@ jar.finalizedBy('reobfJar')
 publishing {
     publications {
         mavenForge(MavenPublication) {
-            groupId = project.group
-            artifactId = project.archiveBaseName
+            artifact jar
         }
     }
     repositories {
