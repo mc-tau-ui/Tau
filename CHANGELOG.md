@@ -1,3 +1,7 @@
+# v1.0.2 - Minor Update
+## Built-in Components
+1. Added `Tooltip` that renders a tooltip when child component is hovered
+
 # v1.0.1 - Minor Update
 ## Built-in Components
 1. Added `Texture` that renders a texture

@@ -29,4 +29,8 @@ public class Vector2i {
     public static boolean within(int mouseX, int mouseY, Vector2i position, Vector2i size) {
         return mouseX > position.x && mouseX < position.x + size.x && mouseY > position.y && mouseY < position.y + size.y;
     }
+
+    public static boolean within(int mouseX, int mouseY, int x, int y, int width, int height) {
+        return mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height;
+    }
 }
