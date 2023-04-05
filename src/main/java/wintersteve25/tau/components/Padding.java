@@ -8,7 +8,7 @@ import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Axis;
 import wintersteve25.tau.layout.Layout;
 import wintersteve25.tau.utils.Pad;
-import wintersteve25.tau.utils.UIBuilder;
+import wintersteve25.tau.build.UIBuilder;
 import wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;

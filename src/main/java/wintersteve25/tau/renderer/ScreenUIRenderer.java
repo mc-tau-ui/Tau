@@ -5,7 +5,7 @@ import net.minecraft.client.gui.IRenderable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.StringTextComponent;
 import wintersteve25.tau.components.base.DynamicUIComponent;
-import wintersteve25.tau.utils.UIBuilder;
+import wintersteve25.tau.build.UIBuilder;
 import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Layout;
 
@@ -47,7 +47,7 @@ public class ScreenUIRenderer extends Screen {
             dynamicUIComponent.tick();
         }
     }
-
+    
     @Override
     public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
         this.renderBackground(matrixStack);

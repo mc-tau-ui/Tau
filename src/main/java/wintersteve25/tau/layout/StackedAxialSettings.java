@@ -11,6 +11,11 @@ public class StackedAxialSettings<T> {
         verticals = new Stack<>();
     }
 
+    private StackedAxialSettings(Stack<T> horizontals, Stack<T> verticals) {
+        this.horizontals = horizontals;
+        this.verticals = verticals;
+    }
+
     public T getLast(Axis axis) {
         if (axis == Axis.VERTICAL) return verticals.lastElement();
         return horizontals.lastElement();
@@ -36,5 +41,9 @@ public class StackedAxialSettings<T> {
         }
 
         horizontals.pop();
+    }
+
+    public StackedAxialSettings<T> copy() {
+        return new StackedAxialSettings<>((Stack<T>) horizontals.clone(), (Stack<T>) verticals.clone());
     }
 }

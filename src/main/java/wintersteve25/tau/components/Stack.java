@@ -6,7 +6,7 @@ import wintersteve25.tau.components.base.DynamicUIComponent;
 import wintersteve25.tau.components.base.PrimitiveUIComponent;
 import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Layout;
-import wintersteve25.tau.utils.UIBuilder;
+import wintersteve25.tau.build.UIBuilder;
 import wintersteve25.tau.utils.Vector2i;
 
 import java.util.Arrays;

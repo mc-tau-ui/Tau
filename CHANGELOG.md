@@ -1,3 +1,27 @@
+# v1.0.1 - Minor Update
+## Built-in Components
+1. Added `Texture` that renders a texture
+2. Added `ListView` that displays a list of items in a columns and creates a scrollable view
+3. Added `Clip` that clips all graphics drawn outside its boundary
+4. Added `Renderable` that is just a wrapper for an IRenderable
+
+## Others
+1. Added `getPosition` overload in Layout that returns position in `Vector2i` and takes in the size with `Vector2i`
+2. Fixed `Container` wasn't actually using the color given by the parameter
+3. Added `within` static method in `Vector2i` that checks if a coordinate is within a `Vector2i` of postiion and another `Vector2i` of size
+4. Fixed `DynamicUIComponent` not being setup correctly if it implements `PrimitiveUIComponent`
+5. Fixed crashes with `DynamicUIComponent`
+6. `DynamicUIComponent` now caches layout internally and no longer requires `Layout` to be passed into `rebuild`
+7. Made small performance improvement to `DynamicUIComponent`
+8. Added `copy` method to `Layout` and `StackedAxialSettings` that deep copies the data
+9. Added new `Size` function
+10. Added new overload for percentage `Size`
+11. Added new overload for static `Size`
+
+## Known Issues
+1. IGuiEventListeners are interactable after being clipped
+---
+
 # v1.0.0 - Initial Release
 
 ## Built-in Renderers

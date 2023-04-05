@@ -9,7 +9,7 @@ import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Axis;
 import wintersteve25.tau.layout.Layout;
 import wintersteve25.tau.utils.Color;
-import wintersteve25.tau.utils.UIBuilder;
+import wintersteve25.tau.build.UIBuilder;
 import wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public final class Container implements PrimitiveUIComponent {
                     y,
                     x + width,
                     y + height,
-                    0xFFFFFFFF
+                    color.getAARRGGBB()
             ));
         }
         

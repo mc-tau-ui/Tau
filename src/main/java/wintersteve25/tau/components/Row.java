@@ -8,7 +8,7 @@ import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Axis;
 import wintersteve25.tau.layout.Layout;
 import wintersteve25.tau.utils.FlexSizeBehaviour;
-import wintersteve25.tau.utils.UIBuilder;
+import wintersteve25.tau.build.UIBuilder;
 import wintersteve25.tau.utils.Vector2i;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public final class Row implements PrimitiveUIComponent {
             size = Vector2i.zero();
 
             for (UIComponent child : children) {
-                Vector2i childSize = UIBuilder.build(new Layout(0, 0), child, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+                Vector2i childSize = UIBuilder.build(Layout.MAX, child, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
                 size.x += childSize.x + spacing;
                 size.y = Math.max(size.y, childSize.y);
             }

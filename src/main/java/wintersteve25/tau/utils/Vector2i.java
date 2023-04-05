@@ -17,12 +17,16 @@ public class Vector2i {
     public Vector2i addNew(Vector2i other) {
         return new Vector2i(x + other.x, y + other.y);
     }
-    
-    public static Vector2i zero() {
-        return new Vector2i(0, 0);
-    }
 
     public boolean outside(Vector2i other) {
         return x > other.x || y > other.y;
+    }
+
+    public static Vector2i zero() {
+        return new Vector2i(0, 0);
+    }
+    
+    public static boolean within(int mouseX, int mouseY, Vector2i position, Vector2i size) {
+        return mouseX > position.x && mouseX < position.x + size.x && mouseY > position.y && mouseY < position.y + size.y;
     }
 }

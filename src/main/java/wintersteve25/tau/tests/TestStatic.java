@@ -12,13 +12,12 @@ public class TestStatic implements UIComponent {
     @Override
     public UIComponent build(Layout layout) {
         return new Stack(
-                new Container.Builder()
-                        .withColor(Color.WHITE),
-                new Center(new Sized(
-                        Size.staticSize(new Vector2i(100, 20)),
-                        new TextField.Builder()
-                                .withMessage(new StringTextComponent("Hello"))
-                                .withHintText(new StringTextComponent("Hello!")))
-                ));
+            new Container.Builder().withColor(Color.WHITE),
+            new Center(new Sized(
+                    Size.staticSize(new Vector2i(100, 20)),
+                    new TextField.Builder()
+                            .withMessage(new StringTextComponent("Hello"))
+                            .withHintText(new StringTextComponent("Hello!")))
+            ));
     }
 }

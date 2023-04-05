@@ -11,18 +11,16 @@ import wintersteve25.tau.utils.Pad;
 
 public class TestDynamic extends DynamicUIComponent {
     private int t;
-    private Layout layout;
 
     @Override
     public void tick() {
         t++;
         if (layout == null) return;
-        rebuild(layout);
+        rebuild();
     }
 
     @Override
     public UIComponent build(Layout layout) {
-        this.layout = layout;
         return new Align.Builder()
                 .withVertical(LayoutSetting.START)
                 .withHorizontal(LayoutSetting.END)

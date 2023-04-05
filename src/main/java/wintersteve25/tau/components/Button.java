@@ -12,7 +12,7 @@ import wintersteve25.tau.components.base.PrimitiveUIComponent;
 import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Axis;
 import wintersteve25.tau.layout.Layout;
-import wintersteve25.tau.utils.UIBuilder;
+import wintersteve25.tau.build.UIBuilder;
 import wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;
@@ -81,7 +81,6 @@ public final class Button implements PrimitiveUIComponent, IGuiEventListener {
 
         return i;
     }
-
 
     public static final class Builder {
         private Runnable onPress;

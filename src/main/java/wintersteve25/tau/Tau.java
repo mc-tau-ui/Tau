@@ -10,6 +10,5 @@ public class Tau {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
     
     public Tau() {
-        
     }
 }

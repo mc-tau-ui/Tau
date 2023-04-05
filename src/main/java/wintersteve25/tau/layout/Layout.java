@@ -4,6 +4,8 @@ import wintersteve25.tau.utils.Vector2i;
 
 public class Layout {
 
+    public static final Layout MAX = new Layout(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    
     private final int width;
     private final int height;
 
@@ -25,6 +27,13 @@ public class Layout {
         this.layoutSettings = new StackedAxialSettings<>();
         this.layoutSettings.push(Axis.HORIZONTAL, LayoutSetting.START);
         this.layoutSettings.push(Axis.VERTICAL, LayoutSetting.START);
+    }
+
+    private Layout(int width, int height, StackedAxialSettings<Integer> offsets, StackedAxialSettings<LayoutSetting> layoutSettings) {
+        this.width = width;
+        this.height = height;
+        this.offsets = offsets;
+        this.layoutSettings = layoutSettings;
     }
 
     public int getWidth() {
@@ -63,6 +72,10 @@ public class Layout {
         return getOffset(axis) + getLayoutSetting(axis).place(getMaximumLength(axis), length);
     }
     
+    public Vector2i getPosition(Vector2i size) {
+        return new Vector2i(getPosition(Axis.HORIZONTAL, size.x), getPosition(Axis.VERTICAL, size.y));
+    }
+    
     public int getOffset(Axis axis) {
         int result = 0;
         
@@ -75,5 +88,9 @@ public class Layout {
     
     public int getMaximumLength(Axis axis) {
         return axis == Axis.VERTICAL ? height : width;
+    }
+    
+    public Layout copy() {
+        return new Layout(this.width, this.height, this.offsets.copy(), this.layoutSettings.copy());
     }
 }
