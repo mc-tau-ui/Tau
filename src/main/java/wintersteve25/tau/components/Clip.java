@@ -16,7 +16,7 @@ import wintersteve25.tau.utils.Vector2i;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Clip implements PrimitiveUIComponent {
+public final class Clip implements PrimitiveUIComponent {
     
     private final UIComponent child;
     private final Vector2i offset;

@@ -20,7 +20,7 @@ import wintersteve25.tau.utils.Vector2i;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tooltip implements PrimitiveUIComponent, Renderer {
+public final class Tooltip implements PrimitiveUIComponent, Renderer {
     
     private final List<ITextProperties> text;
     private final UIComponent child;

@@ -9,7 +9,7 @@ import wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;
 
-public class Renderable implements PrimitiveUIComponent {
+public final class Renderable implements PrimitiveUIComponent {
     
     private final IRenderable renderable;
 
