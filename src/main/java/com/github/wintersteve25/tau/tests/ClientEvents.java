@@ -15,14 +15,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onKeyDown(InputEvent.KeyInputEvent evet) {
         if (evet.getKey() == GLFW.GLFW_KEY_G) {
-            Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestTooltip()));
-        }
-    }
-
-    @SubscribeEvent
-    public static void onRenderOverlay(RenderGameOverlayEvent.Post e) {
-        if (e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
-//            TestHud.HUD_UI_RENDERER.render(e.getWindow(), e.getMatrixStack(), e.getPartialTicks());
+            Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestPositioned()));
         }
     }
 }

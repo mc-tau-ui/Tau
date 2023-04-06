@@ -17,7 +17,7 @@ apply plugin: 'maven-publish'
 
 def ENV = System.getenv()
 version = "${versions}"
-group = "wintersteve25.${modid}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = "com.github.wintersteve25.${modid}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "${modid}"
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
@@ -74,9 +74,9 @@ sourceSets {
     main {
         resources { srcDir 'src/generated/resources' }
         // exclude tests
-//        java {
-//            exclude 'wintersteve25/tau/tests'
-//        }
+        java {
+            exclude 'com/github/wintersteve25/tau/tests'
+        }
     }
 }
 

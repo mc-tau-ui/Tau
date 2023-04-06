@@ -1,7 +1,5 @@
 package wintersteve25.tau.tests;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import org.lwjgl.opengl.GL11;
 import wintersteve25.tau.components.*;
 import wintersteve25.tau.components.base.UIComponent;
 import wintersteve25.tau.layout.Layout;
@@ -10,7 +8,7 @@ import wintersteve25.tau.utils.Color;
 import wintersteve25.tau.utils.Size;
 import wintersteve25.tau.utils.Vector2i;
 
-public class TestScroll implements UIComponent {
+public class TestListView implements UIComponent {
     @Override
     public UIComponent build(Layout layout) {
         return new Center(

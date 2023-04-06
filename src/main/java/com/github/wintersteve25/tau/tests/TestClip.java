@@ -11,6 +11,10 @@ import wintersteve25.tau.utils.Vector2i;
 public class TestClip implements UIComponent {
     @Override
     public UIComponent build(Layout layout) {
-        return new Center(new Clip(new Text.Builder("HelloAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"), new Vector2i(0, 0), Size.percentage(1f)));
+        return new Center(
+            new Clip(
+                new Text.Builder("HelloAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"), 
+                new Vector2i(0, 0), 
+                Size.percentage(0.65f, 1f)));
     }
 }
