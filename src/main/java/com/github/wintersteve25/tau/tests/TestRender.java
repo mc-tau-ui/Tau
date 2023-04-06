@@ -1,12 +1,20 @@
 package com.github.wintersteve25.tau.tests;
 
+import com.github.wintersteve25.tau.components.Center;
 import com.github.wintersteve25.tau.components.Render;
+import com.github.wintersteve25.tau.components.Sized;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.utils.ItemRenderProvider;
+import com.github.wintersteve25.tau.utils.Size;
+import net.minecraft.item.Items;
 
 public class TestRender implements UIComponent {
     @Override
     public UIComponent build(Layout layout) {
-        return null;
+        return new Center(new Sized(
+            Size.staticSize(16, 16),
+            new Render(new ItemRenderProvider(Items.GRASS_BLOCK))
+        ));
     }
 }

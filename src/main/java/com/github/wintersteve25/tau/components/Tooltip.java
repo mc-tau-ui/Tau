@@ -14,13 +14,13 @@ import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Axis;
 import com.github.wintersteve25.tau.layout.Layout;
-import com.github.wintersteve25.tau.utils.Renderer;
+import com.github.wintersteve25.tau.utils.RenderProvider;
 import com.github.wintersteve25.tau.utils.Vector2i;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Tooltip implements PrimitiveUIComponent, Renderer {
+public final class Tooltip implements PrimitiveUIComponent, RenderProvider {
     
     private final List<ITextProperties> text;
     private final UIComponent child;

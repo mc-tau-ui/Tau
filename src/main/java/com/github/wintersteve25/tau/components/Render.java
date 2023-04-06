@@ -6,15 +6,15 @@ import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
 import com.github.wintersteve25.tau.layout.Axis;
 import com.github.wintersteve25.tau.layout.Layout;
-import com.github.wintersteve25.tau.utils.Renderer;
+import com.github.wintersteve25.tau.utils.RenderProvider;
 import com.github.wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;
 
 public final class Render implements PrimitiveUIComponent {
-    private final Renderer renderer;
+    private final RenderProvider renderer;
 
-    public Render(Renderer renderer) {
+    public Render(RenderProvider renderer) {
         this.renderer = renderer;
     }
 

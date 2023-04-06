@@ -1,3 +1,8 @@
+# v1.0.3 - Minor Update
+## Others
+1. Renamed interface `Renderer` to `RenderProvider`
+2. Created built-in `RenderProvider` - `ItemRenderProvider`
+
 # v1.0.2 - Minor Update
 ## Built-in Components
 1. Added `Tooltip` that renders a tooltip when child component is hovered
