@@ -14,6 +14,7 @@ import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.SoundEvents;
+import net.minecraftforge.fml.client.gui.GuiUtils;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -39,17 +40,10 @@ public final class Button implements PrimitiveUIComponent, IGuiEventListener {
         height = layout.getHeight();
         x = layout.getPosition(Axis.HORIZONTAL, width);
         y = layout.getPosition(Axis.VERTICAL, height);
-        Minecraft minecraft = Minecraft.getInstance();
 
         renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> {
-            minecraft.getTextureManager().bind(Widget.WIDGETS_LOCATION);
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            int i = this.getYImage(pMouseX, pMouseY);
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.enableDepthTest();
-            AbstractGui.blit(pMatrixStack, x, y, 0, 0, 46 + i * 20, width / 2, height, 256, 256);
-            AbstractGui.blit(pMatrixStack, x + width / 2, y, 0, 200 - (float) width / 2, 46 + i * 20, width / 2, height, 256, 256);
+            int k = this.getYImage(pMouseX, pMouseY);
+            GuiUtils.drawContinuousTexturedBox(pMatrixStack, Widget.WIDGETS_LOCATION, x, y, 0, 46 + k * 20, width, height, 200, 20, 2, 3, 2, 2, 0);
         });
 
         UIBuilder.build(layout, child, renderables, dynamicUIComponents, eventListeners);
@@ -59,7 +53,7 @@ public final class Button implements PrimitiveUIComponent, IGuiEventListener {
 
     @Override
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-        if (isHovered((int) pMouseX, (int)  pMouseY)) {
+        if (onPress != null && isHovered((int) pMouseX, (int) pMouseY)) {
             onPress.accept(pButton);
             playSound(SoundEvents.UI_BUTTON_CLICK);
             return true;

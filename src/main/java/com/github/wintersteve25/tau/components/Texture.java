@@ -1,5 +1,6 @@
 package com.github.wintersteve25.tau.components;
 
+import com.github.wintersteve25.tau.components.base.UIComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.IGuiEventListener;
@@ -42,13 +43,16 @@ public final class Texture implements PrimitiveUIComponent {
         return uvSize;
     }
 
-    public static final class Builder {
+    public static final class Builder implements UIComponent {
+        
+        private final ResourceLocation textureLocation;
         private Vector2i textureSize;
         private Vector2i uv;
         private Vector2i uvSize;
         private Vector2i size;
 
-        public Builder() {
+        public Builder(ResourceLocation textureLocation) {
+            this.textureLocation = textureLocation;
         }
 
         public Builder withTextureSize(Vector2i textureSize) {
@@ -71,10 +75,15 @@ public final class Texture implements PrimitiveUIComponent {
             return this;
         }
 
-        public Texture build(ResourceLocation textureLocation) {
+        public Texture build() {
             textureSize = textureSize == null ? new Vector2i(256, 256) : textureSize;
             uvSize = uvSize == null ? textureSize : uvSize;
             return new Texture(textureLocation, textureSize, uv == null ? Vector2i.zero() : uv, uvSize, size == null ? uvSize : size);
+        }
+
+        @Override
+        public UIComponent build(Layout layout) {
+            return build();
         }
     }
 }

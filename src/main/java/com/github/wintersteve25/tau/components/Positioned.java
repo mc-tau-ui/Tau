@@ -11,7 +11,7 @@ import com.github.wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;
 
-public class Positioned implements PrimitiveUIComponent {
+public final class Positioned implements PrimitiveUIComponent {
     private final Vector2i position;
     private final UIComponent child;
     

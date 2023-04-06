@@ -1,3 +1,11 @@
+# v1.0.5 - Minor Update
+## Built-in Components
+1. Added `Slider`
+
+## Others
+1. Texture.Builder now has a constructor parameter for texture location instead of it being in the build method
+2. `Button` now uses GuiUtils.drawContinuousTextureBox so it can be any size without any problems
+
 # v1.0.4 - Minor Update
 ## Others
 1. `Button`'s `onPress` callback is now a `Consumer<Integer>` instead of `Runnable` and accepts an integer as the mouse button pressed

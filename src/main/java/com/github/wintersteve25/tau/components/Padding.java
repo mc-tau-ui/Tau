@@ -13,7 +13,7 @@ import com.github.wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;
 
-public class Padding implements PrimitiveUIComponent {
+public final class Padding implements PrimitiveUIComponent {
 
     private final Pad pad;
     private final UIComponent child;
