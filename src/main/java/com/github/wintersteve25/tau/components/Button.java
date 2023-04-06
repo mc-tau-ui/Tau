@@ -1,5 +1,12 @@
 package com.github.wintersteve25.tau.components;
 
+import com.github.wintersteve25.tau.build.UIBuilder;
+import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
+import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
+import com.github.wintersteve25.tau.components.base.UIComponent;
+import com.github.wintersteve25.tau.layout.Axis;
+import com.github.wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.utils.Vector2i;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -7,19 +14,13 @@ import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.SoundEvents;
-import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
-import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
-import com.github.wintersteve25.tau.components.base.UIComponent;
-import com.github.wintersteve25.tau.layout.Axis;
-import com.github.wintersteve25.tau.layout.Layout;
-import com.github.wintersteve25.tau.build.UIBuilder;
-import com.github.wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public final class Button implements PrimitiveUIComponent, IGuiEventListener {
 
-    private final Runnable onPress;
+    private final Consumer<Integer> onPress;
     private final UIComponent child;
     
     private int width;
@@ -27,7 +28,7 @@ public final class Button implements PrimitiveUIComponent, IGuiEventListener {
     private int x;
     private int y;
 
-    public Button(Runnable onPress, UIComponent child) {
+    public Button(Consumer<Integer> onPress, UIComponent child) {
         this.onPress = onPress;
         this.child = child;
     }
@@ -39,7 +40,7 @@ public final class Button implements PrimitiveUIComponent, IGuiEventListener {
         x = layout.getPosition(Axis.HORIZONTAL, width);
         y = layout.getPosition(Axis.VERTICAL, height);
         Minecraft minecraft = Minecraft.getInstance();
-        
+
         renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> {
             minecraft.getTextureManager().bind(Widget.WIDGETS_LOCATION);
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -52,14 +53,14 @@ public final class Button implements PrimitiveUIComponent, IGuiEventListener {
         });
 
         UIBuilder.build(layout, child, renderables, dynamicUIComponents, eventListeners);
-        
+
         return layout.getSize();
     }
 
     @Override
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
         if (isHovered((int) pMouseX, (int)  pMouseY)) {
-            onPress.run();
+            onPress.accept(pButton);
             playSound(SoundEvents.UI_BUTTON_CLICK);
             return true;
         }
@@ -83,12 +84,12 @@ public final class Button implements PrimitiveUIComponent, IGuiEventListener {
     }
 
     public static final class Builder {
-        private Runnable onPress;
+        private Consumer<Integer> onPress;
 
         public Builder() {
         }
         
-        public Builder withOnPress(Runnable onPress) {
+        public Builder withOnPress(Consumer<Integer> onPress) {
             this.onPress = onPress;
             return this;
         }

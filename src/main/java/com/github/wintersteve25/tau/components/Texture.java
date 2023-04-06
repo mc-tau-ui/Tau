@@ -18,12 +18,14 @@ public final class Texture implements PrimitiveUIComponent {
     private final Vector2i textureSize;
     private final Vector2i uv;
     private final Vector2i uvSize;
+    private final Vector2i size;
 
-    public Texture(ResourceLocation textureLocation, Vector2i textureSize, Vector2i uv, Vector2i uvSize) {
+    public Texture(ResourceLocation textureLocation, Vector2i textureSize, Vector2i uv, Vector2i uvSize, Vector2i size) {
         this.textureLocation = textureLocation;
         this.textureSize = textureSize;
         this.uv = uv;
         this.uvSize = uvSize;
+        this.size = size;
     }
 
     @Override
@@ -34,7 +36,7 @@ public final class Texture implements PrimitiveUIComponent {
         
         renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> {
             minecraft.getTextureManager().bind(textureLocation);
-            AbstractGui.blit(pMatrixStack, position.x, position.y, uvSize.x, uvSize.y, uv.x, uv.y, textureSize.x, textureSize.y);
+            AbstractGui.blit(pMatrixStack, position.x, position.y, size.x, size.y, uv.x, uv.y, uvSize.x, uvSize.y, textureSize.x, textureSize.y);
         });
         
         return uvSize;
@@ -44,6 +46,7 @@ public final class Texture implements PrimitiveUIComponent {
         private Vector2i textureSize;
         private Vector2i uv;
         private Vector2i uvSize;
+        private Vector2i size;
 
         public Builder() {
         }
@@ -62,9 +65,16 @@ public final class Texture implements PrimitiveUIComponent {
             this.uvSize = uvSize;
             return this;
         }
+        
+        public Builder withSize(Vector2i size) {
+            this.size = size;
+            return this;
+        }
 
         public Texture build(ResourceLocation textureLocation) {
-            return new Texture(textureLocation, textureSize == null ? new Vector2i(256, 256) : textureSize, uv == null ? Vector2i.zero() : uv, uvSize == null ? Vector2i.zero() : uvSize);
+            textureSize = textureSize == null ? new Vector2i(256, 256) : textureSize;
+            uvSize = uvSize == null ? textureSize : uvSize;
+            return new Texture(textureLocation, textureSize, uv == null ? Vector2i.zero() : uv, uvSize, size == null ? uvSize : size);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.github.wintersteve25.tau.components;
 
+import com.github.wintersteve25.tau.layout.LayoutSetting;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
@@ -21,11 +22,13 @@ public final class Row implements PrimitiveUIComponent {
     private final List<UIComponent> children;
     private final int spacing;
     private final FlexSizeBehaviour sizeBehaviour;
+    private final LayoutSetting alignment;
     
-    public Row(int spacing, FlexSizeBehaviour sizeBehaviour, List<UIComponent> children) {
+    public Row(int spacing, FlexSizeBehaviour sizeBehaviour, List<UIComponent> children, LayoutSetting alignment) {
         this.children = children;
         this.spacing = spacing;
         this.sizeBehaviour = sizeBehaviour;
+        this.alignment = alignment;
     }
     
     @Override
@@ -46,7 +49,8 @@ public final class Row implements PrimitiveUIComponent {
         }
 
         Layout childrenLayout = new Layout(size.x, size.y, layout.getPosition(Axis.HORIZONTAL, size.x), layout.getPosition(Axis.VERTICAL, size.y));
-
+        childrenLayout.pushLayoutSetting(Axis.VERTICAL, alignment);
+        
         for (UIComponent child : children) {
             Vector2i childSize = UIBuilder.build(childrenLayout, child, renderables, dynamicUIComponents, eventListeners);
             childrenLayout.pushOffset(Axis.HORIZONTAL, childSize.x + spacing);
@@ -59,6 +63,7 @@ public final class Row implements PrimitiveUIComponent {
     public static final class Builder {
         private int spacing;
         private FlexSizeBehaviour horizontalSizeBehaviour;
+        private LayoutSetting alignment;
 
         public Builder() {
         }
@@ -72,14 +77,19 @@ public final class Row implements PrimitiveUIComponent {
             this.horizontalSizeBehaviour = horizontalSizeBehaviour;
             return this;
         }
+        
+        public Builder withAlignment(LayoutSetting alignment) {
+            this.alignment = alignment;
+            return this;
+        }
 
         public Row build(UIComponent... children) {
             return new Row(spacing, 
                     horizontalSizeBehaviour == null 
                             ? FlexSizeBehaviour.MIN
                             : horizontalSizeBehaviour, 
-                    Arrays.stream(children).collect(Collectors.toList())
-            );
+                    Arrays.stream(children).collect(Collectors.toList()),
+                    alignment == null ? LayoutSetting.CENTER : alignment);
         }
     }
 }

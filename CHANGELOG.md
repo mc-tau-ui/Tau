@@ -1,3 +1,12 @@
+# v1.0.4 - Minor Update
+## Others
+1. `Button`'s `onPress` callback is now a `Consumer<Integer>` instead of `Runnable` and accepts an integer as the mouse button pressed
+2. Fixed `Text`'s `WRAP` overflow not behaving as intended
+3. Fixed `Text`'s `CLIP` overflow not behaving as intended
+4. Added `ELLIPSIS` overflow behaviour to text
+5. `Texture`'s default uvSize is now the texture size instead of 0x0
+6. Added `size` field to Texture
+
 # v1.0.3 - Minor Update
 ## Others
 1. Renamed interface `Renderer` to `RenderProvider`

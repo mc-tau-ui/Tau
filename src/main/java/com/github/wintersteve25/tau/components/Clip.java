@@ -37,19 +37,18 @@ public final class Clip implements PrimitiveUIComponent {
         MainWindow window = Minecraft.getInstance().getWindow();
 
         Vector2i scaledClipSize = size.get(childSize);
+        Vector2i scaledPosition = layout.getPosition(childSize);
+        scaledPosition.add(offset);
+        
         double guiScale = window.getGuiScale();
 
-        int unscaledHeight = (int) Math.ceil(layout.getHeight() * guiScale);
-        int unscaledClipWidth = (int) Math.ceil(scaledClipSize.x * guiScale);
-        int unscaledClipHeight = (int) Math.ceil(scaledClipSize.y * guiScale);
-
-        Vector2i scissorPosition = layout.getPosition(childSize);
-        scissorPosition.add(offset);
-        scissorPosition = new Vector2i((int)(scissorPosition.x * guiScale), -(int)(scissorPosition.y * guiScale));
-        Vector2i finalScissorPosition = scissorPosition;
+        int glX = (int) (scaledPosition.x * guiScale);
+        int glY = (int) ((window.getGuiScaledHeight() - (scaledPosition.y + scaledClipSize.y)) * guiScale);
+        int glWidth = (int) (scaledClipSize.x * guiScale);
+        int glHeight = (int) (scaledClipSize.y * guiScale);
         
         renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> {
-            RenderSystem.enableScissor(finalScissorPosition.x, Math.abs((unscaledHeight - unscaledClipHeight) + finalScissorPosition.y), unscaledClipWidth, unscaledClipHeight);
+            RenderSystem.enableScissor(glX, glY, glWidth, glHeight);
 
             for (IRenderable renderable : childrenRenderables) {
                 renderable.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);

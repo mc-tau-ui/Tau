@@ -15,7 +15,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onKeyDown(InputEvent.KeyInputEvent evet) {
         if (evet.getKey() == GLFW.GLFW_KEY_G) {
-            Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestRender()));
+            Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestWidgetWrapper()));
         }
     }
 }

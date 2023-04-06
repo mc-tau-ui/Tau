@@ -35,7 +35,7 @@ public class TestListView implements UIComponent {
                                 new Sized(
                                     Size.staticSize(new Vector2i(60, 20)),
                                     new Button.Builder()
-                                        .withOnPress(() -> {})
+                                        .withOnPress((button) -> {})
                                         .build(new Center(new Text.Builder("A Button")))
                                 )
                             ))

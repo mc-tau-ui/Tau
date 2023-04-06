@@ -1,5 +1,6 @@
 package com.github.wintersteve25.tau.renderer;
 
+import com.github.wintersteve25.tau.Tau;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.IRenderable;
 import net.minecraft.client.gui.screen.Screen;
@@ -31,7 +32,7 @@ public class ScreenUIRenderer extends Screen {
     @Override
     protected void init() {
         Layout layout = new Layout(width, height);
-        
+
         components.clear();
         dynamicUIComponents.clear();
         
