@@ -1,4 +1,4 @@
-package wintersteve25.tau.utils;
+package com.github.wintersteve25.tau.utils;
 
 public class Vector2i {
     public int x;

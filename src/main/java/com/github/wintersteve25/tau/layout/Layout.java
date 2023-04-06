@@ -1,6 +1,6 @@
-package wintersteve25.tau.layout;
+package com.github.wintersteve25.tau.layout;
 
-import wintersteve25.tau.utils.Vector2i;
+import com.github.wintersteve25.tau.utils.Vector2i;
 
 public class Layout {
 

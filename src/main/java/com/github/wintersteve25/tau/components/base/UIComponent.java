@@ -1,9 +1,9 @@
-package wintersteve25.tau.components.base;
+package com.github.wintersteve25.tau.components.base;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.util.SoundEvent;
-import wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.layout.Layout;
 
 /**
  * The base of all UI Components

@@ -1,13 +1,13 @@
-package wintersteve25.tau.tests;
+package com.github.wintersteve25.tau.tests;
 
-import wintersteve25.tau.components.Align;
-import wintersteve25.tau.components.Padding;
-import wintersteve25.tau.components.Text;
-import wintersteve25.tau.components.base.DynamicUIComponent;
-import wintersteve25.tau.components.base.UIComponent;
-import wintersteve25.tau.layout.Layout;
-import wintersteve25.tau.layout.LayoutSetting;
-import wintersteve25.tau.utils.Pad;
+import com.github.wintersteve25.tau.components.Align;
+import com.github.wintersteve25.tau.components.Padding;
+import com.github.wintersteve25.tau.components.Text;
+import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
+import com.github.wintersteve25.tau.components.base.UIComponent;
+import com.github.wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.layout.LayoutSetting;
+import com.github.wintersteve25.tau.utils.Pad;
 
 public class TestDynamic extends DynamicUIComponent {
     private int t;

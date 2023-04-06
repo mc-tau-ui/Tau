@@ -1,12 +1,12 @@
-package wintersteve25.tau.tests;
+package com.github.wintersteve25.tau.tests;
 
-import wintersteve25.tau.components.*;
-import wintersteve25.tau.components.base.UIComponent;
-import wintersteve25.tau.layout.Layout;
-import wintersteve25.tau.layout.LayoutSetting;
-import wintersteve25.tau.utils.Color;
-import wintersteve25.tau.utils.Size;
-import wintersteve25.tau.utils.Vector2i;
+import com.github.wintersteve25.tau.components.*;
+import com.github.wintersteve25.tau.components.base.UIComponent;
+import com.github.wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.layout.LayoutSetting;
+import com.github.wintersteve25.tau.utils.Color;
+import com.github.wintersteve25.tau.utils.Size;
+import com.github.wintersteve25.tau.utils.Vector2i;
 
 public class TestListView implements UIComponent {
     @Override

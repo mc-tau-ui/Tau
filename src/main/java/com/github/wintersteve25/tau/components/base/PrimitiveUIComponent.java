@@ -1,9 +1,9 @@
-package wintersteve25.tau.components.base;
+package com.github.wintersteve25.tau.components.base;
 
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
-import wintersteve25.tau.layout.Layout;
-import wintersteve25.tau.utils.Vector2i;
+import com.github.wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;
 

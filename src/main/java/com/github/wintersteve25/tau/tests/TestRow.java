@@ -1,7 +1,7 @@
-package wintersteve25.tau.tests;
+package com.github.wintersteve25.tau.tests;
 
-import wintersteve25.tau.components.base.UIComponent;
-import wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.components.base.UIComponent;
+import com.github.wintersteve25.tau.layout.Layout;
 
 public class TestRow implements UIComponent {
     @Override

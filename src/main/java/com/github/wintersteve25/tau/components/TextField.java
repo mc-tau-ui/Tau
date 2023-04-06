@@ -1,11 +1,11 @@
-package wintersteve25.tau.components;
+package com.github.wintersteve25.tau.components;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import wintersteve25.tau.components.base.UIComponent;
-import wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.components.base.UIComponent;
+import com.github.wintersteve25.tau.layout.Layout;
 
 import java.util.function.BiFunction;
 import java.util.function.Consumer;

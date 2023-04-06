@@ -1,16 +1,16 @@
-package wintersteve25.tau.components;
+package com.github.wintersteve25.tau.components;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
-import wintersteve25.tau.components.base.DynamicUIComponent;
-import wintersteve25.tau.components.base.PrimitiveUIComponent;
-import wintersteve25.tau.components.base.UIComponent;
-import wintersteve25.tau.layout.Axis;
-import wintersteve25.tau.layout.Layout;
-import wintersteve25.tau.utils.Color;
-import wintersteve25.tau.build.UIBuilder;
-import wintersteve25.tau.utils.Vector2i;
+import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
+import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
+import com.github.wintersteve25.tau.components.base.UIComponent;
+import com.github.wintersteve25.tau.layout.Axis;
+import com.github.wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.utils.Color;
+import com.github.wintersteve25.tau.build.UIBuilder;
+import com.github.wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;
 

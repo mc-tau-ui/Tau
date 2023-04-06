@@ -1,10 +1,10 @@
-package wintersteve25.tau.tests;
+package com.github.wintersteve25.tau.tests;
 
-import wintersteve25.tau.components.Center;
-import wintersteve25.tau.components.Column;
-import wintersteve25.tau.components.Text;
-import wintersteve25.tau.components.base.UIComponent;
-import wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.components.Center;
+import com.github.wintersteve25.tau.components.Column;
+import com.github.wintersteve25.tau.components.Text;
+import com.github.wintersteve25.tau.components.base.UIComponent;
+import com.github.wintersteve25.tau.layout.Layout;
 
 public class TestColumn implements UIComponent {
     @Override

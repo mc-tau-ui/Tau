@@ -1,4 +1,4 @@
-package wintersteve25.tau.layout;
+package com.github.wintersteve25.tau.layout;
 
 @FunctionalInterface
 public interface LayoutSetting {

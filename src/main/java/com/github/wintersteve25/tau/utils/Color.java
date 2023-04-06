@@ -1,4 +1,4 @@
-package wintersteve25.tau.utils;
+package com.github.wintersteve25.tau.utils;
 
 public final class Color {
     public static final Color WHITE = new Color(0xFFFFFFFF);

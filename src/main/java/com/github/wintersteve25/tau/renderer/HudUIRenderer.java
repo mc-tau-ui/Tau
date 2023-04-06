@@ -1,12 +1,12 @@
-package wintersteve25.tau.renderer;
+package com.github.wintersteve25.tau.renderer;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.gui.IRenderable;
-import wintersteve25.tau.components.base.DynamicUIComponent;
-import wintersteve25.tau.components.base.UIComponent;
-import wintersteve25.tau.layout.Layout;
-import wintersteve25.tau.build.UIBuilder;
+import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
+import com.github.wintersteve25.tau.components.base.UIComponent;
+import com.github.wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.build.UIBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

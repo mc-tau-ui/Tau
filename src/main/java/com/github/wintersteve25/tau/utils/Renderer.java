@@ -1,4 +1,4 @@
-package wintersteve25.tau.utils;
+package com.github.wintersteve25.tau.utils;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 

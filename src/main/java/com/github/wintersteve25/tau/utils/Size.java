@@ -1,6 +1,6 @@
-package wintersteve25.tau.utils;
+package com.github.wintersteve25.tau.utils;
 
-import wintersteve25.tau.Tau;
+import com.github.wintersteve25.tau.Tau;
 
 @FunctionalInterface
 public interface Size {

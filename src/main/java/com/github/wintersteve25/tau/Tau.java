@@ -1,4 +1,4 @@
-package wintersteve25.tau;
+package com.github.wintersteve25.tau;
 
 import net.minecraftforge.fml.common.Mod;
 
