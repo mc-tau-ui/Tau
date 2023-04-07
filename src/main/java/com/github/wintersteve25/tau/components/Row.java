@@ -15,16 +15,15 @@ import com.github.wintersteve25.tau.utils.Vector2i;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public final class Row implements PrimitiveUIComponent {
     
-    private final List<UIComponent> children;
+    private final Iterable<UIComponent> children;
     private final int spacing;
     private final FlexSizeBehaviour sizeBehaviour;
     private final LayoutSetting alignment;
     
-    public Row(int spacing, FlexSizeBehaviour sizeBehaviour, List<UIComponent> children, LayoutSetting alignment) {
+    public Row(int spacing, FlexSizeBehaviour sizeBehaviour, Iterable<UIComponent> children, LayoutSetting alignment) {
         this.children = children;
         this.spacing = spacing;
         this.sizeBehaviour = sizeBehaviour;
@@ -62,7 +61,7 @@ public final class Row implements PrimitiveUIComponent {
 
     public static final class Builder {
         private int spacing;
-        private FlexSizeBehaviour horizontalSizeBehaviour;
+        private FlexSizeBehaviour sizeBehaviour;
         private LayoutSetting alignment;
 
         public Builder() {
@@ -74,7 +73,7 @@ public final class Row implements PrimitiveUIComponent {
         }
 
         public Builder withSizeBehaviour(FlexSizeBehaviour horizontalSizeBehaviour) {
-            this.horizontalSizeBehaviour = horizontalSizeBehaviour;
+            this.sizeBehaviour = horizontalSizeBehaviour;
             return this;
         }
         
@@ -84,11 +83,15 @@ public final class Row implements PrimitiveUIComponent {
         }
 
         public Row build(UIComponent... children) {
-            return new Row(spacing, 
-                    horizontalSizeBehaviour == null 
+            return build(Arrays.asList(children));
+        }
+
+        public Row build(Iterable<UIComponent> children) {
+            return new Row(spacing,
+                    sizeBehaviour == null
                             ? FlexSizeBehaviour.MIN
-                            : horizontalSizeBehaviour, 
-                    Arrays.stream(children).collect(Collectors.toList()),
+                            : sizeBehaviour,
+                    children,
                     alignment == null ? LayoutSetting.CENTER : alignment);
         }
     }

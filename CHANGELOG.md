@@ -6,6 +6,7 @@
 ## Others
 1. Texture.Builder now has a constructor parameter for texture location instead of it being in the build method
 2. `Button` now uses GuiUtils.drawContinuousTextureBox so it can be any size without any problems
+3. All UIComponents that takes in a list of children now accept Iterables and Arrays.
 
 # v1.0.4 - Minor Update
 ## Others

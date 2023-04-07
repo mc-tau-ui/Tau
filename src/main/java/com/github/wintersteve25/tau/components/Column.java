@@ -14,17 +14,18 @@ import com.github.wintersteve25.tau.utils.Vector2i;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class Column implements PrimitiveUIComponent {
 
-    private final List<UIComponent> children;
+    private final Iterable<UIComponent> children;
     private final int spacing;
     private final FlexSizeBehaviour sizeBehaviour;
     private final LayoutSetting alignment;
 
-    public Column(int spacing, FlexSizeBehaviour sizeBehaviour, List<UIComponent> children, LayoutSetting alignment) {
+    public Column(int spacing, FlexSizeBehaviour sizeBehaviour, Iterable<UIComponent> children, LayoutSetting alignment) {
         this.children = children;
         this.spacing = spacing;
         this.sizeBehaviour = sizeBehaviour;
@@ -84,11 +85,15 @@ public final class Column implements PrimitiveUIComponent {
         }
 
         public Column build(UIComponent... children) {
+            return build(Arrays.asList(children));
+        }
+
+        public Column build(Iterable<UIComponent> children) {
             return new Column(spacing,
                     sizeBehaviour == null
                             ? FlexSizeBehaviour.MIN
                             : sizeBehaviour,
-                    Arrays.stream(children).collect(Collectors.toList()),
+                    children,
                     alignment == null ? LayoutSetting.CENTER : alignment);
         }
     }

@@ -11,14 +11,19 @@ import com.github.wintersteve25.tau.utils.Vector2i;
 import com.github.wintersteve25.tau.utils.transformations.Transformation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public final class Transform implements PrimitiveUIComponent {
     
     private final UIComponent child;
-    private final Transformation[] transformations;
+    private final Iterable<Transformation> transformations;
 
     public Transform(UIComponent child, Transformation... transformations) {
+        this(child, Arrays.asList(transformations));
+    }
+
+    public Transform(UIComponent child, Iterable<Transformation> transformations) {
         this.child = child;
         this.transformations = transformations;
     }

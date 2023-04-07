@@ -120,7 +120,11 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
         }
         
         public ListView build(UIComponent... children) {
-            return new ListView(Arrays.stream(children).collect(Collectors.toList()), childrenAlignment == null ? LayoutSetting.CENTER : childrenAlignment, spacing);
+            return build(Arrays.asList(children));
+        }
+
+        public ListView build(List<UIComponent> children) {
+            return new ListView(children, childrenAlignment == null ? LayoutSetting.CENTER : childrenAlignment, spacing);
         }
     }
 }

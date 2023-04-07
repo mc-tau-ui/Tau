@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class Stack implements PrimitiveUIComponent {
-    private final List<UIComponent> children;
+    private final Iterable<UIComponent> children;
 
-    public Stack(List<UIComponent> children) {
+    public Stack(Iterable<UIComponent> children) {
         this.children = children;
     }
 
