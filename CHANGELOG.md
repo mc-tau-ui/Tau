@@ -1,6 +1,7 @@
 # v1.0.5 - Minor Update
 ## Built-in Components
 1. Added `Slider`
+2. Added `FlatButton`
 
 ## Others
 1. Texture.Builder now has a constructor parameter for texture location instead of it being in the build method
