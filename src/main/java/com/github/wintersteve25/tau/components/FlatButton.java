@@ -8,6 +8,7 @@ import com.github.wintersteve25.tau.layout.Axis;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.utils.Color;
 import com.github.wintersteve25.tau.utils.Vector2i;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import net.minecraft.util.SoundEvents;
@@ -48,14 +49,14 @@ public class FlatButton implements PrimitiveUIComponent, IGuiEventListener {
             Color color;
             
             if (onPress == null) {
-                
+                color = disabledColor;
             } else if (isHovered(pMouseX, pMouseY)) {
-                
+                color = hoveredColor;
             } else {
-                
+                color = normalColor;
             }
-            
-            
+
+            AbstractGui.fill(pMatrixStack, x, y, x + width, y + height, color.getAARRGGBB());
         });
 
         UIBuilder.build(layout, child, renderables, dynamicUIComponents, eventListeners);
