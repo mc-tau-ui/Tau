@@ -25,9 +25,9 @@ public final class Stack implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         for (UIComponent child : children) {
-            UIBuilder.build(layout, child, renderables, dynamicUIComponents, eventListeners);
+            UIBuilder.build(layout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
         }
         
         return layout.getSize();

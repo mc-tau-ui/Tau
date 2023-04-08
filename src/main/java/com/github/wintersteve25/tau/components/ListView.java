@@ -14,7 +14,6 @@ import com.github.wintersteve25.tau.utils.Vector2i;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public final class ListView extends DynamicUIComponent implements PrimitiveUIComponent, IGuiEventListener {
     
@@ -36,7 +35,7 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         Vector2i childrenSize = Vector2i.zero();
         size = layout.getSize();
         
@@ -50,7 +49,7 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
         }
         
         for (int i = scrollOffset; i < children.size(); i++) {
-            Vector2i childSize = UIBuilder.build(Layout.MAX, children.get(i), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            Vector2i childSize = UIBuilder.build(layout.copy(), children.get(i), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
             childrenSize.y += childSize.y + spacing;
             childrenSize.x = Math.max(childrenSize.x, childSize.x);
@@ -65,12 +64,12 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
         canScrollUp = scrollOffset > 0;
         
         position = layout.getPosition(size);
-        Layout childrenLayout = new Layout(size.x, size.y, position.x, position.y);
+        Layout childrenLayout = new Layout(size.x, size.y, position.x, position.y, layout.getColorScheme());
         childrenLayout.pushLayoutSetting(Axis.HORIZONTAL, childrenAlignment);
         List<IRenderable> childrenRenderables = new ArrayList<>();
         
         for (int i = scrollOffset; i < (childrensCanFit == -1 ? children.size() : childrensCanFit); i++) {
-            Vector2i childSize = UIBuilder.build(childrenLayout, children.get(i), childrenRenderables, dynamicUIComponents, eventListeners);
+            Vector2i childSize = UIBuilder.build(childrenLayout, children.get(i), childrenRenderables, tooltips, dynamicUIComponents, eventListeners);
             childrenLayout.pushOffset(Axis.VERTICAL, childSize.y + spacing);
         }
         
@@ -82,7 +81,8 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
                         renderable.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
                     }
                 })),
-            renderables,
+            renderables, 
+            tooltips,
             dynamicUIComponents,
             eventListeners
         );

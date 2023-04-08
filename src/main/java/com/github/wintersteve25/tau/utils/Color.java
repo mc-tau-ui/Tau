@@ -7,10 +7,7 @@ public final class Color {
     public static final Color RED = new Color(0xFFFF0000);
     public static final Color GREEN = new Color(0xFF00FF00);
     public static final Color BLUE = new Color(0xFF0000FF);
-    
-    public static final Color JADE_GREEN = new Color(0xB8DBD6);
-    public static final Color LIGHT_CYAN = new Color(0x7ED0D6);
-    
+
     private final int hex;
     private final boolean hasTransparency;
 

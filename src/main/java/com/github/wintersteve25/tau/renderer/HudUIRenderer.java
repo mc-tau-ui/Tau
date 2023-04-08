@@ -1,5 +1,6 @@
 package com.github.wintersteve25.tau.renderer;
 
+import com.github.wintersteve25.tau.theme.DefaultColorScheme;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.gui.IRenderable;
@@ -27,17 +28,17 @@ public class HudUIRenderer {
     }
 
     private void init() {
-        Layout layout = new Layout(screenWidth, screenHeight);
+        Layout layout = new Layout(screenWidth, screenHeight, DefaultColorScheme.INSTANCE);
 
         components.clear();
         dynamicUIComponents.clear();
 
-        UIBuilder.build(layout, uiComponent, components, dynamicUIComponents, new ArrayList<>());
+        UIBuilder.build(layout, uiComponent, components, new ArrayList<>(), dynamicUIComponents, new ArrayList<>());
 
         built = true;
     }
 
-    private void tick() {
+    public void tick() {
         if (!built) return;
 
         for (DynamicUIComponent dynamicUIComponent : dynamicUIComponents) {
@@ -49,7 +50,6 @@ public class HudUIRenderer {
         int width = mainWindow.getGuiScaledWidth();
         int height = mainWindow.getGuiScaledHeight();
         
-        tick();
         for (IRenderable component : components) {
             component.render(matrixStack, 0, 0, pPartialTicks);
         }

@@ -24,17 +24,37 @@ public final class Padding implements PrimitiveUIComponent {
     }
     
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         if (pad == null) {
-            return UIBuilder.build(layout, child, renderables, dynamicUIComponents, eventListeners);
+            return UIBuilder.build(layout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
         }
         
-        layout.pushOffset(Axis.HORIZONTAL, pad.left - pad.right);
-        layout.pushOffset(Axis.VERTICAL, pad.top - pad.bottom);
-        Vector2i size = UIBuilder.build(layout, child, renderables, dynamicUIComponents, eventListeners);
+        if (pad.left == 0 || pad.right == 0) {
+            layout.pushOffset(Axis.HORIZONTAL, pad.left - pad.right);
+        } else {
+            layout.pushOffset(Axis.HORIZONTAL, pad.left);
+            layout.pushSizeMod(Axis.HORIZONTAL, - pad.right - pad.left);
+        }
+        
+        if (pad.top == 0 || pad.bottom == 0) {
+            layout.pushOffset(Axis.VERTICAL, pad.top - pad.bottom);
+        } else {
+            layout.pushOffset(Axis.VERTICAL, pad.top);
+            layout.pushSizeMod(Axis.VERTICAL, - pad.bottom - pad.top);
+        }
+        
+        Vector2i size = UIBuilder.build(layout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
+        
         layout.popOffset(Axis.VERTICAL);
         layout.popOffset(Axis.HORIZONTAL);
-        size.add(pad.getSize());
+        
+        if (pad.left != 0 && pad.right != 0) {
+            layout.popSizeMod(Axis.HORIZONTAL);
+        }
+        
+        if (pad.top != 0 && pad.bottom != 0) {
+            layout.popSizeMod(Axis.VERTICAL);
+        }
         
         return size;
     }

@@ -16,21 +16,25 @@ public abstract class DynamicUIComponent implements UIComponent {
     // DO NOT MODIFY THESE!
     public Layout layout;
     public DynamicChange<IRenderable> renderables;
+    public DynamicChange<IRenderable> tooltips;
     public DynamicChange<DynamicUIComponent> dynamicUIComponents;
     public DynamicChange<IGuiEventListener> eventListeners;
     
     protected void rebuild() {
         List<IRenderable> replacementRenderables = new ArrayList<>();
+        List<IRenderable> replacementTooltips = new ArrayList<>();
         List<DynamicUIComponent> replacementDynamicUIComponents = new ArrayList<>();
         List<IGuiEventListener> replacementEventListeners = new ArrayList<>();
         
-        UIBuilder.build(layout, this, replacementRenderables, replacementDynamicUIComponents, replacementEventListeners);
+        UIBuilder.build(layout, this, replacementRenderables, replacementTooltips, replacementDynamicUIComponents, replacementEventListeners);
         
         replacementRenderables = new ArrayList<>(replacementRenderables);
+        replacementTooltips = new ArrayList<>(replacementTooltips);
         replacementDynamicUIComponents = new ArrayList<>(replacementDynamicUIComponents);
         replacementEventListeners = new ArrayList<>(replacementEventListeners);
 
         int renderablesCountDiff = renderables.update(replacementRenderables);
+        int tooltipsCountDiff = tooltips.update(replacementTooltips);
         int eventListenersCountDiff = eventListeners.update(replacementEventListeners);
         int dynamicCountDiff = dynamicUIComponents.update(replacementDynamicUIComponents);
 
@@ -38,6 +42,7 @@ public abstract class DynamicUIComponent implements UIComponent {
 
         for (DynamicUIComponent dynamicUIComponent : dynamicUIComponents.data) {
             dynamicUIComponent.renderables.shift(renderablesCountDiff);
+            dynamicUIComponent.tooltips.shift(tooltipsCountDiff);
             dynamicUIComponent.eventListeners.shift(eventListenersCountDiff);
             dynamicUIComponent.dynamicUIComponents.shift(dynamicCountDiff);
         }

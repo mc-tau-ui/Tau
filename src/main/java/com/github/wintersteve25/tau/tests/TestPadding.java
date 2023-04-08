@@ -1,21 +1,25 @@
 package com.github.wintersteve25.tau.tests;
 
-import com.github.wintersteve25.tau.components.Align;
-import com.github.wintersteve25.tau.components.Padding;
-import com.github.wintersteve25.tau.components.Text;
+import com.github.wintersteve25.tau.components.*;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.layout.LayoutSetting;
+import com.github.wintersteve25.tau.utils.Color;
 import com.github.wintersteve25.tau.utils.Pad;
+import com.github.wintersteve25.tau.utils.Size;
 
 public class TestPadding implements UIComponent {
     @Override
     public UIComponent build(Layout layout) {
-        return new Align.Builder()
-                .withVertical(LayoutSetting.START)
-                .withHorizontal(LayoutSetting.END)
-                .build(new Padding(
-                    new Pad.Builder().withRight(10).withTop(10).build(), 
-                    new Text.Builder("Top right corner")));
+        return new Center(new Sized(
+            Size.staticSize(200, 200),
+            new Container.Builder()
+                .withColor(Color.WHITE)
+                .withChild(new Padding(
+                    new Pad.Builder().all(5).build(),
+                    new Container.Builder()
+                        .withColor(Color.RED)
+                ))
+        ));
     }
 }

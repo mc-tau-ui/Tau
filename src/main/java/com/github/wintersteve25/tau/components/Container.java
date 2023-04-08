@@ -18,19 +18,24 @@ public final class Container implements PrimitiveUIComponent {
     
     private final UIComponent child;
     private final Color color;
+    private final boolean drawColor;
     
-    public Container(UIComponent child, Color color) {
+    public Container(UIComponent child, Color color, boolean drawColor) {
         this.child = child;
         this.color = color;
+        this.drawColor = drawColor;
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         if (child == null && color == null) {
             return layout.getSize();
         }
+        
 
-        if (color != null) {
+        if (drawColor) {
+            Color actualColor = color == null ? layout.getColorScheme().backgroundColor() : color;
+            
             int width = layout.getWidth();
             int height = layout.getHeight();
             int x = layout.getPosition(Axis.HORIZONTAL, width);
@@ -42,12 +47,12 @@ public final class Container implements PrimitiveUIComponent {
                     y,
                     x + width,
                     y + height,
-                    color.getAARRGGBB()
+                    actualColor.getAARRGGBB()
             ));
         }
         
         if (child != null) {
-            UIBuilder.build(layout, child, renderables, dynamicUIComponents, eventListeners);
+            UIBuilder.build(layout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
         }
         
         return layout.getSize();
@@ -57,6 +62,7 @@ public final class Container implements PrimitiveUIComponent {
     public static final class Builder implements UIComponent {
         private UIComponent child;
         private Color color;
+        private boolean drawColor = true;
 
         public Builder() {
         }
@@ -70,9 +76,14 @@ public final class Container implements PrimitiveUIComponent {
             this.color = color;
             return this;
         }
+        
+        public Builder noColor() {
+            this.drawColor = false;
+            return this;
+        }
 
         public Container build() {
-            return new Container(child, color);
+            return new Container(child, color, drawColor);
         }
 
         @Override

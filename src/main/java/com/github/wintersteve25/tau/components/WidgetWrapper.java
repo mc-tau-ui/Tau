@@ -20,7 +20,7 @@ public final class WidgetWrapper implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         child.setWidth(layout.getWidth());
         child.setHeight(layout.getHeight());
         child.x = layout.getPosition(Axis.HORIZONTAL, child.getWidth());

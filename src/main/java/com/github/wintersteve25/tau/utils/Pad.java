@@ -26,22 +26,22 @@ public class Pad {
         public Builder() {
         }
         
-        public Builder withTop(int top) {
+        public Builder top(int top) {
             this.top = top;
             return this;
         }
 
-        public Builder withBottom(int bottom) {
+        public Builder bottom(int bottom) {
             this.bottom = bottom;
             return this;
         }
 
-        public Builder withLeft(int left) {
+        public Builder left(int left) {
             this.left = left;
             return this;
         }
 
-        public Builder withRight(int right) {
+        public Builder right(int right) {
             this.right = right;
             return this;
         }

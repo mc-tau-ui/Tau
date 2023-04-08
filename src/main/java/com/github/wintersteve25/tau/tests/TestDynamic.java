@@ -24,6 +24,6 @@ public class TestDynamic extends DynamicUIComponent {
         return new Align.Builder()
                 .withVertical(LayoutSetting.START)
                 .withHorizontal(LayoutSetting.END)
-                .build(new Padding(new Pad.Builder().withRight(10).withTop(10).build(), new Text.Builder(String.valueOf(t))));
+                .build(new Padding(new Pad.Builder().right(10).top(10).build(), new Text.Builder(String.valueOf(t))));
     }
 }

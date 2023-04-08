@@ -2,12 +2,9 @@ package com.github.wintersteve25.tau.components;
 
 import com.github.wintersteve25.tau.build.UIBuilder;
 import com.github.wintersteve25.tau.utils.RenderProvider;
-import com.github.wintersteve25.tau.utils.Size;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import com.sun.jna.platform.win32.Wdm;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
@@ -28,8 +25,8 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
     private static int ellipsisWidth = 0;
     
     private final ITextComponent text;
-    private final Color color;
     private final OverflowBehaviour overflowBehaviour;
+    private Color color;
     
     public Text(ITextComponent text, Color color, OverflowBehaviour overflowBehaviour) {
         this.text = text;
@@ -38,7 +35,9 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+        color = color == null ? layout.getColorScheme().textColor() : color;
+        
         FontRenderer fontRenderer = Minecraft.getInstance().font;
         int width = fontRenderer.width(text);
         ellipsisWidth = fontRenderer.width("...");
@@ -60,10 +59,11 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
             renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> render(pMatrixStack, pMouseX, pMouseY, pPartialTicks, x, y, finalWidth, height));
         } else {
             UIBuilder.build(
-                new Layout(width, height, x, y),
+                new Layout(width, height, x, y, layout.getColorScheme()),
                 new Clip.Builder()
                     .build(new Render(this)), 
-                renderables,
+                renderables, 
+                tooltips,
                 dynamicUIComponents, 
                 eventListeners
             );
@@ -115,7 +115,7 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
         public Text build() {
             return new Text(
                     text, 
-                    color == null ? Color.WHITE : color, 
+                    color, 
                     overflowBehaviour == null ? OverflowBehaviour.OVERFLOW : overflowBehaviour
             );
         }

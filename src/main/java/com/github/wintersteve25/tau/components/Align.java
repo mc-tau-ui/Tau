@@ -26,7 +26,7 @@ public final class Align implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         if (horizontal != null) {
             layout.pushLayoutSetting(Axis.HORIZONTAL, horizontal);
         }
@@ -35,7 +35,7 @@ public final class Align implements PrimitiveUIComponent {
             layout.pushLayoutSetting(Axis.VERTICAL, vertical);
         }
 
-        Vector2i size = UIBuilder.build(layout, child, renderables, dynamicUIComponents, eventListeners);
+        Vector2i size = UIBuilder.build(layout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
 
         if (horizontal != null) {        
             layout.popLayoutSetting(Axis.HORIZONTAL);

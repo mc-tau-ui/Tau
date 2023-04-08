@@ -1,3 +1,12 @@
+# v1.1.0 - Major Update
+## Built-in Components
+1. Added `Spacer`
+
+## Others
+1. Added Color Schemes
+2. Added parameter boolean `drawColor` to `Container`
+3. Added color parameters to `Tooltip`
+
 # v1.0.5 - Minor Update
 ## Built-in Components
 1. Added `Slider`
@@ -7,6 +16,8 @@
 1. Texture.Builder now has a constructor parameter for texture location instead of it being in the build method
 2. `Button` now uses GuiUtils.drawContinuousTextureBox so it can be any size without any problems
 3. All UIComponents that takes in a list of children now accept Iterables and Arrays.
+4. Fixed tooltip being drawn over
+5. Fixed `Padding` not behaving as intended
 
 # v1.0.4 - Minor Update
 ## Others

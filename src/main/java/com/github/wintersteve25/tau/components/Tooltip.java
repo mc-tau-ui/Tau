@@ -1,6 +1,12 @@
 package com.github.wintersteve25.tau.components;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.github.wintersteve25.tau.build.UIBuilder;
+import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
+import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
+import com.github.wintersteve25.tau.components.base.UIComponent;
+import com.github.wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.utils.Color;
+import com.github.wintersteve25.tau.utils.Vector2i;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -8,62 +14,62 @@ import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import net.minecraft.util.text.ITextProperties;
 import net.minecraftforge.fml.client.gui.GuiUtils;
-import com.github.wintersteve25.tau.build.UIBuilder;
-import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
-import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
-import com.github.wintersteve25.tau.components.base.UIComponent;
-import com.github.wintersteve25.tau.layout.Axis;
-import com.github.wintersteve25.tau.layout.Layout;
-import com.github.wintersteve25.tau.utils.RenderProvider;
-import com.github.wintersteve25.tau.utils.Vector2i;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Tooltip implements PrimitiveUIComponent, RenderProvider {
+public final class Tooltip implements PrimitiveUIComponent {
     
     private final List<ITextProperties> text;
     private final UIComponent child;
-    
-    private int screenWidth;
-    private int screenHeight;
-    private FontRenderer fontRenderer;
+    private final Color color;
+    private final Color borderStart;
+    private final Color borderEnd;
 
-    public Tooltip(List<ITextProperties> text, UIComponent child) {
+    public Tooltip(List<ITextProperties> text, UIComponent child, Color color, Color borderStart, Color borderEnd) {
         this.text = text;
         this.child = child;
+        this.color = color;
+        this.borderStart = borderStart;
+        this.borderEnd = borderEnd;
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         Minecraft minecraft = Minecraft.getInstance();
-        fontRenderer = minecraft.font;
+        FontRenderer fontRenderer = minecraft.font;
         MainWindow window = minecraft.getWindow();
-        screenWidth = window.getGuiScaledWidth();
-        screenHeight = window.getGuiScaledHeight();
+        int screenWidth = window.getGuiScaledWidth();
+        int screenHeight = window.getGuiScaledHeight();
         
-        Vector2i size = UIBuilder.build(layout, child, renderables, dynamicUIComponents, eventListeners);
-        Layout childLayout = new Layout(size.x, size.y, layout.getPosition(Axis.HORIZONTAL, size.x), layout.getPosition(Axis.VERTICAL, size.y));
-        UIBuilder.build(childLayout, new Render(this), renderables, dynamicUIComponents, eventListeners);
+        Vector2i size = UIBuilder.build(layout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
+        Vector2i position = layout.getPosition(size);
+        
+        Color actualColor = color == null ? layout.getColorScheme().tooltipColor() : color;
+        Color actualBorder = borderStart == null ? layout.getColorScheme().tooltipBorderColorStart() : borderStart;
+        Color actualBorderEnd = borderEnd == null ? layout.getColorScheme().tooltipBorderColorEnd() : borderEnd;
+        
+        tooltips.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> {
+            if (Vector2i.within(pMouseX, pMouseY, position.x, position.y, size.x, size.y)) {
+                GuiUtils.drawHoveringText(pMatrixStack, text, pMouseX, pMouseY, screenWidth, screenHeight, -1, actualColor.getAARRGGBB(), actualBorder.getAARRGGBB(), actualBorderEnd.getAARRGGBB(), fontRenderer);
+            } 
+        });
+        
         return size;
     }
 
-    @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks, int x, int y, int width, int height) {
-        if (Vector2i.within(mouseX, mouseY, x, y, width, height)) {
-            GuiUtils.drawHoveringText(matrixStack, text, mouseX, mouseY, screenWidth, screenHeight, -1, fontRenderer);
-        }
-    }
-
     public static final class Builder {
-        private List<ITextProperties> text;
+        private final List<ITextProperties> text;
+        private Color color;
+        private Color borderStart;
+        private Color borderEnd;
 
         public Builder() {
             text = new ArrayList<>();
         }
 
-        public Builder withTexts(List<ITextProperties> text) {
-            this.text = text;
+        public Builder withText(List<ITextProperties> text) {
+            this.text.addAll(text);
             return this;
         }
         
@@ -72,8 +78,23 @@ public final class Tooltip implements PrimitiveUIComponent, RenderProvider {
             return this;
         }
 
+        public Builder withColor(Color color) {
+            this.color = color;
+            return this;
+        }
+
+        public Builder withBorderStart(Color borderStart) {
+            this.borderStart = borderStart;
+            return this;
+        }
+
+        public Builder withBorderEnd(Color borderEnd) {
+            this.borderEnd = borderEnd;
+            return this;
+        }
+
         public Tooltip build(UIComponent child) {
-            return new Tooltip(text, child);
+            return new Tooltip(text, child, color, borderStart, borderEnd);
         }
     }
 }

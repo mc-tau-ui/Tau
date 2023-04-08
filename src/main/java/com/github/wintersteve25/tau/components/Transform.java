@@ -29,10 +29,10 @@ public final class Transform implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         
         List<IRenderable> children = new ArrayList<>();
-        Vector2i size = UIBuilder.build(layout, child, children, dynamicUIComponents, eventListeners);
+        Vector2i size = UIBuilder.build(layout, child, children, tooltips, dynamicUIComponents, eventListeners);
         renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> {
             pMatrixStack.pushPose();
             

@@ -18,11 +18,11 @@ public class UIBuilder {
      * @param dynamicUIComponents A list of DynamicUIComponents present in the UI
      * @return The size of the component
      */
-    public static Vector2i build(Layout layout, UIComponent uiComponent, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
-        return build(layout, uiComponent, renderables, dynamicUIComponents, eventListeners, Vector2i.zero());
+    public static Vector2i build(Layout layout, UIComponent uiComponent, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+        return build(layout, uiComponent, renderables, tooltips, dynamicUIComponents, eventListeners, Vector2i.zero());
     }
 
-    private static Vector2i build(Layout layout, UIComponent uiComponent, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners, Vector2i size) {
+    private static Vector2i build(Layout layout, UIComponent uiComponent, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners, Vector2i size) {
         if (uiComponent instanceof IGuiEventListener) {
             eventListeners.add((IGuiEventListener) uiComponent);
         }
@@ -30,10 +30,12 @@ public class UIBuilder {
         if (uiComponent instanceof DynamicUIComponent) {
             DynamicUIComponent dynamicUIComponent = ((DynamicUIComponent)uiComponent);
             if (dynamicUIComponent.renderables == null) dynamicUIComponent.renderables = new DynamicUIComponent.DynamicChange<>();
+            if (dynamicUIComponent.tooltips == null) dynamicUIComponent.tooltips = new DynamicUIComponent.DynamicChange<>();
             if (dynamicUIComponent.dynamicUIComponents == null) dynamicUIComponent.dynamicUIComponents = new DynamicUIComponent.DynamicChange<>();
             if (dynamicUIComponent.eventListeners == null) dynamicUIComponent.eventListeners = new DynamicUIComponent.DynamicChange<>();
 
             if (dynamicUIComponent.renderables.startIndex == -1) dynamicUIComponent.renderables.startIndex = renderables.size();
+            if (dynamicUIComponent.tooltips.startIndex == -1) dynamicUIComponent.tooltips.startIndex = tooltips.size();
             if (dynamicUIComponent.dynamicUIComponents.startIndex == -1) dynamicUIComponent.dynamicUIComponents.startIndex = dynamicUIComponents.size();
             if (dynamicUIComponent.eventListeners.startIndex == -1) dynamicUIComponent.eventListeners.startIndex = eventListeners.size();
 
@@ -44,30 +46,32 @@ public class UIBuilder {
         
         if (uiComponent instanceof PrimitiveUIComponent) {
             PrimitiveUIComponent primitiveUIComponent = (PrimitiveUIComponent) uiComponent;
-            size.add(primitiveUIComponent.build(layout, renderables, dynamicUIComponents, eventListeners));
+            size.add(primitiveUIComponent.build(layout, renderables, tooltips, dynamicUIComponents, eventListeners));
         }
         
         UIComponent next = uiComponent.build(layout);
 
         if (next == null) {
-            finishDynamicUIComponent(uiComponent, renderables, eventListeners, dynamicUIComponents);
+            finishDynamicUIComponent(uiComponent, renderables, tooltips, eventListeners, dynamicUIComponents);
             return size;
         }
 
-        Vector2i resultSize = build(layout, next, renderables, dynamicUIComponents, eventListeners, size);
-        finishDynamicUIComponent(uiComponent, renderables, eventListeners, dynamicUIComponents);
+        Vector2i resultSize = build(layout, next, renderables, tooltips, dynamicUIComponents, eventListeners, size);
+        finishDynamicUIComponent(uiComponent, renderables, tooltips, eventListeners, dynamicUIComponents);
         return resultSize;
     }
     
-    private static void finishDynamicUIComponent(UIComponent uiComponent, List<IRenderable> renderables, List<IGuiEventListener> eventListeners, List<DynamicUIComponent> dynamicUIComponents) {
+    private static void finishDynamicUIComponent(UIComponent uiComponent, List<IRenderable> renderables, List<IRenderable> tooltips, List<IGuiEventListener> eventListeners, List<DynamicUIComponent> dynamicUIComponents) {
         if (uiComponent instanceof DynamicUIComponent) {
             DynamicUIComponent dynamicUIComponent = (DynamicUIComponent) uiComponent;
 
             if(dynamicUIComponent.renderables.endIndex == -1) dynamicUIComponent.renderables.endIndex = renderables.size();
+            if(dynamicUIComponent.tooltips.endIndex == -1) dynamicUIComponent.tooltips.endIndex = tooltips.size();
             if(dynamicUIComponent.dynamicUIComponents.endIndex == -1) dynamicUIComponent.dynamicUIComponents.endIndex = dynamicUIComponents.size();
             if(dynamicUIComponent.eventListeners.endIndex == -1) dynamicUIComponent.eventListeners.endIndex = eventListeners.size();
 
             if (dynamicUIComponent.renderables.data == null) dynamicUIComponent.renderables.data = renderables;
+            if (dynamicUIComponent.tooltips.data == null) dynamicUIComponent.tooltips.data = tooltips;
             if (dynamicUIComponent.eventListeners.data == null) dynamicUIComponent.eventListeners.data = eventListeners;
             if (dynamicUIComponent.dynamicUIComponents.data == null) dynamicUIComponent.dynamicUIComponents.data = dynamicUIComponents;
         }

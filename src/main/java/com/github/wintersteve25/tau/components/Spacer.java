@@ -1,25 +1,24 @@
 package com.github.wintersteve25.tau.components;
 
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.IRenderable;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.utils.Vector2i;
+import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.IRenderable;
 
 import java.util.List;
 
-public final class Renderable implements PrimitiveUIComponent {
+public final class Spacer implements PrimitiveUIComponent {
     
-    private final IRenderable renderable;
+    private final Vector2i size;
 
-    public Renderable(IRenderable renderable) {
-        this.renderable = renderable;
+    public Spacer(Vector2i size) {
+        this.size = size;
     }
 
     @Override
     public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
-        renderables.add(renderable);
-        return layout.getSize();
+        return size;
     }
 }

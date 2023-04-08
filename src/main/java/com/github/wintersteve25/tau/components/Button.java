@@ -35,7 +35,7 @@ public final class Button implements PrimitiveUIComponent, IGuiEventListener {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         width = layout.getWidth();
         height = layout.getHeight();
         x = layout.getPosition(Axis.HORIZONTAL, width);
@@ -46,7 +46,7 @@ public final class Button implements PrimitiveUIComponent, IGuiEventListener {
             GuiUtils.drawContinuousTexturedBox(pMatrixStack, Widget.WIDGETS_LOCATION, x, y, 0, 46 + k * 20, width, height, 200, 20, 2, 3, 2, 2, 0);
         });
 
-        UIBuilder.build(layout, child, renderables, dynamicUIComponents, eventListeners);
+        UIBuilder.build(layout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
 
         return layout.getSize();
     }

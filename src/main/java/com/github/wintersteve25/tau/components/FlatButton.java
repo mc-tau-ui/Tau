@@ -16,7 +16,7 @@ import net.minecraft.util.SoundEvents;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class FlatButton implements PrimitiveUIComponent, IGuiEventListener {
+public final class FlatButton implements PrimitiveUIComponent, IGuiEventListener {
 
     private final Consumer<Integer> onPress;
     private final UIComponent child;
@@ -39,7 +39,7 @@ public class FlatButton implements PrimitiveUIComponent, IGuiEventListener {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         width = layout.getWidth();
         height = layout.getHeight();
         x = layout.getPosition(Axis.HORIZONTAL, width);
@@ -49,17 +49,17 @@ public class FlatButton implements PrimitiveUIComponent, IGuiEventListener {
             Color color;
             
             if (onPress == null) {
-                color = disabledColor;
+                color = disabledColor == null ? layout.getColorScheme().interactableDisabledColor() : disabledColor;
             } else if (isHovered(pMouseX, pMouseY)) {
-                color = hoveredColor;
+                color = hoveredColor == null ? layout.getColorScheme().interactableHoverColor() : hoveredColor;
             } else {
-                color = normalColor;
+                color = normalColor == null ? layout.getColorScheme().interactableColor() : normalColor;
             }
 
             AbstractGui.fill(pMatrixStack, x, y, x + width, y + height, color.getAARRGGBB());
         });
 
-        UIBuilder.build(layout, child, renderables, dynamicUIComponents, eventListeners);
+        UIBuilder.build(layout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
 
         return layout.getSize();
     }
@@ -112,9 +112,9 @@ public class FlatButton implements PrimitiveUIComponent, IGuiEventListener {
             return new FlatButton(
                     onPress, 
                     child, 
-                    disabledColor == null ? Color.GRAY : disabledColor, 
-                    hoveredColor == null ? Color.LIGHT_CYAN : hoveredColor,
-                    normalColor == null ? Color.JADE_GREEN : normalColor
+                    disabledColor, 
+                    hoveredColor,
+                    normalColor
             );
         }
     }

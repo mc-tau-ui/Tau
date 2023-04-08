@@ -25,7 +25,7 @@ public final class Sized implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         Vector2i componentSize = size.get(layout.getSize());
         
         if (componentSize.outside(layout.getSize())) {
@@ -37,10 +37,10 @@ public final class Sized implements PrimitiveUIComponent {
                 componentSize.x, 
                 componentSize.y,
                 layout.getPosition(Axis.HORIZONTAL, componentSize.x),
-                layout.getPosition(Axis.VERTICAL, componentSize.y)
-        );
+                layout.getPosition(Axis.VERTICAL, componentSize.y),
+                layout.getColorScheme());
 
-        UIBuilder.build(childLayout, child, renderables, dynamicUIComponents, eventListeners);
+        UIBuilder.build(childLayout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
         return componentSize;
     }
 }
