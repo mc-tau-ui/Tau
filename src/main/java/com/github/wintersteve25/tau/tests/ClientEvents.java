@@ -3,7 +3,6 @@ package com.github.wintersteve25.tau.tests;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
@@ -15,7 +14,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onKeyDown(InputEvent.KeyInputEvent evet) {
         if (evet.getKey() == GLFW.GLFW_KEY_G) {
-            Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestAll()));
+            Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestAll(), true));
         }
     }
 }

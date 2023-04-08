@@ -54,7 +54,7 @@ public class TestAll implements UIComponent {
             return new Sized(
                     Size.staticSize(200, 20),
                     new Button.Builder()
-                    .withOnPress((button) -> Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestScreen(screen))))
+                    .withOnPress((button) -> Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestScreen(screen), true)))
                     .build(new Center(new Text.Builder(screen.getClass().getSimpleName())))
             );
         }
@@ -78,7 +78,7 @@ public class TestAll implements UIComponent {
                         .build(new Sized(
                                 Size.staticSize(60, 20),
                                 new Button.Builder()
-                                        .withOnPress((button) -> Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestAll())))
+                                        .withOnPress((button) -> Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestAll(), true)))
                                         .build(new Center(new Text.Builder("Back"))))
                         )
             );

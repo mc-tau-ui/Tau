@@ -7,6 +7,7 @@
 2. Added parameter boolean `drawColor` to `Container`
 3. Added color parameters to `Tooltip`
 4. Created `StringAlignUtils`
+5. Added option to not render gray background in ScreenUIRenderer
 
 # v1.0.5 - Minor Update
 ## Built-in Components

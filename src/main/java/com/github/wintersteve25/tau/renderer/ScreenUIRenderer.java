@@ -19,12 +19,14 @@ public class ScreenUIRenderer extends Screen {
     private final List<IRenderable> components;
     private final List<IRenderable> tooltips;
     private final List<DynamicUIComponent> dynamicUIComponents;
+    private final boolean renderBackground;
     
     private boolean built;
     
-    public ScreenUIRenderer(UIComponent uiComponent) {
+    public ScreenUIRenderer(UIComponent uiComponent, boolean renderBackground) {
         super(StringTextComponent.EMPTY);
         this.uiComponent = uiComponent;
+        this.renderBackground = renderBackground;
         this.components = new ArrayList<>();
         this.tooltips = new ArrayList<>();
         this.dynamicUIComponents = new ArrayList<>();
@@ -54,7 +56,9 @@ public class ScreenUIRenderer extends Screen {
     
     @Override
     public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
-        this.renderBackground(matrixStack);
+        if (renderBackground) {
+            this.renderBackground(matrixStack);
+        }
         
         for (IRenderable component : components) {
             component.render(matrixStack, pMouseX, pMouseY, pPartialTicks);
