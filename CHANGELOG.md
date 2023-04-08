@@ -6,6 +6,7 @@
 1. Added Color Schemes
 2. Added parameter boolean `drawColor` to `Container`
 3. Added color parameters to `Tooltip`
+4. Created `StringAlignUtils`
 
 # v1.0.5 - Minor Update
 ## Built-in Components
