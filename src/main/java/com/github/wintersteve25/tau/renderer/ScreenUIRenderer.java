@@ -48,10 +48,7 @@ public class ScreenUIRenderer extends Screen {
     @Override
     public void tick() {
         if (!built) return;
-        
-        for (DynamicUIComponent dynamicUIComponent : dynamicUIComponents) {
-            dynamicUIComponent.tick();
-        }
+        UIBuilder.rebuildDynamics(dynamicUIComponents);
     }
     
     @Override

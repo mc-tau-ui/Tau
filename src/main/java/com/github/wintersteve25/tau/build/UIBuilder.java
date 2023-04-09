@@ -8,6 +8,7 @@ import com.github.wintersteve25.tau.utils.Vector2i;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UIBuilder {
@@ -23,10 +24,6 @@ public class UIBuilder {
     }
 
     private static Vector2i build(Layout layout, UIComponent uiComponent, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners, Vector2i size) {
-        if (uiComponent instanceof IGuiEventListener) {
-            eventListeners.add((IGuiEventListener) uiComponent);
-        }
-
         if (uiComponent instanceof DynamicUIComponent) {
             DynamicUIComponent dynamicUIComponent = ((DynamicUIComponent)uiComponent);
             if (dynamicUIComponent.renderables == null) dynamicUIComponent.renderables = new DynamicUIComponent.DynamicChange<>();
@@ -40,8 +37,11 @@ public class UIBuilder {
             if (dynamicUIComponent.eventListeners.startIndex == -1) dynamicUIComponent.eventListeners.startIndex = eventListeners.size();
 
             dynamicUIComponent.layout = layout.copy();
-            
             dynamicUIComponents.add(dynamicUIComponent);
+        }
+
+        if (uiComponent instanceof IGuiEventListener) {
+            eventListeners.add((IGuiEventListener) uiComponent);
         }
         
         if (uiComponent instanceof PrimitiveUIComponent) {
@@ -74,6 +74,21 @@ public class UIBuilder {
             if (dynamicUIComponent.tooltips.data == null) dynamicUIComponent.tooltips.data = tooltips;
             if (dynamicUIComponent.eventListeners.data == null) dynamicUIComponent.eventListeners.data = eventListeners;
             if (dynamicUIComponent.dynamicUIComponents.data == null) dynamicUIComponent.dynamicUIComponents.data = dynamicUIComponents;
+        }
+    }
+
+    /**
+     * Rebuilds all dynamic components that requires rebuilding
+     * @param dynamicUIComponents All dynamic components
+     */
+    public static void rebuildDynamics(List<DynamicUIComponent> dynamicUIComponents) {
+        for (DynamicUIComponent dynamicUIComponent : dynamicUIComponents) {
+            dynamicUIComponent.tick();
+        }
+
+        for (DynamicUIComponent component : new ArrayList<>(dynamicUIComponents)) {
+            if (component.dirty) component.rebuildImmediately();
+            component.dirty = false;
         }
     }
 }

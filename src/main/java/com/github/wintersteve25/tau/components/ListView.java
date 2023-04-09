@@ -92,7 +92,7 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
     public boolean mouseScrolled(double pMouseX, double pMouseY, double pDelta) {
         if (!canScrollDown && pDelta < 0) return IGuiEventListener.super.mouseScrolled(pMouseX, pMouseY, pDelta);
         if (!canScrollUp && pDelta > 0) return IGuiEventListener.super.mouseScrolled(pMouseX, pMouseY, pDelta);
-        scrollOffset -= (int) pDelta;
+        scrollOffset += pDelta > 0 ? -1 : 1;
         rebuild();
         return true;
     }

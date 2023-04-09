@@ -40,10 +40,7 @@ public class HudUIRenderer {
 
     public void tick() {
         if (!built) return;
-
-        for (DynamicUIComponent dynamicUIComponent : dynamicUIComponents) {
-            dynamicUIComponent.tick();
-        }
+        UIBuilder.rebuildDynamics(dynamicUIComponents);
     }
     
     public void render(MainWindow mainWindow, MatrixStack matrixStack, float pPartialTicks) {

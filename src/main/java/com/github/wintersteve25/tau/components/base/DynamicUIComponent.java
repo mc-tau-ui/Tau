@@ -19,15 +19,20 @@ public abstract class DynamicUIComponent implements UIComponent {
     public DynamicChange<IRenderable> tooltips;
     public DynamicChange<DynamicUIComponent> dynamicUIComponents;
     public DynamicChange<IGuiEventListener> eventListeners;
+    public boolean dirty;
     
     protected void rebuild() {
+        dirty = true;
+    }
+    
+    public void rebuildImmediately() {
         List<IRenderable> replacementRenderables = new ArrayList<>();
         List<IRenderable> replacementTooltips = new ArrayList<>();
         List<DynamicUIComponent> replacementDynamicUIComponents = new ArrayList<>();
         List<IGuiEventListener> replacementEventListeners = new ArrayList<>();
-        
+
         UIBuilder.build(layout, this, replacementRenderables, replacementTooltips, replacementDynamicUIComponents, replacementEventListeners);
-        
+
         replacementRenderables = new ArrayList<>(replacementRenderables);
         replacementTooltips = new ArrayList<>(replacementTooltips);
         replacementDynamicUIComponents = new ArrayList<>(replacementDynamicUIComponents);

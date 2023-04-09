@@ -1,29 +1,44 @@
 package com.github.wintersteve25.tau.tests;
 
-import com.github.wintersteve25.tau.components.Align;
-import com.github.wintersteve25.tau.components.Padding;
-import com.github.wintersteve25.tau.components.Text;
+import com.github.wintersteve25.tau.components.*;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.layout.LayoutSetting;
+import com.github.wintersteve25.tau.utils.Color;
 import com.github.wintersteve25.tau.utils.Pad;
+import com.github.wintersteve25.tau.utils.Size;
+import net.minecraft.client.gui.IGuiEventListener;
 
-public class TestDynamic extends DynamicUIComponent {
-    private int t;
-
-    @Override
-    public void tick() {
-        t++;
-        if (layout == null) return;
-        rebuild();
-    }
+public class TestDynamic extends DynamicUIComponent implements IGuiEventListener {
+    private boolean clicked;
 
     @Override
     public UIComponent build(Layout layout) {
-        return new Align.Builder()
-                .withVertical(LayoutSetting.START)
-                .withHorizontal(LayoutSetting.END)
-                .build(new Padding(new Pad.Builder().right(10).top(10).build(), new Text.Builder(String.valueOf(t))));
+        clicked = !clicked;
+        
+        if (clicked) {
+            return new Container.Builder();
+        }
+        
+        return new Center(new Sized(
+            Size.staticSize(200, 200),
+            new Container.Builder()
+                    .withColor(Color.WHITE)
+        ));
+    }
+
+    @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+        rebuild();
+        return IGuiEventListener.super.mouseClicked(pMouseX, pMouseY, pButton);
+    }
+    
+    private static class Test implements UIComponent {
+        
+        @Override
+        public UIComponent build(Layout layout) {
+            return null;
+        }
     }
 }
