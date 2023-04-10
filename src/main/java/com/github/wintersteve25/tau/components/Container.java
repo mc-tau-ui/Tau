@@ -28,7 +28,7 @@ public final class Container implements PrimitiveUIComponent {
 
     @Override
     public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
-        if (child == null && color == null) {
+        if (child == null && !drawColor) {
             return layout.getSize();
         }
         

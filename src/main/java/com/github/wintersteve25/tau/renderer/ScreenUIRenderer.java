@@ -11,6 +11,7 @@ import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ScreenUIRenderer extends Screen {
@@ -39,8 +40,8 @@ public class ScreenUIRenderer extends Screen {
         components.clear();
         tooltips.clear();
         dynamicUIComponents.clear();
-        
         UIBuilder.build(layout, uiComponent, components, tooltips, dynamicUIComponents, children);
+        Collections.reverse(children);
         
         built = true;
     }

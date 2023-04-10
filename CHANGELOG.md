@@ -1,6 +1,7 @@
 # v1.1.0 - Major Update
 ## Built-in Components
-1. Added `Spacer`
+1. Added `Spacer` - Allows spacing out items in a Row/Column/ListView
+2. Added `If` - Allows child component to be displayed if a condition is met
 
 ## Others
 1. Added Color Schemes
