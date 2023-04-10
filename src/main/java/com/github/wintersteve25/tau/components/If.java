@@ -24,6 +24,6 @@ public class If implements PrimitiveUIComponent {
     @Override
     public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         if (condition) return UIBuilder.build(layout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
-        return layout.getSize();
+        return Vector2i.zero();
     }
 }
