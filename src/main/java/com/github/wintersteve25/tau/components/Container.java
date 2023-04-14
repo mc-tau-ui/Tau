@@ -1,5 +1,6 @@
 package com.github.wintersteve25.tau.components;
 
+import com.github.wintersteve25.tau.utils.FlexSizeBehaviour;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
@@ -12,6 +13,7 @@ import com.github.wintersteve25.tau.utils.Color;
 import com.github.wintersteve25.tau.build.UIBuilder;
 import com.github.wintersteve25.tau.utils.Vector2i;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class Container implements PrimitiveUIComponent {
@@ -19,11 +21,13 @@ public final class Container implements PrimitiveUIComponent {
     private final UIComponent child;
     private final Color color;
     private final boolean drawColor;
+    private final FlexSizeBehaviour sizeBehaviour;
     
-    public Container(UIComponent child, Color color, boolean drawColor) {
+    public Container(UIComponent child, Color color, boolean drawColor, FlexSizeBehaviour sizeBehaviour) {
         this.child = child;
         this.color = color;
         this.drawColor = drawColor;
+        this.sizeBehaviour = sizeBehaviour;
     }
 
     @Override
@@ -31,13 +35,26 @@ public final class Container implements PrimitiveUIComponent {
         if (child == null && !drawColor) {
             return layout.getSize();
         }
+
+        Vector2i size = layout.getSize();
+        List<IRenderable> renderables1 = new ArrayList<>();
+        List<IRenderable> tooltips1 = new ArrayList<>();
+        List<DynamicUIComponent> dynamicUIComponents1 = new ArrayList<>();
+        List<IGuiEventListener> eventListeners1 = new ArrayList<>();
         
+        if (child != null) {
+            if (sizeBehaviour == FlexSizeBehaviour.MIN) {
+                size = UIBuilder.build(layout, child, renderables1, tooltips1, dynamicUIComponents1, eventListeners1);
+            } else {
+                UIBuilder.build(layout, child, renderables1, tooltips1, dynamicUIComponents1, eventListeners1);
+            }
+        }
 
         if (drawColor) {
             Color actualColor = color == null ? layout.getColorScheme().backgroundColor() : color;
             
-            int width = layout.getWidth();
-            int height = layout.getHeight();
+            int width = size.x;
+            int height = size.y;
             int x = layout.getPosition(Axis.HORIZONTAL, width);
             int y = layout.getPosition(Axis.VERTICAL, height);
 
@@ -51,11 +68,12 @@ public final class Container implements PrimitiveUIComponent {
             ));
         }
         
-        if (child != null) {
-            UIBuilder.build(layout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
-        }
+        renderables.addAll(renderables1);
+        tooltips.addAll(tooltips1);
+        dynamicUIComponents.addAll(dynamicUIComponents1);
+        eventListeners.addAll(eventListeners1);
         
-        return layout.getSize();
+        return size;
     }
 
 
@@ -63,7 +81,8 @@ public final class Container implements PrimitiveUIComponent {
         private UIComponent child;
         private Color color;
         private boolean drawColor = true;
-
+        private FlexSizeBehaviour sizeBehaviour;
+        
         public Builder() {
         }
 
@@ -82,8 +101,13 @@ public final class Container implements PrimitiveUIComponent {
             return this;
         }
 
+        public Builder withSizeBehaviour(FlexSizeBehaviour sizeBehaviour) {
+            this.sizeBehaviour = sizeBehaviour;
+            return this;
+        }
+
         public Container build() {
-            return new Container(child, color, drawColor);
+            return new Container(child, color, drawColor, sizeBehaviour == null ? FlexSizeBehaviour.MAX : sizeBehaviour);
         }
 
         @Override
