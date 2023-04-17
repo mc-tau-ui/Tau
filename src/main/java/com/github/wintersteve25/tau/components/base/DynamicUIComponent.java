@@ -43,13 +43,28 @@ public abstract class DynamicUIComponent implements UIComponent {
         int eventListenersCountDiff = eventListeners.update(replacementEventListeners);
         int dynamicCountDiff = dynamicUIComponents.update(replacementDynamicUIComponents);
 
-        dynamicUIComponents.shift(dynamicCountDiff);
-
-        for (DynamicUIComponent dynamicUIComponent : dynamicUIComponents.data) {
-            dynamicUIComponent.renderables.shift(renderablesCountDiff);
-            dynamicUIComponent.tooltips.shift(tooltipsCountDiff);
-            dynamicUIComponent.eventListeners.shift(eventListenersCountDiff);
-            dynamicUIComponent.dynamicUIComponents.shift(dynamicCountDiff);
+        this.renderables.endIndex += renderablesCountDiff;
+        this.tooltips.endIndex += tooltipsCountDiff;
+        this.eventListeners.endIndex += eventListenersCountDiff;
+        this.dynamicUIComponents.endIndex += dynamicCountDiff;
+        
+        for (DynamicUIComponent component : dynamicUIComponents.data) {
+            if (component.renderables.startIndex > this.renderables.endIndex) {
+                component.renderables.startIndex += renderablesCountDiff;
+                component.renderables.endIndex += renderablesCountDiff;
+            }
+            if (component.tooltips.startIndex > this.tooltips.endIndex) {
+                component.tooltips.startIndex += tooltipsCountDiff;
+                component.tooltips.endIndex += tooltipsCountDiff;
+            }
+            if (component.eventListeners.startIndex > this.eventListeners.endIndex) {
+                component.eventListeners.startIndex += eventListenersCountDiff;
+                component.eventListeners.endIndex += eventListenersCountDiff;
+            }
+            if (component.dynamicUIComponents.startIndex > this.dynamicUIComponents.endIndex) {
+                component.dynamicUIComponents.startIndex += dynamicCountDiff;
+                component.dynamicUIComponents.endIndex += dynamicCountDiff;
+            }
         }
     }
     
@@ -65,10 +80,6 @@ public abstract class DynamicUIComponent implements UIComponent {
             data.subList(startIndex, endIndex).clear();
             data.addAll(startIndex, replacement);
             return replacement.size() - (endIndex - startIndex);
-        } 
-        
-        public void shift(int amount) {
-            endIndex += amount;
         }
     }
 }
