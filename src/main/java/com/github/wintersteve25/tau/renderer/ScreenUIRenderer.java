@@ -1,5 +1,6 @@
 package com.github.wintersteve25.tau.renderer;
 
+import com.github.wintersteve25.tau.theme.ColorScheme;
 import com.github.wintersteve25.tau.theme.DefaultColorScheme;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.IRenderable;
@@ -21,21 +22,31 @@ public class ScreenUIRenderer extends Screen {
     private final List<IRenderable> tooltips;
     private final List<DynamicUIComponent> dynamicUIComponents;
     private final boolean renderBackground;
+    private final ColorScheme colorScheme;
     
     private boolean built;
     
-    public ScreenUIRenderer(UIComponent uiComponent, boolean renderBackground) {
+    public ScreenUIRenderer(UIComponent uiComponent, boolean renderBackground, ColorScheme colorScheme) {
         super(StringTextComponent.EMPTY);
         this.uiComponent = uiComponent;
         this.renderBackground = renderBackground;
+        this.colorScheme = colorScheme;
         this.components = new ArrayList<>();
         this.tooltips = new ArrayList<>();
         this.dynamicUIComponents = new ArrayList<>();
     }
+    
+    public ScreenUIRenderer(UIComponent uiComponent, boolean renderBackground) {
+        this(uiComponent, renderBackground, DefaultColorScheme.INSTANCE);
+    }
+    
+    public ScreenUIRenderer(UIComponent uiComponent) {
+        this(uiComponent, true);
+    }
 
     @Override
     protected void init() {
-        Layout layout = new Layout(width, height, DefaultColorScheme.INSTANCE);
+        Layout layout = new Layout(width, height, colorScheme);
 
         components.clear();
         tooltips.clear();
@@ -51,7 +62,14 @@ public class ScreenUIRenderer extends Screen {
         if (!built) return;
         UIBuilder.rebuildDynamics(dynamicUIComponents);
     }
-    
+
+    @Override
+    public void onClose() {
+        for (DynamicUIComponent dynamicUIComponent : dynamicUIComponents) {
+            dynamicUIComponent.destroy();
+        }
+    }
+
     @Override
     public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
         if (renderBackground) {

@@ -11,6 +11,7 @@
 5. Added option to not render gray background in ScreenUIRenderer
 6. Added `sizeBehaviour` field to `Container`
 7. Fixed `DynamicUIComponent` crashes
+8. Added more constructors for `ScreenUIRenderer` and `HudUIRenderer`
 
 # v1.0.5 - Minor Update
 ## Built-in Components

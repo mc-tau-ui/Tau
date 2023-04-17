@@ -25,7 +25,7 @@ public abstract class DynamicUIComponent implements UIComponent {
         dirty = true;
     }
     
-    public void rebuildImmediately() {
+    public final void rebuildImmediately() {
         List<IRenderable> replacementRenderables = new ArrayList<>();
         List<IRenderable> replacementTooltips = new ArrayList<>();
         List<DynamicUIComponent> replacementDynamicUIComponents = new ArrayList<>();
@@ -69,6 +69,9 @@ public abstract class DynamicUIComponent implements UIComponent {
     }
     
     public void tick() {
+    }
+    
+    public void destroy() {
     }
     
     public final static class DynamicChange<T> {

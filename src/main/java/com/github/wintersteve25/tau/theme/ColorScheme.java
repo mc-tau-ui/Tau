@@ -14,6 +14,16 @@ public interface ColorScheme {
     Color secondaryBackgroundColor();
 
     /**
+     * @return Not used by anything by default
+     */
+    Color onBackground();
+
+    /**
+     * @return Not used by anything by default
+     */
+    Color onSecondary();
+    
+    /**
      * @return Used by {@link com.github.wintersteve25.tau.components.Text} as default color
      */
     Color textColor();
