@@ -9,7 +9,7 @@ jobs:
     name: Builds and Release on Github and Saps
     uses: nanite/workflows/.github/workflows/standard-release.yml@v1
     with:
-      java-version: 1.8
+      java-version: 8
       curse-publish-task: ""
     secrets:
       saps-token: ${{ secrets.SAPS_TOKEN }}
