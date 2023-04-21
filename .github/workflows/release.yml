@@ -15,10 +15,11 @@ jobs:
       saps-token: ${{ secrets.SAPS_TOKEN }}
   
   publish:
+    runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: Publish Minecraft Mods
         uses: Kir-Antipov/mc-publish@v3.2
-        needs: build
         with:
           modrinth-id: MNBGnhBw
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
