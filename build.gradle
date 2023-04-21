@@ -127,7 +127,7 @@ publishing {
     repositories {
         if (ENV.SAPS_TOKEN) {
             maven {
-                url "https://maven.saps.dev/minecraft"
+                url "https://maven.saps.dev/releases"
                 credentials {
                     username = "winterSteve25"
                     password = "${ENV.SAPS_TOKEN}"
