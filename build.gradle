@@ -74,9 +74,9 @@ sourceSets {
     main {
         resources { srcDir 'src/generated/resources' }
         // exclude tests
-        java {
-            exclude 'com/github/wintersteve25/tau/tests'
-        }
+//        java {
+//            exclude 'com/github/wintersteve25/tau/tests'
+//        }
     }
 }
 

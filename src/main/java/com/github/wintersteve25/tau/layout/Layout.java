@@ -1,27 +1,23 @@
 package com.github.wintersteve25.tau.layout;
 
-import com.github.wintersteve25.tau.theme.ColorScheme;
-import com.github.wintersteve25.tau.theme.DefaultColorScheme;
 import com.github.wintersteve25.tau.utils.Vector2i;
 
 public class Layout {
 
     private final int width;
     private final int height;
-    private final ColorScheme colorScheme;
 
     private final StackedAxialSettings<Integer> offsets;
     private final StackedAxialSettings<Integer> sizeModification;
     private final StackedAxialSettings<LayoutSetting> layoutSettings;
 
-    public Layout(int width, int height, ColorScheme colorScheme) {
-        this(width, height, 0, 0, colorScheme);
+    public Layout(int width, int height) {
+        this(width, height, 0, 0);
     }
 
-    public Layout(int width, int height, int xOffset, int yOffset, ColorScheme colorScheme) {
+    public Layout(int width, int height, int xOffset, int yOffset) {
         this.width = width;
         this.height = height;
-        this.colorScheme = colorScheme;
 
         this.offsets = new StackedAxialSettings<>();
         this.offsets.push(Axis.HORIZONTAL, xOffset);
@@ -36,17 +32,12 @@ public class Layout {
         this.layoutSettings.push(Axis.VERTICAL, LayoutSetting.START);
     }
 
-    private Layout(int width, int height, ColorScheme colorScheme, StackedAxialSettings<Integer> offsets, StackedAxialSettings<Integer> sizeModification, StackedAxialSettings<LayoutSetting> layoutSettings) {
+    private Layout(int width, int height, StackedAxialSettings<Integer> offsets, StackedAxialSettings<Integer> sizeModification, StackedAxialSettings<LayoutSetting> layoutSettings) {
         this.width = width;
         this.height = height;
-        this.colorScheme = colorScheme;
         this.offsets = offsets;
         this.sizeModification = sizeModification;
         this.layoutSettings = layoutSettings;
-    }
-    
-    public ColorScheme getColorScheme() {
-        return colorScheme;
     }
 
     public int getWidth() {
@@ -112,6 +103,6 @@ public class Layout {
     }
     
     public Layout copy() {
-        return new Layout(getWidth(), getHeight(), colorScheme, this.offsets.copy(), this.sizeModification.copy(), this.layoutSettings.copy());
+        return new Layout(getWidth(), getHeight(), this.offsets.copy(), this.sizeModification.copy(), this.layoutSettings.copy());
     }
 }

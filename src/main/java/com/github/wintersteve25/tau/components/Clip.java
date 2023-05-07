@@ -1,5 +1,6 @@
 package com.github.wintersteve25.tau.components;
 
+import com.github.wintersteve25.tau.theme.Theme;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -29,10 +30,10 @@ public final class Clip implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
 
         List<IRenderable> childrenRenderables = new ArrayList<>();
-        Vector2i childSize = UIBuilder.build(layout, child, childrenRenderables, tooltips, dynamicUIComponents, eventListeners);
+        Vector2i childSize = UIBuilder.build(layout, theme, child, childrenRenderables, tooltips, dynamicUIComponents, eventListeners);
 
         MainWindow window = Minecraft.getInstance().getWindow();
 

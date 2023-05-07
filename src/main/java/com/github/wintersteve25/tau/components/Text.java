@@ -1,6 +1,7 @@
 package com.github.wintersteve25.tau.components;
 
 import com.github.wintersteve25.tau.build.UIBuilder;
+import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.RenderProvider;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -35,8 +36,8 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
-        color = color == null ? layout.getColorScheme().textColor() : color;
+    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+        color = color == null ? theme.getTextColor() : color;
         
         FontRenderer fontRenderer = Minecraft.getInstance().font;
         int width = fontRenderer.width(text);
@@ -59,7 +60,8 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
             renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> render(pMatrixStack, pMouseX, pMouseY, pPartialTicks, x, y, finalWidth, height));
         } else {
             UIBuilder.build(
-                new Layout(width, height, x, y, layout.getColorScheme()),
+                new Layout(width, height, x, y),
+                theme,
                 new Clip.Builder()
                     .build(new Render(this)), 
                 renderables, 
@@ -121,7 +123,7 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
         }
 
         @Override
-        public UIComponent build(Layout layout) {
+        public UIComponent build(Layout layout, Theme theme) {
             return build();
         }
     }

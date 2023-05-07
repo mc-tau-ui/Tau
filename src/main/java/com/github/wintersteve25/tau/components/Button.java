@@ -6,10 +6,9 @@ import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Axis;
 import com.github.wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.theme.Theme;
+import com.github.wintersteve25.tau.utils.InteractableState;
 import com.github.wintersteve25.tau.utils.Vector2i;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import net.minecraft.client.gui.widget.Widget;
@@ -17,6 +16,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraftforge.fml.client.gui.GuiUtils;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 public final class Button implements PrimitiveUIComponent, IGuiEventListener {
@@ -35,18 +35,14 @@ public final class Button implements PrimitiveUIComponent, IGuiEventListener {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         width = layout.getWidth();
         height = layout.getHeight();
         x = layout.getPosition(Axis.HORIZONTAL, width);
         y = layout.getPosition(Axis.VERTICAL, height);
 
-        renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> {
-            int k = this.getYImage(pMouseX, pMouseY);
-            GuiUtils.drawContinuousTexturedBox(pMatrixStack, Widget.WIDGETS_LOCATION, x, y, 0, 46 + k * 20, width, height, 200, 20, 2, 3, 2, 2, 0);
-        });
-
-        UIBuilder.build(layout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
+        renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> theme.drawButton(pMatrixStack, x, y, width, height, pPartialTicks, pMouseX, pMouseY, this.getInteractableState(pMouseX, pMouseY)));
+        UIBuilder.build(layout, theme, child, renderables, tooltips, dynamicUIComponents, eventListeners);
 
         return layout.getSize();
     }
@@ -66,15 +62,14 @@ public final class Button implements PrimitiveUIComponent, IGuiEventListener {
         return pMouseX > x && pMouseX < x + width && pMouseY > y && pMouseY < y + height;
     }
     
-    private int getYImage(int pMouseX, int pMouseY) {
-        int i = 1;
+    private InteractableState getInteractableState(int pMouseX, int pMouseY) {
         if (onPress == null) {
-            i = 0;
+            return InteractableState.DISABLED;
         } else if (isHovered(pMouseX, pMouseY)) {
-            i = 2;
+            return InteractableState.HOVERED;
         }
-
-        return i;
+        
+        return InteractableState.IDLE;
     }
 
     public static final class Builder {

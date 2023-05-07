@@ -1,7 +1,7 @@
 package com.github.wintersteve25.tau.renderer;
 
-import com.github.wintersteve25.tau.theme.ColorScheme;
-import com.github.wintersteve25.tau.theme.DefaultColorScheme;
+import com.github.wintersteve25.tau.theme.MinecraftTheme;
+import com.github.wintersteve25.tau.theme.Theme;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.gui.IRenderable;
@@ -17,30 +17,30 @@ public class HudUIRenderer {
     private final UIComponent uiComponent;
     private final List<IRenderable> components;
     private final List<DynamicUIComponent> dynamicUIComponents;
-    private final ColorScheme colorScheme;
+    private final Theme theme;
 
     private boolean built;
     private int screenWidth;
     private int screenHeight;
 
-    public HudUIRenderer(UIComponent uiComponent, ColorScheme colorScheme) {
+    public HudUIRenderer(UIComponent uiComponent, Theme theme) {
         this.uiComponent = uiComponent;
         this.components = new ArrayList<>();
         this.dynamicUIComponents = new ArrayList<>();
-        this.colorScheme = colorScheme;
+        this.theme = theme;
     }
     
     public HudUIRenderer(UIComponent uiComponent) {
-        this(uiComponent, DefaultColorScheme.INSTANCE);
+        this(uiComponent, MinecraftTheme.INSTANCE);
     }
 
     private void init() {
-        Layout layout = new Layout(screenWidth, screenHeight, colorScheme);
+        Layout layout = new Layout(screenWidth, screenHeight);
 
         components.clear();
         dynamicUIComponents.clear();
 
-        UIBuilder.build(layout, uiComponent, components, new ArrayList<>(), dynamicUIComponents, new ArrayList<>());
+        UIBuilder.build(layout, theme, uiComponent, components, new ArrayList<>(), dynamicUIComponents, new ArrayList<>());
 
         built = true;
     }

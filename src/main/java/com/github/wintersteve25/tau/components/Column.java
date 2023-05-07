@@ -1,6 +1,7 @@
 package com.github.wintersteve25.tau.components;
 
 import com.github.wintersteve25.tau.layout.LayoutSetting;
+import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
@@ -31,7 +32,7 @@ public final class Column implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
 
         Vector2i size;
 
@@ -39,7 +40,7 @@ public final class Column implements PrimitiveUIComponent {
             size = Vector2i.zero();
 
             for (UIComponent child : children) {
-                Vector2i childSize = UIBuilder.build(layout.copy(), child, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+                Vector2i childSize = UIBuilder.build(layout.copy(), theme, child, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
                 size.y += childSize.y + spacing;
                 size.x = Math.max(size.x, childSize.x);
             }
@@ -47,11 +48,11 @@ public final class Column implements PrimitiveUIComponent {
             size = new Vector2i(layout.getWidth(), layout.getHeight());
         }
 
-        Layout childrenLayout = new Layout(size.x, size.y, layout.getPosition(Axis.HORIZONTAL, size.x), layout.getPosition(Axis.VERTICAL, size.y), layout.getColorScheme());
+        Layout childrenLayout = new Layout(size.x, size.y, layout.getPosition(Axis.HORIZONTAL, size.x), layout.getPosition(Axis.VERTICAL, size.y));
         childrenLayout.pushLayoutSetting(Axis.HORIZONTAL, alignment);
         
         for (UIComponent child : children) {
-            Vector2i childSize = UIBuilder.build(childrenLayout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
+            Vector2i childSize = UIBuilder.build(childrenLayout, theme, child, renderables, tooltips, dynamicUIComponents, eventListeners);
             childrenLayout.pushOffset(Axis.VERTICAL, childSize.y + spacing);
         }
 

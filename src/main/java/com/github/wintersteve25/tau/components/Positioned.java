@@ -1,5 +1,6 @@
 package com.github.wintersteve25.tau.components;
 
+import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
@@ -21,8 +22,8 @@ public final class Positioned implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
-        Layout childLayout = new Layout(layout.getWidth(), layout.getHeight(), position.x, position.y, layout.getColorScheme());
-        return UIBuilder.build(childLayout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
+    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+        Layout childLayout = new Layout(layout.getWidth(), layout.getHeight(), position.x, position.y);
+        return UIBuilder.build(childLayout, theme, child, renderables, tooltips, dynamicUIComponents, eventListeners);
     }
 }

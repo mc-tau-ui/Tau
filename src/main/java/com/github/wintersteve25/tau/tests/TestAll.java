@@ -5,12 +5,13 @@ import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.layout.LayoutSetting;
 import com.github.wintersteve25.tau.renderer.ScreenUIRenderer;
+import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.Size;
 import net.minecraft.client.Minecraft;
 
 public class TestAll implements UIComponent {
     @Override
-    public UIComponent build(Layout layout) {
+    public UIComponent build(Layout layout, Theme theme) {
         return new ListView.Builder()
             .withSpacing(2)
             .build(
@@ -21,7 +22,6 @@ public class TestAll implements UIComponent {
                 new TestButton(new TestColumn()),
                 new TestButton(new TestContainer()),
                 new TestButton(new TestDynamic()),
-                new TestButton(new TestFlatButton()),
                 new TestButton(new TestListView()),
                 new TestButton(new TestPadding()),
                 new TestButton(new TestPositioned()),
@@ -50,7 +50,7 @@ public class TestAll implements UIComponent {
         }
 
         @Override
-        public UIComponent build(Layout layout) {
+        public UIComponent build(Layout layout, Theme theme) {
             return new Sized(
                     Size.staticSize(200, 20),
                     new Button.Builder()
@@ -69,7 +69,7 @@ public class TestAll implements UIComponent {
         }
 
         @Override
-        public UIComponent build(Layout layout) {
+        public UIComponent build(Layout layout, Theme theme) {
             return new Stack(
                 screen,
                 new Align.Builder()

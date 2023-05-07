@@ -5,6 +5,7 @@ import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.layout.LayoutSetting;
+import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.Color;
 import com.github.wintersteve25.tau.utils.Pad;
 import com.github.wintersteve25.tau.utils.Size;
@@ -14,7 +15,7 @@ public class TestDynamic extends DynamicUIComponent implements IGuiEventListener
     private boolean clicked;
 
     @Override
-    public UIComponent build(Layout layout) {
+    public UIComponent build(Layout layout, Theme theme) {
         clicked = !clicked;
         
         if (clicked) {
@@ -24,7 +25,6 @@ public class TestDynamic extends DynamicUIComponent implements IGuiEventListener
         return new Center(new Sized(
             Size.staticSize(200, 200),
             new Container.Builder()
-                    .withColor(Color.WHITE)
         ));
     }
 
@@ -37,7 +37,7 @@ public class TestDynamic extends DynamicUIComponent implements IGuiEventListener
     private static class Test implements UIComponent {
         
         @Override
-        public UIComponent build(Layout layout) {
+        public UIComponent build(Layout layout, Theme theme) {
             return null;
         }
     }

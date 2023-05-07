@@ -1,7 +1,7 @@
 package com.github.wintersteve25.tau.components;
 
+import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.FlexSizeBehaviour;
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
@@ -19,20 +19,18 @@ import java.util.List;
 public final class Container implements PrimitiveUIComponent {
     
     private final UIComponent child;
-    private final Color color;
-    private final boolean drawColor;
     private final FlexSizeBehaviour sizeBehaviour;
+    private final boolean drawBackground;
     
-    public Container(UIComponent child, Color color, boolean drawColor, FlexSizeBehaviour sizeBehaviour) {
+    public Container(UIComponent child, boolean drawBackground, FlexSizeBehaviour sizeBehaviour) {
         this.child = child;
-        this.color = color;
-        this.drawColor = drawColor;
+        this.drawBackground = drawBackground;
         this.sizeBehaviour = sizeBehaviour;
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
-        if (child == null && !drawColor) {
+    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+        if (child == null && !drawBackground) {
             return layout.getSize();
         }
 
@@ -44,28 +42,19 @@ public final class Container implements PrimitiveUIComponent {
         
         if (child != null) {
             if (sizeBehaviour == FlexSizeBehaviour.MIN) {
-                size = UIBuilder.build(layout, child, renderables1, tooltips1, dynamicUIComponents1, eventListeners1);
+                size = UIBuilder.build(layout, theme, child, renderables1, tooltips1, dynamicUIComponents1, eventListeners1);
             } else {
-                UIBuilder.build(layout, child, renderables1, tooltips1, dynamicUIComponents1, eventListeners1);
+                UIBuilder.build(layout, theme, child, renderables1, tooltips1, dynamicUIComponents1, eventListeners1);
             }
         }
 
-        if (drawColor) {
-            Color actualColor = color == null ? layout.getColorScheme().backgroundColor() : color;
-            
+        if (drawBackground) {
             int width = size.x;
             int height = size.y;
             int x = layout.getPosition(Axis.HORIZONTAL, width);
             int y = layout.getPosition(Axis.VERTICAL, height);
 
-            renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> AbstractGui.fill(
-                    pMatrixStack, 
-                    x,
-                    y,
-                    x + width,
-                    y + height,
-                    actualColor.getAARRGGBB()
-            ));
+            renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> theme.drawContainer(pMatrixStack, x, y, width, height, pPartialTicks, pMouseX, pMouseY));
         }
         
         renderables.addAll(renderables1);
@@ -79,8 +68,7 @@ public final class Container implements PrimitiveUIComponent {
 
     public static final class Builder implements UIComponent {
         private UIComponent child;
-        private Color color;
-        private boolean drawColor = true;
+        private boolean drawBackground = true;
         private FlexSizeBehaviour sizeBehaviour;
         
         public Builder() {
@@ -91,13 +79,8 @@ public final class Container implements PrimitiveUIComponent {
             return this;
         }
 
-        public Builder withColor(Color color) {
-            this.color = color;
-            return this;
-        }
-        
-        public Builder noColor() {
-            this.drawColor = false;
+        public Builder noBackground() {
+            this.drawBackground = false;
             return this;
         }
 
@@ -107,11 +90,11 @@ public final class Container implements PrimitiveUIComponent {
         }
 
         public Container build() {
-            return new Container(child, color, drawColor, sizeBehaviour == null ? FlexSizeBehaviour.MAX : sizeBehaviour);
+            return new Container(child, drawBackground, sizeBehaviour == null ? FlexSizeBehaviour.MAX : sizeBehaviour);
         }
 
         @Override
-        public UIComponent build(Layout layout) {
+        public UIComponent build(Layout layout, Theme theme) {
             return build();
         }
     }
