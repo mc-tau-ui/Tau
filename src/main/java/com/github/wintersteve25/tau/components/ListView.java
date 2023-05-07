@@ -1,5 +1,6 @@
 package com.github.wintersteve25.tau.components;
 
+import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
@@ -35,7 +36,7 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         Vector2i childrenSize = Vector2i.zero();
         size = layout.getSize();
         
@@ -49,7 +50,7 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
         }
         
         for (int i = scrollOffset; i < children.size(); i++) {
-            Vector2i childSize = UIBuilder.build(layout.copy(), children.get(i), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            Vector2i childSize = UIBuilder.build(layout.copy(), theme, children.get(i), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
             childrenSize.y += childSize.y + spacing;
             childrenSize.x = Math.max(childrenSize.x, childSize.x);
@@ -64,17 +65,18 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
         canScrollUp = scrollOffset > 0;
         
         position = layout.getPosition(size);
-        Layout childrenLayout = new Layout(size.x, size.y, position.x, position.y, layout.getColorScheme());
+        Layout childrenLayout = new Layout(size.x, size.y, position.x, position.y);
         childrenLayout.pushLayoutSetting(Axis.HORIZONTAL, childrenAlignment);
         List<IRenderable> childrenRenderables = new ArrayList<>();
         
         for (int i = scrollOffset; i < (childrensCanFit == -1 ? children.size() : childrensCanFit); i++) {
-            Vector2i childSize = UIBuilder.build(childrenLayout, children.get(i), childrenRenderables, tooltips, dynamicUIComponents, eventListeners);
+            Vector2i childSize = UIBuilder.build(childrenLayout, theme, children.get(i), childrenRenderables, tooltips, dynamicUIComponents, eventListeners);
             childrenLayout.pushOffset(Axis.VERTICAL, childSize.y + spacing);
         }
         
         return UIBuilder.build(
             layout,
+            theme,
             new Clip.Builder()
                 .build(new Renderable((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> {
                     for (IRenderable renderable : childrenRenderables) {

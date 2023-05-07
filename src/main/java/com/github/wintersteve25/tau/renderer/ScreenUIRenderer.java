@@ -1,7 +1,7 @@
 package com.github.wintersteve25.tau.renderer;
 
-import com.github.wintersteve25.tau.theme.ColorScheme;
-import com.github.wintersteve25.tau.theme.DefaultColorScheme;
+import com.github.wintersteve25.tau.theme.MinecraftTheme;
+import com.github.wintersteve25.tau.theme.Theme;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.IRenderable;
 import net.minecraft.client.gui.screen.Screen;
@@ -22,22 +22,22 @@ public class ScreenUIRenderer extends Screen {
     private final List<IRenderable> tooltips;
     private final List<DynamicUIComponent> dynamicUIComponents;
     private final boolean renderBackground;
-    private final ColorScheme colorScheme;
+    private final Theme theme;
     
     private boolean built;
     
-    public ScreenUIRenderer(UIComponent uiComponent, boolean renderBackground, ColorScheme colorScheme) {
+    public ScreenUIRenderer(UIComponent uiComponent, boolean renderBackground, Theme theme) {
         super(StringTextComponent.EMPTY);
         this.uiComponent = uiComponent;
         this.renderBackground = renderBackground;
-        this.colorScheme = colorScheme;
+        this.theme = theme;
         this.components = new ArrayList<>();
         this.tooltips = new ArrayList<>();
         this.dynamicUIComponents = new ArrayList<>();
     }
     
     public ScreenUIRenderer(UIComponent uiComponent, boolean renderBackground) {
-        this(uiComponent, renderBackground, DefaultColorScheme.INSTANCE);
+        this(uiComponent, renderBackground, MinecraftTheme.INSTANCE);
     }
     
     public ScreenUIRenderer(UIComponent uiComponent) {
@@ -46,12 +46,12 @@ public class ScreenUIRenderer extends Screen {
 
     @Override
     protected void init() {
-        Layout layout = new Layout(width, height, colorScheme);
+        Layout layout = new Layout(width, height);
 
         components.clear();
         tooltips.clear();
         dynamicUIComponents.clear();
-        UIBuilder.build(layout, uiComponent, components, tooltips, dynamicUIComponents, children);
+        UIBuilder.build(layout, theme, uiComponent, components, tooltips, dynamicUIComponents, children);
         Collections.reverse(children);
         
         built = true;

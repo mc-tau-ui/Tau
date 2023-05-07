@@ -5,6 +5,7 @@ import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.Color;
 import com.github.wintersteve25.tau.utils.Vector2i;
 import net.minecraft.client.MainWindow;
@@ -35,19 +36,19 @@ public final class Tooltip implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
         Minecraft minecraft = Minecraft.getInstance();
         FontRenderer fontRenderer = minecraft.font;
         MainWindow window = minecraft.getWindow();
         int screenWidth = window.getGuiScaledWidth();
         int screenHeight = window.getGuiScaledHeight();
         
-        Vector2i size = UIBuilder.build(layout, child, renderables, tooltips, dynamicUIComponents, eventListeners);
+        Vector2i size = UIBuilder.build(layout, theme, child, renderables, tooltips, dynamicUIComponents, eventListeners);
         Vector2i position = layout.getPosition(size);
         
-        Color actualColor = color == null ? layout.getColorScheme().tooltipColor() : color;
-        Color actualBorder = borderStart == null ? layout.getColorScheme().tooltipBorderColorStart() : borderStart;
-        Color actualBorderEnd = borderEnd == null ? layout.getColorScheme().tooltipBorderColorEnd() : borderEnd;
+        Color actualColor = color == null ? theme.getTooltipColor() : color;
+        Color actualBorder = borderStart == null ? theme.getTooltipBorderStartColor() : borderStart;
+        Color actualBorderEnd = borderEnd == null ? theme.getTooltipBorderEndColor() : borderEnd;
         
         tooltips.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> {
             if (Vector2i.within(pMouseX, pMouseY, position.x, position.y, size.x, size.y)) {

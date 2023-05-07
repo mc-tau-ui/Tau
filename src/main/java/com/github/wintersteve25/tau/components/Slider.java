@@ -2,6 +2,7 @@ package com.github.wintersteve25.tau.components;
 
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
@@ -30,7 +31,7 @@ public final class Slider implements UIComponent {
     }
 
     @Override
-    public UIComponent build(Layout layout) {
+    public UIComponent build(Layout layout, Theme theme) {
         return new WidgetWrapper(new SliderWidget(prefix, suffix, showDecimals, minimum, maximum, value, onPress, onValueChanged));
     }
     
@@ -111,7 +112,7 @@ public final class Slider implements UIComponent {
         }
 
         @Override
-        public UIComponent build(Layout layout) {
+        public UIComponent build(Layout layout, Theme theme) {
             return build();
         }
     }

@@ -1,5 +1,6 @@
 package com.github.wintersteve25.tau.components.base;
 
+import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import com.github.wintersteve25.tau.layout.Layout;
@@ -15,6 +16,8 @@ public abstract class DynamicUIComponent implements UIComponent {
     
     // DO NOT MODIFY THESE!
     public Layout layout;
+    public Theme theme;
+    
     public DynamicChange<IRenderable> renderables;
     public DynamicChange<IRenderable> tooltips;
     public DynamicChange<DynamicUIComponent> dynamicUIComponents;
@@ -31,7 +34,7 @@ public abstract class DynamicUIComponent implements UIComponent {
         List<DynamicUIComponent> replacementDynamicUIComponents = new ArrayList<>();
         List<IGuiEventListener> replacementEventListeners = new ArrayList<>();
 
-        UIBuilder.build(layout, this, replacementRenderables, replacementTooltips, replacementDynamicUIComponents, replacementEventListeners);
+        UIBuilder.build(layout, theme, this, replacementRenderables, replacementTooltips, replacementDynamicUIComponents, replacementEventListeners);
 
         replacementRenderables = new ArrayList<>(replacementRenderables);
         replacementTooltips = new ArrayList<>(replacementTooltips);

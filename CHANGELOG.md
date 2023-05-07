@@ -1,3 +1,10 @@
+# v1.2.0 - Major Update
+## Others
+1. Removed Color Schemes
+2. Created Themes which handles rendering for `Button`, `Container`
+3. Created Default Minecraft Theme
+4. Container no longer has the `color` field, and the `noColor` field has been renamed to `noBackground`
+
 # v1.1.0 - Major Update
 ## Built-in Components
 1. Added `Spacer` - Allows spacing out items in a Row/Column/ListView

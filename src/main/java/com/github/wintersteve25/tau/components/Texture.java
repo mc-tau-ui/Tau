@@ -1,6 +1,7 @@
 package com.github.wintersteve25.tau.components;
 
 import com.github.wintersteve25.tau.components.base.UIComponent;
+import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.IGuiEventListener;
@@ -30,7 +31,7 @@ public final class Texture implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
 
         Minecraft minecraft = Minecraft.getInstance();
         Vector2i position = layout.getPosition(uvSize);
@@ -82,7 +83,7 @@ public final class Texture implements PrimitiveUIComponent {
         }
 
         @Override
-        public UIComponent build(Layout layout) {
+        public UIComponent build(Layout layout, Theme theme) {
             return build();
         }
     }

@@ -1,5 +1,6 @@
 package com.github.wintersteve25.tau.components;
 
+import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.ITextComponent;
@@ -28,7 +29,7 @@ public final class TextField implements UIComponent {
     }
 
     @Override
-    public UIComponent build(Layout layout) {
+    public UIComponent build(Layout layout, Theme theme) {
         return new WidgetWrapper(new TextFieldWidget(message, hintText, onChange, validator, formatter));
     }
     
@@ -93,7 +94,7 @@ public final class TextField implements UIComponent {
         }
 
         @Override
-        public UIComponent build(Layout layout) {
+        public UIComponent build(Layout layout, Theme theme) {
             return build();
         }
     }
