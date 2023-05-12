@@ -13,20 +13,20 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.Renderable;
-import net.minecraft.util.text.ITextProperties;
+import net.minecraft.network.chat.FormattedText;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public final class Tooltip implements PrimitiveUIComponent {
 
-    private final List<ITextProperties> text;
+    private final List<FormattedText> text;
     private final UIComponent child;
     private final Color color;
     private final Color borderStart;
     private final Color borderEnd;
 
-    public Tooltip(List<ITextProperties> text, UIComponent child, Color color, Color borderStart, Color borderEnd) {
+    public Tooltip(List<FormattedText> text, UIComponent child, Color color, Color borderStart, Color borderEnd) {
         this.text = text;
         this.child = child;
         this.color = color;
@@ -51,15 +51,16 @@ public final class Tooltip implements PrimitiveUIComponent {
         
         tooltips.add((pPoseStack, pMouseX, pMouseY, pPartialTicks) -> {
             if (Vector2i.within(pMouseX, pMouseY, position.x, position.y, size.x, size.y)) {
-                GuiUtils.drawHoveringText(pPoseStack, text, pMouseX, pMouseY, screenWidth, screenHeight, -1, actualColor.getAARRGGBB(), actualBorder.getAARRGGBB(), actualBorderEnd.getAARRGGBB(), fontRenderer);
+                GuiUt.drawHoveringText(pPoseStack, text, pMouseX, pMouseY, screenWidth, screenHeight, -1,
+                        actualColor.getAARRGGBB(), actualBorder.getAARRGGBB(), actualBorderEnd.getAARRGGBB(), fontRenderer);
             } 
         });
-        
+
         return size;
     }
 
     public static final class Builder {
-        private final List<ITextProperties> text;
+        private final List<FormattedText> text;
         private Color color;
         private Color borderStart;
         private Color borderEnd;
@@ -68,12 +69,12 @@ public final class Tooltip implements PrimitiveUIComponent {
             text = new ArrayList<>();
         }
 
-        public Builder withText(List<ITextProperties> text) {
+        public Builder withText(List<FormattedText> text) {
             this.text.addAll(text);
             return this;
         }
         
-        public Builder withText(ITextProperties text) {
+        public Builder withText(FormattedText text) {
             this.text.add(text);
             return this;
         }
