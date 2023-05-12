@@ -24,6 +24,7 @@ public class MinecraftTheme implements Theme {
 
         // TODO: Where's GuiUtils??
         //        GuiUtils.drawContinuousTexturedBox(PoseStack, TEXTURE, x, y, 0, 166 + state.getNumber() * 20, width, height, 200, 20, 2, 3, 2, 2, 0);
+        
     }
 
     @Override
