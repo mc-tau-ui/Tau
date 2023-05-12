@@ -51,8 +51,9 @@ public final class Tooltip implements PrimitiveUIComponent {
         
         tooltips.add((pPoseStack, pMouseX, pMouseY, pPartialTicks) -> {
             if (Vector2i.within(pMouseX, pMouseY, position.x, position.y, size.x, size.y)) {
-                GuiUt.drawHoveringText(pPoseStack, text, pMouseX, pMouseY, screenWidth, screenHeight, -1,
-                        actualColor.getAARRGGBB(), actualBorder.getAARRGGBB(), actualBorderEnd.getAARRGGBB(), fontRenderer);
+                // TODO: Where is GuiUtils?
+//                GuiUtils.drawHoveringText(pPoseStack, text, pMouseX, pMouseY, screenWidth, screenHeight, -1,
+//                        actualColor.getAARRGGBB(), actualBorder.getAARRGGBB(), actualBorderEnd.getAARRGGBB(), fontRenderer);
             } 
         });
 

@@ -1,8 +1,7 @@
 package com.github.wintersteve25.tau.utils.transformations;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.util.math.vector.Vector3f;
-import com.github.wintersteve25.tau.utils.Vector2i;
+import org.joml.Vector3f;
 
 public class TranslationTransform implements Transformation {
     

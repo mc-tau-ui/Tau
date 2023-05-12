@@ -4,8 +4,9 @@ import com.github.wintersteve25.tau.theme.MinecraftTheme;
 import com.github.wintersteve25.tau.theme.Theme;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.Renderable;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.build.UIBuilder;
 import com.github.wintersteve25.tau.components.base.UIComponent;
@@ -27,7 +28,7 @@ public class ScreenUIRenderer extends Screen {
     private boolean built;
     
     public ScreenUIRenderer(UIComponent uiComponent, boolean renderBackground, Theme theme) {
-        super(StringTextComponent.EMPTY);
+        super(Component.empty());
         this.uiComponent = uiComponent;
         this.renderBackground = renderBackground;
         this.theme = theme;
@@ -51,8 +52,8 @@ public class ScreenUIRenderer extends Screen {
         components.clear();
         tooltips.clear();
         dynamicUIComponents.clear();
-        UIBuilder.build(layout, theme, uiComponent, components, tooltips, dynamicUIComponents, children);
-        Collections.reverse(children);
+        UIBuilder.build(layout, theme, uiComponent, components, tooltips, dynamicUIComponents, (List<GuiEventListener>) children());
+        Collections.reverse(children());
         
         built = true;
     }
