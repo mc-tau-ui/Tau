@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -51,8 +52,8 @@ public class ItemRenderProvider implements RenderProvider {
         BakedModel bakedmodel = renderer.getModel(stack, null, null, 0);
 
         RenderSystem.pushMatrix();
-        minecraft.textureManager.bind(AtlasTexture.LOCATION_BLOCKS);
-        minecraft.textureManager.getTexture(AtlasTexture.LOCATION_BLOCKS).setFilter(false, false);
+        minecraft.textureManager.bind(TextureAtlas.LOCATION_BLOCKS);
+        minecraft.textureManager.getTexture(TextureAtlas.LOCATION_BLOCKS).setFilter(false, false);
         RenderSystem.enableRescaleNormal();
         RenderSystem.enableAlphaTest();
         RenderSystem.defaultAlphaFunc();
