@@ -3,14 +3,13 @@ package com.github.wintersteve25.tau.components;
 import com.github.wintersteve25.tau.build.UIBuilder;
 import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.RenderProvider;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.IRenderable;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.network.chat.Component;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
 import com.github.wintersteve25.tau.components.base.UIComponent;
@@ -25,21 +24,21 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
     
     private static int ellipsisWidth = 0;
     
-    private final ITextComponent text;
+    private final Component text;
     private final OverflowBehaviour overflowBehaviour;
     private Color color;
     
-    public Text(ITextComponent text, Color color, OverflowBehaviour overflowBehaviour) {
+    public Text(Component text, Color color, OverflowBehaviour overflowBehaviour) {
         this.text = text;
         this.color = color;
         this.overflowBehaviour = overflowBehaviour;
     }
 
     @Override
-    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, Theme theme, List<Renderable> renderables, List<Renderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<GuiEventListener> eventListeners) {
         color = color == null ? theme.getTextColor() : color;
         
-        FontRenderer fontRenderer = Minecraft.getInstance().font;
+        Font fontRenderer = Minecraft.getInstance().font;
         int width = fontRenderer.width(text);
         ellipsisWidth = fontRenderer.width("...");
         
@@ -49,7 +48,7 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
         }
         
         int height = willOverflow && overflowBehaviour == OverflowBehaviour.WRAP ?
-                fontRenderer.wordWrapHeight(text.getContents(), width) :
+                fontRenderer.wordWrapHeight(text.getString(), width) :
                 9; // constant for line height in minecraft
         
         int x = layout.getPosition(Axis.HORIZONTAL, width);
@@ -57,7 +56,7 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
 
         int finalWidth = width;
         if (overflowBehaviour != OverflowBehaviour.CLIP) {
-            renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> render(pMatrixStack, pMouseX, pMouseY, pPartialTicks, x, y, finalWidth, height));
+            renderables.add((pPoseStack, pMouseX, pMouseY, pPartialTicks) -> render(pPoseStack, pMouseX, pMouseY, pPartialTicks, x, y, finalWidth, height));
         } else {
             UIBuilder.build(
                 new Layout(width, height, x, y),
@@ -75,33 +74,33 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
     }
     
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks, int x, int y, int width, int height) {
-        FontRenderer fontRenderer = Minecraft.getInstance().font;
+    public void render(PoseStack PoseStack, int mouseX, int mouseY, float partialTicks, int x, int y, int width, int height) {
+        Font fontRenderer = Minecraft.getInstance().font;
 
         switch (overflowBehaviour) {
             case WRAP:
                 fontRenderer.drawWordWrap(text, x, y, width, color.getAARRGGBB());
                 break;
             case ELLIPSIS:
-                fontRenderer.drawShadow(matrixStack, fontRenderer.substrByWidth(text, width - ellipsisWidth).getString() + "...", x, y, color.getAARRGGBB(), color.hasTransparency());
+                fontRenderer.drawShadow(PoseStack, fontRenderer.substrByWidth(text, width - ellipsisWidth).getString() + "...", x, y, color.getAARRGGBB(), color.hasTransparency());
                 break;
             default:
-                fontRenderer.drawShadow(matrixStack, text.getString(), x, y, color.getAARRGGBB(), color.hasTransparency());
+                fontRenderer.drawShadow(PoseStack, text.getString(), x, y, color.getAARRGGBB(), color.hasTransparency());
                 break;
         }
     }
 
     public static final class Builder implements UIComponent {
-        private final ITextComponent text;
+        private final Component text;
         private Color color;
         private OverflowBehaviour overflowBehaviour;
 
-        public Builder(ITextComponent text) {
+        public Builder(Component text) {
             this.text = text;
         }
         
         public Builder(String text) {
-            this.text = new StringTextComponent(text);
+            this.text = Component.literal(text);
         }
 
         public Builder withColor(Color color) {

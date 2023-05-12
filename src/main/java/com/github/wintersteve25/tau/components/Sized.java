@@ -1,8 +1,8 @@
 package com.github.wintersteve25.tau.components;
 
 import com.github.wintersteve25.tau.theme.Theme;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.IRenderable;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.components.Renderable;
 import com.github.wintersteve25.tau.Tau;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
@@ -26,7 +26,7 @@ public final class Sized implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, Theme theme, List<Renderable> renderables, List<Renderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<GuiEventListener> eventListeners) {
         Vector2i componentSize = size.get(layout.getSize());
         
         if (componentSize.outside(layout.getSize())) {

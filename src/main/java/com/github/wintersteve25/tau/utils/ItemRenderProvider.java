@@ -1,6 +1,6 @@
 package com.github.wintersteve25.tau.utils;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.Block;
@@ -32,13 +32,13 @@ public class ItemRenderProvider implements RenderProvider {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks, int x, int y, int width, int height) {
-        renderItemStackInGui(matrixStack, itemStack, x, y, width, height);
+    public void render(PoseStack PoseStack, int mouseX, int mouseY, float partialTicks, int x, int y, int width, int height) {
+        renderItemStackInGui(PoseStack, itemStack, x, y, width, height);
     }
 
-    private static void renderItemStackInGui(MatrixStack matrixStack, ItemStack stackToRender, int x, int y, int width, int height) {
+    private static void renderItemStackInGui(PoseStack PoseStack, ItemStack stackToRender, int x, int y, int width, int height) {
         RenderSystem.pushMatrix();
-        RenderSystem.multMatrix(matrixStack.last().pose());
+        RenderSystem.multMatrix(PoseStack.last().pose());
         RenderSystem.enableDepthTest();
         RenderHelper.turnBackOn();
         renderItemModelIntoGUI(stackToRender, x, y, width, height);
@@ -67,14 +67,14 @@ public class ItemRenderProvider implements RenderProvider {
         RenderSystem.translatef(xScale / 2, yScale / 2, 0.0F);
         RenderSystem.scalef(1.0F, -1.0F, 1.0F);
         RenderSystem.scalef(xScale, yScale, 16.0F);
-        MatrixStack matrixstack = new MatrixStack();
+        PoseStack PoseStack = new PoseStack();
         IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().renderBuffers().bufferSource();
         boolean flag = !bakedmodel.usesBlockLight();
         if (flag) {
             RenderHelper.setupForFlatItems();
         }
 
-        renderer.render(stack, ItemCameraTransforms.TransformType.GUI, false, matrixstack, irendertypebuffer$impl, 15728880, OverlayTexture.NO_OVERLAY, bakedmodel);
+        renderer.render(stack, ItemCameraTransforms.TransformType.GUI, false, PoseStack, irendertypebuffer$impl, 15728880, OverlayTexture.NO_OVERLAY, bakedmodel);
         irendertypebuffer$impl.endBatch();
         RenderSystem.enableDepthTest();
         if (flag) {

@@ -6,8 +6,8 @@ import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.Vector2i;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.IRenderable;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.components.Renderable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +20,11 @@ public class UIBuilder {
      * @param dynamicUIComponents A list of DynamicUIComponents present in the UI
      * @return The size of the component
      */
-    public static Vector2i build(Layout layout, Theme theme, UIComponent uiComponent, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public static Vector2i build(Layout layout, Theme theme, UIComponent uiComponent, List<Renderable> renderables, List<Renderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<GuiEventListener> eventListeners) {
         return build(layout, theme, uiComponent, renderables, tooltips, dynamicUIComponents, eventListeners, Vector2i.zero());
     }
 
-    private static Vector2i build(Layout layout, Theme theme, UIComponent uiComponent, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners, Vector2i size) {
+    private static Vector2i build(Layout layout, Theme theme, UIComponent uiComponent, List<Renderable> renderables, List<Renderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<GuiEventListener> eventListeners, Vector2i size) {
         if (uiComponent instanceof DynamicUIComponent) {
             DynamicUIComponent dynamicUIComponent = ((DynamicUIComponent)uiComponent);
             if (dynamicUIComponent.renderables == null) dynamicUIComponent.renderables = new DynamicUIComponent.DynamicChange<>();
@@ -42,8 +42,8 @@ public class UIBuilder {
             dynamicUIComponents.add(dynamicUIComponent);
         }
 
-        if (uiComponent instanceof IGuiEventListener) {
-            eventListeners.add((IGuiEventListener) uiComponent);
+        if (uiComponent instanceof GuiEventListener) {
+            eventListeners.add((GuiEventListener) uiComponent);
         }
         
         if (uiComponent instanceof PrimitiveUIComponent) {
@@ -63,7 +63,7 @@ public class UIBuilder {
         return resultSize;
     }
     
-    private static void finishDynamicUIComponent(UIComponent uiComponent, List<IRenderable> renderables, List<IRenderable> tooltips, List<IGuiEventListener> eventListeners, List<DynamicUIComponent> dynamicUIComponents) {
+    private static void finishDynamicUIComponent(UIComponent uiComponent, List<Renderable> renderables, List<Renderable> tooltips, List<GuiEventListener> eventListeners, List<DynamicUIComponent> dynamicUIComponents) {
         if (uiComponent instanceof DynamicUIComponent) {
             DynamicUIComponent dynamicUIComponent = (DynamicUIComponent) uiComponent;
 

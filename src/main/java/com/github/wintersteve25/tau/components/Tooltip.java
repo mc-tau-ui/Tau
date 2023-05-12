@@ -8,19 +8,18 @@ import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.Color;
 import com.github.wintersteve25.tau.utils.Vector2i;
-import net.minecraft.client.MainWindow;
+import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.IRenderable;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.util.text.ITextProperties;
-import net.minecraftforge.fml.client.gui.GuiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public final class Tooltip implements PrimitiveUIComponent {
-    
+
     private final List<ITextProperties> text;
     private final UIComponent child;
     private final Color color;
@@ -36,10 +35,10 @@ public final class Tooltip implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, Theme theme, List<Renderable> renderables, List<Renderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<GuiEventListener> eventListeners) {
         Minecraft minecraft = Minecraft.getInstance();
-        FontRenderer fontRenderer = minecraft.font;
-        MainWindow window = minecraft.getWindow();
+        Font fontRenderer = minecraft.font;
+        Window window = minecraft.getWindow();
         int screenWidth = window.getGuiScaledWidth();
         int screenHeight = window.getGuiScaledHeight();
         
@@ -50,9 +49,9 @@ public final class Tooltip implements PrimitiveUIComponent {
         Color actualBorder = borderStart == null ? theme.getTooltipBorderStartColor() : borderStart;
         Color actualBorderEnd = borderEnd == null ? theme.getTooltipBorderEndColor() : borderEnd;
         
-        tooltips.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> {
+        tooltips.add((pPoseStack, pMouseX, pMouseY, pPartialTicks) -> {
             if (Vector2i.within(pMouseX, pMouseY, position.x, position.y, size.x, size.y)) {
-                GuiUtils.drawHoveringText(pMatrixStack, text, pMouseX, pMouseY, screenWidth, screenHeight, -1, actualColor.getAARRGGBB(), actualBorder.getAARRGGBB(), actualBorderEnd.getAARRGGBB(), fontRenderer);
+                GuiUtils.drawHoveringText(pPoseStack, text, pMouseX, pMouseY, screenWidth, screenHeight, -1, actualColor.getAARRGGBB(), actualBorder.getAARRGGBB(), actualBorderEnd.getAARRGGBB(), fontRenderer);
             } 
         });
         

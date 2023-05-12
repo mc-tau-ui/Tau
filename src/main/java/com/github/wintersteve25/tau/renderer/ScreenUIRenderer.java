@@ -2,8 +2,8 @@ package com.github.wintersteve25.tau.renderer;
 
 import com.github.wintersteve25.tau.theme.MinecraftTheme;
 import com.github.wintersteve25.tau.theme.Theme;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.gui.IRenderable;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.StringTextComponent;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
@@ -18,8 +18,8 @@ import java.util.List;
 public class ScreenUIRenderer extends Screen {
     
     private final UIComponent uiComponent;
-    private final List<IRenderable> components;
-    private final List<IRenderable> tooltips;
+    private final List<Renderable> components;
+    private final List<Renderable> tooltips;
     private final List<DynamicUIComponent> dynamicUIComponents;
     private final boolean renderBackground;
     private final Theme theme;
@@ -71,17 +71,17 @@ public class ScreenUIRenderer extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
+    public void render(PoseStack PoseStack, int pMouseX, int pMouseY, float pPartialTicks) {
         if (renderBackground) {
-            this.renderBackground(matrixStack);
+            this.renderBackground(PoseStack);
         }
         
-        for (IRenderable component : components) {
-            component.render(matrixStack, pMouseX, pMouseY, pPartialTicks);
+        for (Renderable component : components) {
+            component.render(PoseStack, pMouseX, pMouseY, pPartialTicks);
         }
         
-        for (IRenderable tooltip : tooltips) {
-            tooltip.render(matrixStack, pMouseX, pMouseY, pPartialTicks);
+        for (Renderable tooltip : tooltips) {
+            tooltip.render(PoseStack, pMouseX, pMouseY, pPartialTicks);
         }
     }
 }
