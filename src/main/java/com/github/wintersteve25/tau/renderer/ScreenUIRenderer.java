@@ -53,7 +53,6 @@ public class ScreenUIRenderer extends Screen {
         tooltips.clear();
         dynamicUIComponents.clear();
         UIBuilder.build(layout, theme, uiComponent, components, tooltips, dynamicUIComponents, (List<GuiEventListener>) children());
-        Collections.reverse(children());
         
         built = true;
     }

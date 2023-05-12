@@ -10,11 +10,11 @@ import com.github.wintersteve25.tau.utils.Vector2i;
 
 import java.util.List;
 
-public final class TauRenderable implements PrimitiveUIComponent {
+public final class RenderableComponent implements PrimitiveUIComponent {
     
     private final Renderable renderable;
 
-    public TauRenderable(Renderable renderable) {
+    public RenderableComponent(Renderable renderable) {
         this.renderable = renderable;
     }
 

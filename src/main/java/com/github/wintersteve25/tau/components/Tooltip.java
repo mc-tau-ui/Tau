@@ -9,11 +9,24 @@ import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.Color;
 import com.github.wintersteve25.tau.utils.Vector2i;
 import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
+import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.FormattedText;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.gui.ScreenUtils;
+import org.joml.Matrix4f;
+import org.joml.Vector2ic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +35,10 @@ public final class Tooltip implements PrimitiveUIComponent {
 
     private final List<FormattedText> text;
     private final UIComponent child;
-    private final Color color;
-    private final Color borderStart;
-    private final Color borderEnd;
-
-    public Tooltip(List<FormattedText> text, UIComponent child, Color color, Color borderStart, Color borderEnd) {
+    
+    public Tooltip(List<FormattedText> text, UIComponent child) {
         this.text = text;
         this.child = child;
-        this.color = color;
-        this.borderStart = borderStart;
-        this.borderEnd = borderEnd;
     }
 
     @Override
@@ -45,26 +52,17 @@ public final class Tooltip implements PrimitiveUIComponent {
         Vector2i size = UIBuilder.build(layout, theme, child, renderables, tooltips, dynamicUIComponents, eventListeners);
         Vector2i position = layout.getPosition(size);
         
-        Color actualColor = color == null ? theme.getTooltipColor() : color;
-        Color actualBorder = borderStart == null ? theme.getTooltipBorderStartColor() : borderStart;
-        Color actualBorderEnd = borderEnd == null ? theme.getTooltipBorderEndColor() : borderEnd;
-        
         tooltips.add((pPoseStack, pMouseX, pMouseY, pPartialTicks) -> {
             if (Vector2i.within(pMouseX, pMouseY, position.x, position.y, size.x, size.y)) {
-                // TODO: Where is GuiUtils?
-//                GuiUtils.drawHoveringText(pPoseStack, text, pMouseX, pMouseY, screenWidth, screenHeight, -1,
-//                        actualColor.getAARRGGBB(), actualBorder.getAARRGGBB(), actualBorderEnd.getAARRGGBB(), fontRenderer);
+                theme.drawTooltip(pPoseStack, pMouseX, pMouseY, screenWidth, screenHeight, fontRenderer, text);
             } 
         });
 
         return size;
     }
-
+    
     public static final class Builder {
         private final List<FormattedText> text;
-        private Color color;
-        private Color borderStart;
-        private Color borderEnd;
 
         public Builder() {
             text = new ArrayList<>();
@@ -80,23 +78,8 @@ public final class Tooltip implements PrimitiveUIComponent {
             return this;
         }
 
-        public Builder withColor(Color color) {
-            this.color = color;
-            return this;
-        }
-
-        public Builder withBorderStart(Color borderStart) {
-            this.borderStart = borderStart;
-            return this;
-        }
-
-        public Builder withBorderEnd(Color borderEnd) {
-            this.borderEnd = borderEnd;
-            return this;
-        }
-
         public Tooltip build(UIComponent child) {
-            return new Tooltip(text, child, color, borderStart, borderEnd);
+            return new Tooltip(text, child);
         }
     }
 }

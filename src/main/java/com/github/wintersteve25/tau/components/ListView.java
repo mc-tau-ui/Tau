@@ -1,5 +1,6 @@
 package com.github.wintersteve25.tau.components;
 
+import com.github.wintersteve25.tau.Tau;
 import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.Renderable;
@@ -78,7 +79,7 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
             layout,
             theme,
             new Clip.Builder()
-                .build(new TauRenderable((pPoseStack, pMouseX, pMouseY, pPartialTicks) -> {
+                .build(new RenderableComponent((pPoseStack, pMouseX, pMouseY, pPartialTicks) -> {
                     for (Renderable renderable : childrenRenderables) {
                         renderable.render(pPoseStack, pMouseX, pMouseY, pPartialTicks);
                     }
@@ -92,8 +93,14 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
 
     @Override
     public boolean mouseScrolled(double pMouseX, double pMouseY, double pDelta) {
-        if (!canScrollDown && pDelta < 0) return GuiEventListener.super.mouseScrolled(pMouseX, pMouseY, pDelta);
-        if (!canScrollUp && pDelta > 0) return GuiEventListener.super.mouseScrolled(pMouseX, pMouseY, pDelta);
+        if (!canScrollDown && pDelta < 0) {
+            return GuiEventListener.super.mouseScrolled(pMouseX, pMouseY, pDelta);
+        }
+        
+        if (!canScrollUp && pDelta > 0) {
+            return GuiEventListener.super.mouseScrolled(pMouseX, pMouseY, pDelta);
+        }
+        
         scrollOffset += pDelta > 0 ? -1 : 1;
         rebuild();
         return true;

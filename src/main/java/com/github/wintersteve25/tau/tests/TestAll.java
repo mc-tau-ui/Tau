@@ -28,7 +28,6 @@ public class TestAll implements UIComponent {
                 new TestButton(new TestRender()),
                 new TestButton(new TestRenderable()),
                 new TestButton(new TestRow()),
-                new TestButton(new TestRow()),
                 new TestButton(new TestSized()),
                 new TestButton(new TestSlider()),
                 new TestButton(new TestStack()),

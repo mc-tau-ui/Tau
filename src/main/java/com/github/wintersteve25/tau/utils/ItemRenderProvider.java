@@ -1,9 +1,12 @@
 package com.github.wintersteve25.tau.utils;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -29,19 +32,17 @@ public class ItemRenderProvider implements RenderProvider {
     }
 
     @Override
-    public void render(PoseStack PoseStack, int mouseX, int mouseY, float partialTicks, int x, int y, int width, int height) {
-        renderItemStackInGui(PoseStack, itemStack, x, y, width, height);
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks, int x, int y, int width, int height) {
+        renderItemStackInGui(poseStack, itemStack, x, y, width, height);
     }
 
-    private static void renderItemStackInGui(PoseStack PoseStack, ItemStack stackToRender, int x, int y, int width, int height) {
-        RenderSystem.pushMatrix();
-        RenderSystem.multMatrix(PoseStack.last().pose());
+    private static void renderItemStackInGui(PoseStack poseStack, ItemStack stackToRender, int x, int y, int width, int height) {
+        poseStack.pushPose();
+        poseStack.mulPoseMatrix(poseStack.last().pose());
         RenderSystem.enableDepthTest();
-        RenderHelper.turnBackOn();
         renderItemModelIntoGUI(stackToRender, x, y, width, height);
         RenderSystem.disableBlend();
-        RenderHelper.turnOff();
-        RenderSystem.popMatrix();
+        poseStack.popPose();
     }
 
     //modified from renderItemModelIntoGUI in ItemRenderer class in vanilla
@@ -51,35 +52,33 @@ public class ItemRenderProvider implements RenderProvider {
         ItemRenderer renderer = minecraft.getItemRenderer();
         BakedModel bakedmodel = renderer.getModel(stack, null, null, 0);
 
-        RenderSystem.pushMatrix();
-        minecraft.textureManager.bind(TextureAtlas.LOCATION_BLOCKS);
         minecraft.textureManager.getTexture(TextureAtlas.LOCATION_BLOCKS).setFilter(false, false);
-        RenderSystem.enableRescaleNormal();
-        RenderSystem.enableAlphaTest();
-        RenderSystem.defaultAlphaFunc();
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.translatef((float)x, (float)y, 100.0F + renderer.blitOffset);
-        RenderSystem.translatef(xScale / 2, yScale / 2, 0.0F);
-        RenderSystem.scalef(1.0F, -1.0F, 1.0F);
-        RenderSystem.scalef(xScale, yScale, 16.0F);
-        PoseStack PoseStack = new PoseStack();
-        IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().renderBuffers().bufferSource();
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        PoseStack posestack = RenderSystem.getModelViewStack();
+        posestack.pushPose();
+        posestack.translate((float) x, (float) y, 100.0F);
+        posestack.translate(8.0F, 8.0F, 0.0F);
+        posestack.scale(1.0F, -1.0F, 1.0F);
+        posestack.scale(16.0F, 16.0F, 16.0F);
+        RenderSystem.applyModelViewMatrix();
+        PoseStack posestack1 = new PoseStack();
+        MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
         boolean flag = !bakedmodel.usesBlockLight();
         if (flag) {
-            RenderHelper.setupForFlatItems();
+            Lighting.setupForFlatItems();
         }
 
-        renderer.render(stack, ItemCameraTransforms.TransformType.GUI, false, PoseStack, irendertypebuffer$impl, 15728880, OverlayTexture.NO_OVERLAY, bakedmodel);
-        irendertypebuffer$impl.endBatch();
+        renderer.render(stack, ItemTransforms.TransformType.GUI, false, posestack1, multibuffersource$buffersource, 15728880, OverlayTexture.NO_OVERLAY, bakedmodel);
+        multibuffersource$buffersource.endBatch();
         RenderSystem.enableDepthTest();
         if (flag) {
-            RenderHelper.setupFor3DItems();
+            Lighting.setupFor3DItems();
         }
 
-        RenderSystem.disableAlphaTest();
-        RenderSystem.disableRescaleNormal();
-        RenderSystem.popMatrix();
+        posestack.popPose();
+        RenderSystem.applyModelViewMatrix();
     }
 }

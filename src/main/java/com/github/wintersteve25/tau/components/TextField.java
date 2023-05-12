@@ -3,7 +3,6 @@ package com.github.wintersteve25.tau.components;
 import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.FormattedText;
 import net.minecraft.util.FormattedCharSequence;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
@@ -14,8 +13,8 @@ import java.util.function.Predicate;
 
 public final class TextField implements UIComponent {
 
-    private final FormattedText message;
-    private final FormattedText hintText;
+    private final Component message;
+    private final Component hintText;
     private final Consumer<String> onChange;
     private final Predicate<String> validator;
     private final BiFunction<String, Integer, FormattedCharSequence> formatter;
@@ -35,9 +34,8 @@ public final class TextField implements UIComponent {
     }
     
     private static final class TextFieldWidget extends net.minecraft.client.gui.components.EditBox {
-        public TextFieldWidget(FormattedText message, FormattedText hintText, Consumer<String> onChange,
-                               Predicate<String> validator, BiFunction<String, Integer, FormattedCharSequence> formatter) {
-            super(Minecraft.getInstance().font, 0, 0, 0, 0, (Component) message);
+        public TextFieldWidget(Component message, Component hintText, Consumer<String> onChange, Predicate<String> validator, BiFunction<String, Integer, FormattedCharSequence> formatter) {
+            super(Minecraft.getInstance().font, 0, 0, 0, 0, message);
             if (validator != null) setFilter(validator);
             if (hintText != null) setSuggestion(hintText.getString());
             if (formatter != null) setFormatter(formatter);
@@ -92,8 +90,7 @@ public final class TextField implements UIComponent {
         }
 
         public TextField build() {
-            return new TextField(message == null ? (Component) FormattedText.EMPTY : message, onChange, validator, hintText,
-                    formatter);
+            return new TextField(message == null ? Component.empty() : message, onChange, validator, hintText, formatter);
         }
 
         @Override

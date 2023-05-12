@@ -33,12 +33,4 @@ public class TestDynamic extends DynamicUIComponent implements GuiEventListener 
         rebuild();
         return GuiEventListener.super.mouseClicked(pMouseX, pMouseY, pButton);
     }
-    
-    private static class Test implements UIComponent {
-        
-        @Override
-        public UIComponent build(Layout layout, Theme theme) {
-            return null;
-        }
-    }
 }

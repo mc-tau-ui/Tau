@@ -25,8 +25,7 @@ public class UIBuilder {
     }
 
     private static Vector2i build(Layout layout, Theme theme, UIComponent uiComponent, List<Renderable> renderables, List<Renderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<GuiEventListener> eventListeners, Vector2i size) {
-        if (uiComponent instanceof DynamicUIComponent) {
-            DynamicUIComponent dynamicUIComponent = ((DynamicUIComponent)uiComponent);
+        if (uiComponent instanceof DynamicUIComponent dynamicUIComponent) {
             if (dynamicUIComponent.renderables == null) dynamicUIComponent.renderables = new DynamicUIComponent.DynamicChange<>();
             if (dynamicUIComponent.tooltips == null) dynamicUIComponent.tooltips = new DynamicUIComponent.DynamicChange<>();
             if (dynamicUIComponent.dynamicUIComponents == null) dynamicUIComponent.dynamicUIComponents = new DynamicUIComponent.DynamicChange<>();
@@ -46,8 +45,7 @@ public class UIBuilder {
             eventListeners.add((GuiEventListener) uiComponent);
         }
         
-        if (uiComponent instanceof PrimitiveUIComponent) {
-            PrimitiveUIComponent primitiveUIComponent = (PrimitiveUIComponent) uiComponent;
+        if (uiComponent instanceof PrimitiveUIComponent primitiveUIComponent) {
             size.add(primitiveUIComponent.build(layout, theme, renderables, tooltips, dynamicUIComponents, eventListeners));
         }
         
@@ -64,8 +62,7 @@ public class UIBuilder {
     }
     
     private static void finishDynamicUIComponent(UIComponent uiComponent, List<Renderable> renderables, List<Renderable> tooltips, List<GuiEventListener> eventListeners, List<DynamicUIComponent> dynamicUIComponents) {
-        if (uiComponent instanceof DynamicUIComponent) {
-            DynamicUIComponent dynamicUIComponent = (DynamicUIComponent) uiComponent;
+        if (uiComponent instanceof DynamicUIComponent dynamicUIComponent) {
 
             if(dynamicUIComponent.renderables.endIndex == -1) dynamicUIComponent.renderables.endIndex = renderables.size();
             if(dynamicUIComponent.tooltips.endIndex == -1) dynamicUIComponent.tooltips.endIndex = tooltips.size();

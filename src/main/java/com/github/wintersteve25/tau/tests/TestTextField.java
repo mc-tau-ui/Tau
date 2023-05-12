@@ -8,7 +8,7 @@ import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.Size;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.network.chat.Component;
 
 public class TestTextField implements UIComponent {
     @Override
@@ -17,7 +17,7 @@ public class TestTextField implements UIComponent {
             new Sized(
                 Size.staticSize(200, 20),
                 new TextField.Builder()
-                    .withHintText(new StringTextComponent("hint text"))
+                    .withHintText(Component.literal("Hint Text"))
                     .withOnChange(Tau.LOGGER::info)
             )
         );

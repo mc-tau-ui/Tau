@@ -20,6 +20,7 @@ version = "${versions}"
 group = "com.github.wintersteve25" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "${modid}"
 
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
     mappings channel: 'parchment', version: '2023.03.12-1.19.3'
@@ -74,9 +75,9 @@ sourceSets {
     main {
         resources { srcDir 'src/generated/resources' }
         // exclude tests
-        java {
-            exclude 'com/github/wintersteve25/tau/tests'
-        }
+//        java {
+//            exclude 'com/github/wintersteve25/tau/tests'
+//        }
     }
 }
 
