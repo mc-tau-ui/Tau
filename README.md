@@ -23,8 +23,8 @@ public class ExampleUI implements UIComponent {
             new Center(new Sized(
                 Size.staticSize(new Vector2i(100, 20)),
                 new TextField.Builder()
-                    .withMessage(new StringTextComponent("Hello"))
-                    .withHintText(new StringTextComponent("Hello!")))
+                    .withMessage(new TextComponent("Hello"))
+                    .withHintText(new TextComponent("Hello!")))
         ));
     }
 }
