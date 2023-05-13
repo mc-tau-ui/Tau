@@ -1,4 +1,4 @@
-# v1.0.0 - 1.19.3 Major Update
+# v1.0.0-1.18 Major Update
 ## Others
 - Ported most functionalities to minecraft version 1.18.2
 - Changes below are the differences compared for Tau v1.2.0 - 1.16.x
