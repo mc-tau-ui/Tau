@@ -17,7 +17,7 @@ Here are some example code that can be used to set up a simple Tau UI
 ```java
 public class ExampleUI implements UIComponent {
     @Override
-    public UIComponent build(Layout layout) {
+    public UIComponent build(Layout layout, Theme theme) {
         return new Stack(
             new Container.Builder().withColor(Color.WHITE),
             new Center(new Sized(
