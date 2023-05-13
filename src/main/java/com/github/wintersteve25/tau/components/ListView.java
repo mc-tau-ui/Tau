@@ -1,8 +1,9 @@
 package com.github.wintersteve25.tau.components;
 
+import com.github.wintersteve25.tau.Tau;
 import com.github.wintersteve25.tau.theme.Theme;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.IRenderable;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.components.Renderable;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
 import com.github.wintersteve25.tau.components.base.UIComponent;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public final class ListView extends DynamicUIComponent implements PrimitiveUIComponent, IGuiEventListener {
+public final class ListView extends DynamicUIComponent implements PrimitiveUIComponent, GuiEventListener {
     
     private final List<UIComponent> children;
     private final LayoutSetting childrenAlignment;
@@ -36,7 +37,7 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
     }
 
     @Override
-    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, Theme theme, List<Renderable> renderables, List<Renderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<GuiEventListener> eventListeners) {
         Vector2i childrenSize = Vector2i.zero();
         size = layout.getSize();
         
@@ -67,7 +68,7 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
         position = layout.getPosition(size);
         Layout childrenLayout = new Layout(size.x, size.y, position.x, position.y);
         childrenLayout.pushLayoutSetting(Axis.HORIZONTAL, childrenAlignment);
-        List<IRenderable> childrenRenderables = new ArrayList<>();
+        List<Renderable> childrenRenderables = new ArrayList<>();
         
         for (int i = scrollOffset; i < (childrensCanFit == -1 ? children.size() : childrensCanFit); i++) {
             Vector2i childSize = UIBuilder.build(childrenLayout, theme, children.get(i), childrenRenderables, tooltips, dynamicUIComponents, eventListeners);
@@ -78,9 +79,9 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
             layout,
             theme,
             new Clip.Builder()
-                .build(new Renderable((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> {
-                    for (IRenderable renderable : childrenRenderables) {
-                        renderable.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
+                .build(new RenderableComponent((pPoseStack, pMouseX, pMouseY, pPartialTicks) -> {
+                    for (Renderable renderable : childrenRenderables) {
+                        renderable.render(pPoseStack, pMouseX, pMouseY, pPartialTicks);
                     }
                 })),
             renderables, 
@@ -92,8 +93,14 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
 
     @Override
     public boolean mouseScrolled(double pMouseX, double pMouseY, double pDelta) {
-        if (!canScrollDown && pDelta < 0) return IGuiEventListener.super.mouseScrolled(pMouseX, pMouseY, pDelta);
-        if (!canScrollUp && pDelta > 0) return IGuiEventListener.super.mouseScrolled(pMouseX, pMouseY, pDelta);
+        if (!canScrollDown && pDelta < 0) {
+            return GuiEventListener.super.mouseScrolled(pMouseX, pMouseY, pDelta);
+        }
+        
+        if (!canScrollUp && pDelta > 0) {
+            return GuiEventListener.super.mouseScrolled(pMouseX, pMouseY, pDelta);
+        }
+        
         scrollOffset += pDelta > 0 ? -1 : 1;
         rebuild();
         return true;

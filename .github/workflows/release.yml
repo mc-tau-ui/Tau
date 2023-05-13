@@ -1,15 +1,15 @@
-name: Build and Release for 1.16
+name: Build and Release for 1.19
 
 on:
   push:
-    branches: [ 1.16-release ]
+    branches: [ 1.19-release ]
 
 jobs:
   build:
     name: Builds and Release on Github and Saps
     uses: nanite/workflows/.github/workflows/standard-release.yml@v1
     with:
-      java-version: 8
+      java-version: 17
       curse-publish-task: ""
     secrets:
       saps-token: ${{ secrets.SAPS_TOKEN }}
@@ -27,9 +27,10 @@ jobs:
           curseforge-id: 845405
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
   
+          files-primary: build/libs/*.jar
+          changelog-file: CHANGELOG.md
+  
           loaders: forge
           game-versions: |
-            1.16.3
-            1.16.4
-            1.16.5
-          java: 8
+            1.19.3
+          java: 17

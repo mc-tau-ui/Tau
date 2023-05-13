@@ -8,7 +8,7 @@ import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.ItemRenderProvider;
 import com.github.wintersteve25.tau.utils.Size;
-import net.minecraft.item.Items;
+import net.minecraft.world.item.Items;
 
 public class TestRender implements UIComponent {
     @Override

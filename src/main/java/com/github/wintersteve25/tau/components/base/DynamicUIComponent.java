@@ -1,8 +1,8 @@
 package com.github.wintersteve25.tau.components.base;
 
 import com.github.wintersteve25.tau.theme.Theme;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.IRenderable;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.components.Renderable;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.build.UIBuilder;
 
@@ -18,10 +18,10 @@ public abstract class DynamicUIComponent implements UIComponent {
     public Layout layout;
     public Theme theme;
     
-    public DynamicChange<IRenderable> renderables;
-    public DynamicChange<IRenderable> tooltips;
+    public DynamicChange<Renderable> renderables;
+    public DynamicChange<Renderable> tooltips;
     public DynamicChange<DynamicUIComponent> dynamicUIComponents;
-    public DynamicChange<IGuiEventListener> eventListeners;
+    public DynamicChange<GuiEventListener> eventListeners;
     public boolean dirty;
     
     protected void rebuild() {
@@ -29,10 +29,10 @@ public abstract class DynamicUIComponent implements UIComponent {
     }
     
     public final void rebuildImmediately() {
-        List<IRenderable> replacementRenderables = new ArrayList<>();
-        List<IRenderable> replacementTooltips = new ArrayList<>();
+        List<Renderable> replacementRenderables = new ArrayList<>();
+        List<Renderable> replacementTooltips = new ArrayList<>();
         List<DynamicUIComponent> replacementDynamicUIComponents = new ArrayList<>();
-        List<IGuiEventListener> replacementEventListeners = new ArrayList<>();
+        List<GuiEventListener> replacementEventListeners = new ArrayList<>();
 
         UIBuilder.build(layout, theme, this, replacementRenderables, replacementTooltips, replacementDynamicUIComponents, replacementEventListeners);
 

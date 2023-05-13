@@ -3,10 +3,10 @@ package com.github.wintersteve25.tau.components;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.IRenderable;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.resources.ResourceLocation;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
@@ -31,14 +31,16 @@ public final class Texture implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, Theme theme, List<Renderable> renderables, List<Renderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<GuiEventListener> eventListeners) {
 
         Minecraft minecraft = Minecraft.getInstance();
         Vector2i position = layout.getPosition(uvSize);
         
-        renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> {
-            minecraft.getTextureManager().bind(textureLocation);
-            AbstractGui.blit(pMatrixStack, position.x, position.y, size.x, size.y, uv.x, uv.y, uvSize.x, uvSize.y, textureSize.x, textureSize.y);
+        renderables.add((pPoseStack, pMouseX, pMouseY, pPartialTicks) -> {
+            minecraft.getTextureManager().bindForSetup(textureLocation);
+            GuiComponent.blit(pPoseStack, position.x, position.y, size.x, size.y, uv.x, uv.y, uvSize.x, uvSize.y,
+                    textureSize.x,
+                    textureSize.y);
         });
         
         return uvSize;

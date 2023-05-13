@@ -6,7 +6,7 @@ import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.transformations.ScaleTransform;
 import com.github.wintersteve25.tau.utils.transformations.TranslationTransform;
-import net.minecraft.util.math.vector.Vector3f;
+import org.joml.Vector3f;
 
 public class TestTransform implements UIComponent {
     @Override

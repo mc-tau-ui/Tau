@@ -9,9 +9,9 @@ import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.Color;
 import com.github.wintersteve25.tau.utils.Pad;
 import com.github.wintersteve25.tau.utils.Size;
-import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 
-public class TestDynamic extends DynamicUIComponent implements IGuiEventListener {
+public class TestDynamic extends DynamicUIComponent implements GuiEventListener {
     private boolean clicked;
 
     @Override
@@ -31,14 +31,6 @@ public class TestDynamic extends DynamicUIComponent implements IGuiEventListener
     @Override
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
         rebuild();
-        return IGuiEventListener.super.mouseClicked(pMouseX, pMouseY, pButton);
-    }
-    
-    private static class Test implements UIComponent {
-        
-        @Override
-        public UIComponent build(Layout layout, Theme theme) {
-            return null;
-        }
+        return GuiEventListener.super.mouseClicked(pMouseX, pMouseY, pButton);
     }
 }

@@ -1,8 +1,7 @@
 package com.github.wintersteve25.tau.utils.transformations;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.util.math.vector.Vector3f;
-import com.github.wintersteve25.tau.utils.Vector2i;
+import com.mojang.blaze3d.vertex.PoseStack;
+import org.joml.Vector3f;
 
 public class TranslationTransform implements Transformation {
     
@@ -13,7 +12,7 @@ public class TranslationTransform implements Transformation {
     }
 
     @Override
-    public void transform(MatrixStack matrixStack) {
-        matrixStack.translate(translation.x(), translation.y(), translation.z());
+    public void transform(PoseStack PoseStack) {
+        PoseStack.translate(translation.x(), translation.y(), translation.z());
     }
 }

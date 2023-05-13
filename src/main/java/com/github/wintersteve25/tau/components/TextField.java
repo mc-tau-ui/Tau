@@ -2,9 +2,8 @@ package com.github.wintersteve25.tau.components;
 
 import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.IReorderingProcessor;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
 
@@ -14,13 +13,14 @@ import java.util.function.Predicate;
 
 public final class TextField implements UIComponent {
 
-    private final ITextComponent message;
-    private final ITextComponent hintText;
+    private final Component message;
+    private final Component hintText;
     private final Consumer<String> onChange;
     private final Predicate<String> validator;
-    private final BiFunction<String, Integer, IReorderingProcessor> formatter;
+    private final BiFunction<String, Integer, FormattedCharSequence> formatter;
 
-    public TextField(ITextComponent message, Consumer<String> onChange, Predicate<String> validator, ITextComponent hintText, BiFunction<String, Integer, IReorderingProcessor> formatter) {
+    public TextField(Component message, Consumer<String> onChange, Predicate<String> validator, Component hintText,
+                     BiFunction<String, Integer, FormattedCharSequence> formatter) {
         this.message = message;
         this.onChange = onChange;
         this.validator = validator;
@@ -33,8 +33,8 @@ public final class TextField implements UIComponent {
         return new WidgetWrapper(new TextFieldWidget(message, hintText, onChange, validator, formatter));
     }
     
-    private static final class TextFieldWidget extends net.minecraft.client.gui.widget.TextFieldWidget {
-        public TextFieldWidget(ITextComponent message, ITextComponent hintText, Consumer<String> onChange, Predicate<String> validator, BiFunction<String, Integer, IReorderingProcessor> formatter) {
+    private static final class TextFieldWidget extends net.minecraft.client.gui.components.EditBox {
+        public TextFieldWidget(Component message, Component hintText, Consumer<String> onChange, Predicate<String> validator, BiFunction<String, Integer, FormattedCharSequence> formatter) {
             super(Minecraft.getInstance().font, 0, 0, 0, 0, message);
             if (validator != null) setFilter(validator);
             if (hintText != null) setSuggestion(hintText.getString());
@@ -55,21 +55,21 @@ public final class TextField implements UIComponent {
     }
 
     public static final class Builder implements UIComponent {
-        private ITextComponent message;
-        private ITextComponent hintText;
+        private Component message;
+        private Component hintText;
         private Consumer<String> onChange;
         private Predicate<String> validator;
-        private BiFunction<String, Integer, IReorderingProcessor> formatter;
+        private BiFunction<String, Integer, FormattedCharSequence> formatter;
 
         public Builder() {
         }
 
-        public Builder withMessage(ITextComponent message) {
+        public Builder withMessage(Component message) {
             this.message = message;
             return this;
         }
 
-        public Builder withHintText(ITextComponent hintText) {
+        public Builder withHintText(Component hintText) {
             this.hintText = hintText;
             return this;
         }
@@ -84,13 +84,13 @@ public final class TextField implements UIComponent {
             return this;
         }
 
-        public Builder withFormatter(BiFunction<String, Integer, IReorderingProcessor> formatter) {
+        public Builder withFormatter(BiFunction<String, Integer, FormattedCharSequence> formatter) {
             this.formatter = formatter;
             return this;
         }
 
         public TextField build() {
-            return new TextField(message == null ? StringTextComponent.EMPTY : message, onChange, validator, hintText, formatter);
+            return new TextField(message == null ? Component.empty() : message, onChange, validator, hintText, formatter);
         }
 
         @Override

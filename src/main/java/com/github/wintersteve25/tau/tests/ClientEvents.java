@@ -12,7 +12,7 @@ import com.github.wintersteve25.tau.renderer.ScreenUIRenderer;
 @Mod.EventBusSubscriber(modid = Tau.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClientEvents {
     @SubscribeEvent
-    public static void onKeyDown(InputEvent.KeyInputEvent evet) {
+    public static void onKeyDown(InputEvent.Key evet) {
         if (evet.getKey() == GLFW.GLFW_KEY_G) {
             Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestAll(), true));
         }
