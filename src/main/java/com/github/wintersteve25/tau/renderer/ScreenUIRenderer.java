@@ -2,14 +2,15 @@ package com.github.wintersteve25.tau.renderer;
 
 import com.github.wintersteve25.tau.theme.MinecraftTheme;
 import com.github.wintersteve25.tau.theme.Theme;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.gui.IRenderable;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.text.StringTextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.components.Widget;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.build.UIBuilder;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TextComponent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,8 +19,8 @@ import java.util.List;
 public class ScreenUIRenderer extends Screen {
     
     private final UIComponent uiComponent;
-    private final List<IRenderable> components;
-    private final List<IRenderable> tooltips;
+    private final List<Widget> components;
+    private final List<Widget> tooltips;
     private final List<DynamicUIComponent> dynamicUIComponents;
     private final boolean renderBackground;
     private final Theme theme;
@@ -27,7 +28,7 @@ public class ScreenUIRenderer extends Screen {
     private boolean built;
     
     public ScreenUIRenderer(UIComponent uiComponent, boolean renderBackground, Theme theme) {
-        super(StringTextComponent.EMPTY);
+        super(TextComponent.EMPTY);
         this.uiComponent = uiComponent;
         this.renderBackground = renderBackground;
         this.theme = theme;
@@ -51,8 +52,7 @@ public class ScreenUIRenderer extends Screen {
         components.clear();
         tooltips.clear();
         dynamicUIComponents.clear();
-        UIBuilder.build(layout, theme, uiComponent, components, tooltips, dynamicUIComponents, children);
-        Collections.reverse(children);
+        UIBuilder.build(layout, theme, uiComponent, components, tooltips, dynamicUIComponents, (List<GuiEventListener>) children());
         
         built = true;
     }
@@ -71,17 +71,17 @@ public class ScreenUIRenderer extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
+    public void render(PoseStack poseStack, int pMouseX, int pMouseY, float pPartialTicks) {
         if (renderBackground) {
-            this.renderBackground(matrixStack);
+            this.renderBackground(poseStack);
         }
         
-        for (IRenderable component : components) {
-            component.render(matrixStack, pMouseX, pMouseY, pPartialTicks);
+        for (Widget component : components) {
+            component.render(poseStack, pMouseX, pMouseY, pPartialTicks);
         }
         
-        for (IRenderable tooltip : tooltips) {
-            tooltip.render(matrixStack, pMouseX, pMouseY, pPartialTicks);
+        for (Widget tooltip : tooltips) {
+            tooltip.render(poseStack, pMouseX, pMouseY, pPartialTicks);
         }
     }
 }

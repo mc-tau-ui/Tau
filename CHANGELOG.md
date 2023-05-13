@@ -55,7 +55,7 @@
 1. Added `Texture` that renders a texture
 2. Added `ListView` that displays a list of items in a columns and creates a scrollable view
 3. Added `Clip` that clips all graphics drawn outside its boundary
-4. Added `Renderable` that is just a wrapper for an IRenderable
+4. Added `Renderable` that is just a wrapper for an Widget
 
 ## Others
 1. Added `getPosition` overload in Layout that returns position in `Vector2i` and takes in the size with `Vector2i`
@@ -71,7 +71,7 @@
 11. Added new overload for static `Size`
 
 ## Known Issues
-1. IGuiEventListeners are interactable after being clipped
+1. GuiEventListeners are interactable after being clipped
 ---
 
 # v1.0.0 - Initial Release

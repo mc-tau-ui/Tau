@@ -1,19 +1,19 @@
 package com.github.wintersteve25.tau.utils;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 
 public class ItemRenderProvider implements RenderProvider {
 
@@ -32,19 +32,17 @@ public class ItemRenderProvider implements RenderProvider {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks, int x, int y, int width, int height) {
-        renderItemStackInGui(matrixStack, itemStack, x, y, width, height);
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks, int x, int y, int width, int height) {
+        renderItemStackInGui(poseStack, itemStack, x, y, width, height);
     }
 
-    private static void renderItemStackInGui(MatrixStack matrixStack, ItemStack stackToRender, int x, int y, int width, int height) {
-        RenderSystem.pushMatrix();
-        RenderSystem.multMatrix(matrixStack.last().pose());
+    private static void renderItemStackInGui(PoseStack poseStack, ItemStack stackToRender, int x, int y, int width, int height) {
+        poseStack.pushPose();
+        poseStack.mulPoseMatrix(poseStack.last().pose());
         RenderSystem.enableDepthTest();
-        RenderHelper.turnBackOn();
         renderItemModelIntoGUI(stackToRender, x, y, width, height);
         RenderSystem.disableBlend();
-        RenderHelper.turnOff();
-        RenderSystem.popMatrix();
+        poseStack.popPose();
     }
 
     //modified from renderItemModelIntoGUI in ItemRenderer class in vanilla
@@ -52,37 +50,35 @@ public class ItemRenderProvider implements RenderProvider {
 
         Minecraft minecraft = Minecraft.getInstance();
         ItemRenderer renderer = minecraft.getItemRenderer();
-        IBakedModel bakedmodel = renderer.getModel(stack, null, null);
+        BakedModel bakedmodel = renderer.getModel(stack, null, null, 0);
 
-        RenderSystem.pushMatrix();
-        minecraft.textureManager.bind(AtlasTexture.LOCATION_BLOCKS);
-        minecraft.textureManager.getTexture(AtlasTexture.LOCATION_BLOCKS).setFilter(false, false);
-        RenderSystem.enableRescaleNormal();
-        RenderSystem.enableAlphaTest();
-        RenderSystem.defaultAlphaFunc();
+        minecraft.textureManager.getTexture(TextureAtlas.LOCATION_BLOCKS).setFilter(false, false);
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.translatef((float)x, (float)y, 100.0F + renderer.blitOffset);
-        RenderSystem.translatef(xScale / 2, yScale / 2, 0.0F);
-        RenderSystem.scalef(1.0F, -1.0F, 1.0F);
-        RenderSystem.scalef(xScale, yScale, 16.0F);
-        MatrixStack matrixstack = new MatrixStack();
-        IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().renderBuffers().bufferSource();
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        PoseStack posestack = RenderSystem.getModelViewStack();
+        posestack.pushPose();
+        posestack.translate((float) x, (float) y, 100.0F);
+        posestack.translate(8.0F, 8.0F, 0.0F);
+        posestack.scale(1.0F, -1.0F, 1.0F);
+        posestack.scale(16.0F, 16.0F, 16.0F);
+        RenderSystem.applyModelViewMatrix();
+        PoseStack posestack1 = new PoseStack();
+        MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
         boolean flag = !bakedmodel.usesBlockLight();
         if (flag) {
-            RenderHelper.setupForFlatItems();
+            Lighting.setupForFlatItems();
         }
 
-        renderer.render(stack, ItemCameraTransforms.TransformType.GUI, false, matrixstack, irendertypebuffer$impl, 15728880, OverlayTexture.NO_OVERLAY, bakedmodel);
-        irendertypebuffer$impl.endBatch();
+        renderer.render(stack, ItemTransforms.TransformType.GUI, false, posestack1, multibuffersource$buffersource, 15728880, OverlayTexture.NO_OVERLAY, bakedmodel);
+        multibuffersource$buffersource.endBatch();
         RenderSystem.enableDepthTest();
         if (flag) {
-            RenderHelper.setupFor3DItems();
+            Lighting.setupFor3DItems();
         }
 
-        RenderSystem.disableAlphaTest();
-        RenderSystem.disableRescaleNormal();
-        RenderSystem.popMatrix();
+        posestack.popPose();
+        RenderSystem.applyModelViewMatrix();
     }
 }

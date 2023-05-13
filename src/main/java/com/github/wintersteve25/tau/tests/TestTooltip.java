@@ -2,9 +2,8 @@ package com.github.wintersteve25.tau.tests;
 
 import com.github.wintersteve25.tau.components.*;
 import com.github.wintersteve25.tau.theme.Theme;
-import com.github.wintersteve25.tau.utils.Color;
 import com.github.wintersteve25.tau.utils.Size;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.network.chat.TextComponent;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
 
@@ -15,7 +14,7 @@ public class TestTooltip implements UIComponent {
             new Center(new Sized(
                 Size.staticSize(200, 200),
                 new Tooltip.Builder()
-                    .withText(new StringTextComponent("Test"))
+                    .withText(new TextComponent("Test"))
                     .build(new Container.Builder())
             )),
             new Container.Builder()

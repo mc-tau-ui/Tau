@@ -2,9 +2,9 @@ package com.github.wintersteve25.tau.components.base;
 
 import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SimpleSound;
-import net.minecraft.util.SoundEvent;
 import com.github.wintersteve25.tau.layout.Layout;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvent;
 
 /**
  * The base of all UI Components
@@ -21,6 +21,6 @@ public interface UIComponent {
     }
     
     default void playSound(SoundEvent sound, float volume, float pitch) {
-        Minecraft.getInstance().getSoundManager().play(SimpleSound.forUI(sound, pitch, volume));
+        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(sound, pitch, volume));
     }
 }

@@ -1,11 +1,11 @@
 package com.github.wintersteve25.tau.components;
 
 import com.github.wintersteve25.tau.theme.Theme;
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.IRenderable;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.components.Widget;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
 import com.github.wintersteve25.tau.components.base.UIComponent;
@@ -30,12 +30,12 @@ public final class Clip implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, Theme theme, List<Widget> renderables, List<Widget> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<GuiEventListener> eventListeners) {
 
-        List<IRenderable> childrenRenderables = new ArrayList<>();
+        List<Widget> childrenRenderables = new ArrayList<>();
         Vector2i childSize = UIBuilder.build(layout, theme, child, childrenRenderables, tooltips, dynamicUIComponents, eventListeners);
 
-        MainWindow window = Minecraft.getInstance().getWindow();
+        Window window = Minecraft.getInstance().getWindow();
 
         Vector2i scaledClipSize = size.get(childSize);
         Vector2i scaledPosition = layout.getPosition(childSize);
@@ -48,11 +48,11 @@ public final class Clip implements PrimitiveUIComponent {
         int glWidth = (int) (scaledClipSize.x * guiScale);
         int glHeight = (int) (scaledClipSize.y * guiScale);
         
-        renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> {
+        renderables.add((pPoseStack, pMouseX, pMouseY, pPartialTicks) -> {
             RenderSystem.enableScissor(glX, glY, glWidth, glHeight);
 
-            for (IRenderable renderable : childrenRenderables) {
-                renderable.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
+            for (Widget renderable : childrenRenderables) {
+                renderable.render(pPoseStack, pMouseX, pMouseY, pPartialTicks);
             }
         
             RenderSystem.disableScissor(); 

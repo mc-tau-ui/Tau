@@ -2,9 +2,9 @@ package com.github.wintersteve25.tau.renderer;
 
 import com.github.wintersteve25.tau.theme.MinecraftTheme;
 import com.github.wintersteve25.tau.theme.Theme;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.MainWindow;
-import net.minecraft.client.gui.IRenderable;
+import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.components.Widget;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class HudUIRenderer {
     private final UIComponent uiComponent;
-    private final List<IRenderable> components;
+    private final List<Widget> components;
     private final List<DynamicUIComponent> dynamicUIComponents;
     private final Theme theme;
 
@@ -50,12 +50,12 @@ public class HudUIRenderer {
         UIBuilder.rebuildDynamics(dynamicUIComponents);
     }
     
-    public void render(MainWindow mainWindow, MatrixStack matrixStack, float pPartialTicks) {
+    public void render(Window mainWindow, PoseStack PoseStack, float pPartialTicks) {
         int width = mainWindow.getGuiScaledWidth();
         int height = mainWindow.getGuiScaledHeight();
         
-        for (IRenderable component : components) {
-            component.render(matrixStack, 0, 0, pPartialTicks);
+        for (Widget component : components) {
+            component.render(PoseStack, 0, 0, pPartialTicks);
         }
         
         if (width != screenWidth || height != screenHeight) {

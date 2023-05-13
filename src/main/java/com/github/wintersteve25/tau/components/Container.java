@@ -2,8 +2,8 @@ package com.github.wintersteve25.tau.components;
 
 import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.FlexSizeBehaviour;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.IRenderable;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.components.Widget;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
 import com.github.wintersteve25.tau.components.base.UIComponent;
@@ -29,16 +29,16 @@ public final class Container implements PrimitiveUIComponent {
     }
 
     @Override
-    public Vector2i build(Layout layout, Theme theme, List<IRenderable> renderables, List<IRenderable> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<IGuiEventListener> eventListeners) {
+    public Vector2i build(Layout layout, Theme theme, List<Widget> renderables, List<Widget> tooltips, List<DynamicUIComponent> dynamicUIComponents, List<GuiEventListener> eventListeners) {
         if (child == null && !drawBackground) {
             return layout.getSize();
         }
 
         Vector2i size = layout.getSize();
-        List<IRenderable> renderables1 = new ArrayList<>();
-        List<IRenderable> tooltips1 = new ArrayList<>();
+        List<Widget> renderables1 = new ArrayList<>();
+        List<Widget> tooltips1 = new ArrayList<>();
         List<DynamicUIComponent> dynamicUIComponents1 = new ArrayList<>();
-        List<IGuiEventListener> eventListeners1 = new ArrayList<>();
+        List<GuiEventListener> eventListeners1 = new ArrayList<>();
         
         if (child != null) {
             if (sizeBehaviour == FlexSizeBehaviour.MIN) {
@@ -54,7 +54,7 @@ public final class Container implements PrimitiveUIComponent {
             int x = layout.getPosition(Axis.HORIZONTAL, width);
             int y = layout.getPosition(Axis.VERTICAL, height);
 
-            renderables.add((pMatrixStack, pMouseX, pMouseY, pPartialTicks) -> theme.drawContainer(pMatrixStack, x, y, width, height, pPartialTicks, pMouseX, pMouseY));
+            renderables.add((pPoseStack, pMouseX, pMouseY, pPartialTicks) -> theme.drawContainer(pPoseStack, x, y, width, height, pPartialTicks, pMouseX, pMouseY));
         }
         
         renderables.addAll(renderables1);

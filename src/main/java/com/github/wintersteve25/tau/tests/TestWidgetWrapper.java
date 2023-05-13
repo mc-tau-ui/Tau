@@ -7,19 +7,19 @@ import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.Size;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraftforge.fml.client.gui.widget.Slider;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraftforge.client.gui.widget.ForgeSlider;
 
 public class TestWidgetWrapper implements UIComponent {
     @Override
     public UIComponent build(Layout layout, Theme theme) {
         return new Center(new Sized(
             Size.staticSize(200, 20),
-            new WidgetWrapper(new Slider(
+            new WidgetWrapper(new ForgeSlider(
                 0, 0, 0, 0,
-                new StringTextComponent("Prefix"),
-                new StringTextComponent("Suffix"),
-                0, 1, 0, true, true, (a) -> {}
+                new TextComponent("Prefix"),
+                new TextComponent("Suffix"),
+                0, 1, 0, true
             ))
         ));
     }
