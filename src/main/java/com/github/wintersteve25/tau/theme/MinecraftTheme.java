@@ -49,8 +49,7 @@ public class MinecraftTheme implements Theme {
     
     // Basically copied from Screen.renderTooltip
     @Override
-    public void drawTooltip(PoseStack poseStack, int mouseX, int mouseY, int screenWidth, int screenHeight, Font fontRenderer, List<FormattedText> tooltips) {
-        Font font = Minecraft.getInstance().font;
+    public void drawTooltip(PoseStack poseStack, int mouseX, int mouseY, int screenWidth, int screenHeight, Font font, List<FormattedText> tooltips) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         List<ClientTooltipComponent> components = ForgeHooksClient.gatherTooltipComponents(ItemStack.EMPTY, tooltips, mouseX, screenWidth, screenHeight, font, font);
 
