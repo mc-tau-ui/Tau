@@ -26,9 +26,9 @@ jobs:
   
           curseforge-id: 845405
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-  
-          files-primary: build/libs/*.jar
-          changelog-file: CHANGELOG.md
+          
+          files-primary: "./build/libs/*.jar"
+          changelog-file: "./CHANGELOG.md"
   
           loaders: forge
           game-versions: |
