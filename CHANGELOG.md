@@ -1,3 +1,6 @@
+# v1.0.1-1.18-HOTFIX
+- Excluded tests that were supposed to be excluded in the first place
+
 # v1.0.1-1.18 Minor Update
 ## Others
 - Fixed screen not being closed after hitting esc or e
