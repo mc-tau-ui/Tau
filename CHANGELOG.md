@@ -1,3 +1,7 @@
+# v1.2.1 - Minor Update
+## Others
+- Fixed screen not being closed after hitting esc or e
+
 # v1.2.0 - Major Update
 ## Others
 1. Removed Color Schemes

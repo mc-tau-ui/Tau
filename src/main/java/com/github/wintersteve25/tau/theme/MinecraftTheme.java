@@ -16,6 +16,8 @@ public class MinecraftTheme implements Theme {
     private static final Color TOOLTIP_BORDER_START = new Color(GuiUtils.DEFAULT_BORDER_COLOR_START);
     private static final Color TOOLTIP_BORDER_END = new Color(GuiUtils.DEFAULT_BORDER_COLOR_END);
     
+    
+    
     @Override
     public void drawButton(MatrixStack matrixStack, int x, int y, int width, int height, float partialTicks, int mouseX, int mouseY, InteractableState state) {
         GuiUtils.drawContinuousTexturedBox(matrixStack, TEXTURE, x, y, 0, 166 + state.getNumber() * 20, width, height, 200, 20, 2, 3, 2, 2, 0);
