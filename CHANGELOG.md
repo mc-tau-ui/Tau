@@ -1,3 +1,7 @@
+# v1.0.1-1.18 Minor Update
+## Others
+- Fixed screen not being closed after hitting esc or e
+
 # v1.0.0-1.18 Major Update
 ## Others
 - Ported most functionalities to minecraft version 1.18.2
