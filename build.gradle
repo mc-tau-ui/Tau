@@ -89,13 +89,6 @@ repositories {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.19.3-44.1.0'
-
-    // top
-//    implementation fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:1.16-3.1.4-22")
-
-    // jei
-//    implementation fg.deobf("mezz.jei:jei-${jei_version}")
-//    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

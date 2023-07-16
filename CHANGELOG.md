@@ -1,3 +1,7 @@
+# v1.0.1 - 1.19 Minor Upate
+## Others
+- Fixed screen not being closed after hitting esc or e
+
 # v1.0.0 - 1.19.3 Major Update
 ## Others
 - Ported most functionalities to minecraft version 1.19.3

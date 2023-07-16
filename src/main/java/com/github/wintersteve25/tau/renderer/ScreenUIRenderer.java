@@ -68,6 +68,8 @@ public class ScreenUIRenderer extends Screen {
         for (DynamicUIComponent dynamicUIComponent : dynamicUIComponents) {
             dynamicUIComponent.destroy();
         }
+        
+        super.onClose();
     }
 
     @Override
