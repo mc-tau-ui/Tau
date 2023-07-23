@@ -46,17 +46,16 @@ public class MinecraftTheme implements Theme {
     
     // Basically copied from Screen.renderTooltip
     @Override
-    public void drawTooltip(PoseStack poseStack, int mouseX, int mouseY, int screenWidth, int screenHeight, Font font, List<FormattedText> tooltips) {
+    public void drawTooltip(PoseStack poseStack, int mouseX, int mouseY, int screenWidth, int screenHeight, Font font, List<ClientTooltipComponent> tooltips) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-        List<ClientTooltipComponent> components = ForgeHooksClient.gatherTooltipComponents(ItemStack.EMPTY, tooltips, mouseX, screenWidth, screenHeight, font, font);
 
-        if (!components.isEmpty()) {
-         net.minecraftforge.client.event.RenderTooltipEvent.Pre preEvent = net.minecraftforge.client.ForgeHooksClient.onRenderTooltipPre(ItemStack.EMPTY, poseStack, mouseX, mouseY, screenWidth, screenHeight, components, font, font);
+        if (!tooltips.isEmpty()) {
+         net.minecraftforge.client.event.RenderTooltipEvent.Pre preEvent = net.minecraftforge.client.ForgeHooksClient.onRenderTooltipPre(ItemStack.EMPTY, poseStack, mouseX, mouseY, screenWidth, screenHeight, tooltips, font, font);
          if (preEvent.isCanceled()) return;
          int i = 0;
-         int j = components.size() == 1 ? -2 : 0;
+         int j = tooltips.size() == 1 ? -2 : 0;
 
-         for(ClientTooltipComponent clienttooltipcomponent : components) {
+         for(ClientTooltipComponent clienttooltipcomponent : tooltips) {
             int k = clienttooltipcomponent.getWidth(preEvent.getFont());
             if (k > i) {
                i = k;
@@ -87,7 +86,7 @@ public class MinecraftTheme implements Theme {
          RenderSystem.setShader(GameRenderer::getPositionColorShader);
          bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
          Matrix4f matrix4f = poseStack.last().pose();
-         net.minecraftforge.client.event.RenderTooltipEvent.Color colorEvent = net.minecraftforge.client.ForgeHooksClient.onRenderTooltipColor(ItemStack.EMPTY, poseStack, j2, k2, preEvent.getFont(), components);
+         net.minecraftforge.client.event.RenderTooltipEvent.Color colorEvent = net.minecraftforge.client.ForgeHooksClient.onRenderTooltipColor(ItemStack.EMPTY, poseStack, j2, k2, preEvent.getFont(), tooltips);
          fillGradient(matrix4f, bufferbuilder, j2 - 3, k2 - 4, j2 + i + 3, k2 - 3, 400, colorEvent.getBackgroundStart(), colorEvent.getBackgroundStart());
          fillGradient(matrix4f, bufferbuilder, j2 - 3, k2 + j + 3, j2 + i + 3, k2 + j + 4, 400, colorEvent.getBackgroundEnd(), colorEvent.getBackgroundEnd());
          fillGradient(matrix4f, bufferbuilder, j2 - 3, k2 - 3, j2 + i + 3, k2 + j + 3, 400, colorEvent.getBackgroundStart(), colorEvent.getBackgroundEnd());
@@ -109,8 +108,8 @@ public class MinecraftTheme implements Theme {
          poseStack.translate(0.0D, 0.0D, 400.0D);
          int l1 = k2;
 
-         for(int i2 = 0; i2 < components.size(); ++i2) {
-            ClientTooltipComponent clienttooltipcomponent1 = components.get(i2);
+         for(int i2 = 0; i2 < tooltips.size(); ++i2) {
+            ClientTooltipComponent clienttooltipcomponent1 = tooltips.get(i2);
             clienttooltipcomponent1.renderText(preEvent.getFont(), j2, l1, matrix4f, multibuffersource$buffersource);
             l1 += clienttooltipcomponent1.getHeight() + (i2 == 0 ? 2 : 0);
          }
@@ -119,8 +118,8 @@ public class MinecraftTheme implements Theme {
          poseStack.popPose();
          l1 = k2;
 
-         for(int l2 = 0; l2 < components.size(); ++l2) {
-            ClientTooltipComponent clienttooltipcomponent2 = components.get(l2);
+         for(int l2 = 0; l2 < tooltips.size(); ++l2) {
+            ClientTooltipComponent clienttooltipcomponent2 = tooltips.get(l2);
             clienttooltipcomponent2.renderImage(preEvent.getFont(), j2, l1, poseStack, itemRenderer, 400);
             l1 += clienttooltipcomponent2.getHeight() + (l2 == 0 ? 2 : 0);
          }

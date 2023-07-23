@@ -1,3 +1,8 @@
+# v1.0.2-1.18 Update
+## Others
+- Updated the tooltip parameter of the Theme.drawTooltip method to take in a list of `ClientTooltipComponent` instead of `FormattedText` to increase the capabilities of Tooltips
+- Added `withComponent` method for adding `ClientTooltipComponent` to tooltips to `Tooltip.Builder`
+
 # v1.0.1-1.18-HOTFIX
 - Excluded tests that were supposed to be excluded in the first place
 
