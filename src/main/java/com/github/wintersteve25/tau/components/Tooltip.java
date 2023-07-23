@@ -24,20 +24,24 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.gui.ScreenUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector2ic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public final class Tooltip implements PrimitiveUIComponent {
 
-    private final List<FormattedText> text;
+    private final List<ClientTooltipComponent> components;
+    private final List<FormattedText> texts;
     private final UIComponent child;
     
-    public Tooltip(List<FormattedText> text, UIComponent child) {
-        this.text = text;
+    public Tooltip(List<ClientTooltipComponent> components, List<FormattedText> texts, UIComponent child) {
+        this.components = components;
+        this.texts = texts;
         this.child = child;
     }
 
@@ -51,10 +55,20 @@ public final class Tooltip implements PrimitiveUIComponent {
         
         Vector2i size = UIBuilder.build(layout, theme, child, renderables, tooltips, dynamicUIComponents, eventListeners);
         Vector2i position = layout.getPosition(size);
+        AtomicReference<List<ClientTooltipComponent>> combined = new AtomicReference<>();
         
         tooltips.add((pPoseStack, pMouseX, pMouseY, pPartialTicks) -> {
             if (Vector2i.within(pMouseX, pMouseY, position.x, position.y, size.x, size.y)) {
-                theme.drawTooltip(pPoseStack, pMouseX, pMouseY, screenWidth, screenHeight, fontRenderer, text);
+                List<ClientTooltipComponent> components = ForgeHooksClient.gatherTooltipComponents(ItemStack.EMPTY, texts, pMouseX, screenWidth, screenHeight, fontRenderer, fontRenderer);
+                
+                if (combined.get() == null)
+                    combined.set(new ArrayList<>(components.size() + this.components.size()));
+                else
+                    combined.get().clear();
+                combined.get().addAll(components);
+                combined.get().addAll(this.components);
+                
+                theme.drawTooltip(pPoseStack, pMouseX, pMouseY, screenWidth, screenHeight, fontRenderer, combined.get());
             } 
         });
 
@@ -62,24 +76,36 @@ public final class Tooltip implements PrimitiveUIComponent {
     }
     
     public static final class Builder {
-        private final List<FormattedText> text;
+        private final List<ClientTooltipComponent> components;
+        private final List<FormattedText> texts;
 
         public Builder() {
-            text = new ArrayList<>();
+            components = new ArrayList<>();
+            texts = new ArrayList<>();
         }
 
         public Builder withText(List<FormattedText> text) {
-            this.text.addAll(text);
+            this.texts.addAll(text);
             return this;
         }
         
         public Builder withText(FormattedText text) {
-            this.text.add(text);
+            this.texts.add(text);
             return this;
         }
-
+        
+        public Builder withComponent(List<ClientTooltipComponent> components) {
+            this.components.addAll(components);
+            return this;
+        }
+        
+        public Builder withComponent(ClientTooltipComponent component) {
+            this.components.add(component);
+            return this;
+        }
+        
         public Tooltip build(UIComponent child) {
-            return new Tooltip(text, child);
+            return new Tooltip(components, texts, child);
         }
     }
 }

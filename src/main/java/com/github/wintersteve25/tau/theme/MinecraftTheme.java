@@ -49,17 +49,16 @@ public class MinecraftTheme implements Theme {
     
     // Basically copied from Screen.renderTooltip
     @Override
-    public void drawTooltip(PoseStack poseStack, int mouseX, int mouseY, int screenWidth, int screenHeight, Font font, List<FormattedText> tooltips) {
+    public void drawTooltip(PoseStack poseStack, int mouseX, int mouseY, int screenWidth, int screenHeight, Font font, List<ClientTooltipComponent> tooltips) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-        List<ClientTooltipComponent> components = ForgeHooksClient.gatherTooltipComponents(ItemStack.EMPTY, tooltips, mouseX, screenWidth, screenHeight, font, font);
 
         if (!tooltips.isEmpty()) {
-            RenderTooltipEvent.Pre preEvent = ForgeHooksClient.onRenderTooltipPre(ItemStack.EMPTY, poseStack, mouseX, mouseY, screenWidth, screenHeight, components, font, font);
+            RenderTooltipEvent.Pre preEvent = ForgeHooksClient.onRenderTooltipPre(ItemStack.EMPTY, poseStack, mouseX, mouseY, screenWidth, screenHeight, tooltips, font, font);
             if (preEvent.isCanceled()) return;
             int i = 0;
-            int j = components.size() == 1 ? -2 : 0;
+            int j = tooltips.size() == 1 ? -2 : 0;
 
-            for (ClientTooltipComponent clienttooltipcomponent : components) {
+            for (ClientTooltipComponent clienttooltipcomponent : tooltips) {
                 int k = clienttooltipcomponent.getWidth(preEvent.getFont());
                 if (k > i) {
                     i = k;
@@ -103,8 +102,8 @@ public class MinecraftTheme implements Theme {
             poseStack.translate(0.0F, 0.0F, 400.0F);
             int i1 = l1;
 
-            for (int j1 = 0; j1 < components.size(); ++j1) {
-                ClientTooltipComponent clienttooltipcomponent1 = components.get(j1);
+            for (int j1 = 0; j1 < tooltips.size(); ++j1) {
+                ClientTooltipComponent clienttooltipcomponent1 = tooltips.get(j1);
                 clienttooltipcomponent1.renderText(preEvent.getFont(), k1, i1, matrix4f, multibuffersource$buffersource);
                 i1 += clienttooltipcomponent1.getHeight() + (j1 == 0 ? 2 : 0);
             }
@@ -113,8 +112,8 @@ public class MinecraftTheme implements Theme {
             poseStack.popPose();
             i1 = l1;
 
-            for (int i2 = 0; i2 < components.size(); ++i2) {
-                ClientTooltipComponent clienttooltipcomponent2 = components.get(i2);
+            for (int i2 = 0; i2 < tooltips.size(); ++i2) {
+                ClientTooltipComponent clienttooltipcomponent2 = tooltips.get(i2);
                 clienttooltipcomponent2.renderImage(preEvent.getFont(), k1, i1, poseStack, itemRenderer, 400);
                 i1 += clienttooltipcomponent2.getHeight() + (i2 == 0 ? 2 : 0);
             }

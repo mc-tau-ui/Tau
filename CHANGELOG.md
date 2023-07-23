@@ -1,3 +1,8 @@
+# v1.0.2-1.19 Major Update
+## Others
+- Updated the tooltip parameter of the Theme.drawTooltip method to take in a list of `ClientTooltipComponent` instead of `FormattedText` to increase the capabilities of Tooltips
+- Added `withComponent` method for adding `ClientTooltipComponent` to tooltips to `Tooltip.Builder`
+
 # v1.0.1 - 1.19 Minor Upate
 ## Others
 - Fixed screen not being closed after hitting esc or e
