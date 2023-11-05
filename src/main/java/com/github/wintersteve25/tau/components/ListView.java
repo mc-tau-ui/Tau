@@ -1,6 +1,5 @@
 package com.github.wintersteve25.tau.components;
 
-import com.github.wintersteve25.tau.Tau;
 import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.Renderable;
@@ -109,6 +108,16 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
     @Override
     public boolean isMouseOver(double pMouseX, double pMouseY) {
         return Vector2i.within((int) pMouseX, (int) pMouseY, position, size);
+    }
+
+    @Override
+    public void setFocused(boolean pFocused) {
+        
+    }
+
+    @Override
+    public boolean isFocused() {
+        return false;
     }
 
     public static final class Builder {

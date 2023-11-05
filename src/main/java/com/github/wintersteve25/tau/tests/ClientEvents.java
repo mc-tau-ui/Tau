@@ -13,7 +13,7 @@ import com.github.wintersteve25.tau.renderer.ScreenUIRenderer;
 public class ClientEvents {
     @SubscribeEvent
     public static void onKeyDown(InputEvent.Key evet) {
-        if (evet.getKey() == GLFW.GLFW_KEY_G) {
+        if (evet.getKey() == GLFW.GLFW_KEY_COMMA) {
             Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestAll(), true));
         }
     }
