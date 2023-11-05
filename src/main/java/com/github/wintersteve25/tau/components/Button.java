@@ -55,6 +55,15 @@ public final class Button implements PrimitiveUIComponent, GuiEventListener {
         return false;
     }
 
+    @Override
+    public void setFocused(boolean pFocused) {
+    }
+
+    @Override
+    public boolean isFocused() {
+        return false;
+    }
+
     private boolean isHovered(int pMouseX, int pMouseY) {
         return pMouseX > x && pMouseX < x + width && pMouseY > y && pMouseY < y + height;
     }

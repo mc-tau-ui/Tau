@@ -1,3 +1,7 @@
+# v1.0.3-1.19 Minor Update
+## Others
+- Updated to Minecraft version 1.19.4
+
 # v1.0.2-1.19 Major Update
 ## Others
 - Updated the tooltip parameter of the Theme.drawTooltip method to take in a list of `ClientTooltipComponent` instead of `FormattedText` to increase the capabilities of Tooltips

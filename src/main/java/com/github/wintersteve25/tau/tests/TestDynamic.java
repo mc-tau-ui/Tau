@@ -33,4 +33,13 @@ public class TestDynamic extends DynamicUIComponent implements GuiEventListener 
         rebuild();
         return GuiEventListener.super.mouseClicked(pMouseX, pMouseY, pButton);
     }
+
+    @Override
+    public void setFocused(boolean pFocused) {
+    }
+
+    @Override
+    public boolean isFocused() {
+        return false;
+    }
 }

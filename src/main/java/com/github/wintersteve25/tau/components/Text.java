@@ -78,7 +78,7 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
         Font fontRenderer = Minecraft.getInstance().font;
 
         switch (overflowBehaviour) {
-            case WRAP -> fontRenderer.drawWordWrap(text, x, y, width, color.getAARRGGBB());
+            case WRAP -> fontRenderer.drawWordWrap(poseStack, text, x, y, width, color.getAARRGGBB());
             case ELLIPSIS -> fontRenderer.drawShadow(poseStack, fontRenderer.substrByWidth(text, width - ellipsisWidth).getString() + "...", x, y, color.getAARRGGBB(), color.hasTransparency());
             default -> fontRenderer.drawShadow(poseStack, text.getString(), x, y, color.getAARRGGBB(), color.hasTransparency());
         }
